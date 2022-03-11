@@ -5,17 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.sjchoi.weather.databinding.FragmentTabBinding
 
-class TabFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
+class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate) {
+    companion object{
+        fun newInstance() = TabFragment()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 }
