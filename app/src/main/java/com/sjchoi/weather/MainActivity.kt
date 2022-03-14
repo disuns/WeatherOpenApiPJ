@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.tabs.TabLayoutMediator.TabConfigurationStrategy
+import com.sjchoi.weather.adapter.weatherTabAdapter
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.fragment.TabFragment
 import kotlin.math.abs
@@ -17,22 +17,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
-        binding = ActivityMainBinding.inflate(layoutInflater).also { it.root }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         with(binding){
             with(applicationTabAdapter()){
-                viewPager2.setPageTransformer(FlipPagerTransformer())
-                viewPager2.adapter = this
+                //weatherViewPager.setPageTransformer(FlipPagerTransformer())
+                weatherViewPager.adapter = this
             }
 
-            TabLayoutMediator(tabLayout, viewPager2, TabConfigurationStrategy {
+            TabLayoutMediator(weatherTab, weatherViewPager) {
                 tab, position -> tab.text = tabItem[position]
-            }).attach()
+            }.attach()
         }
-
     }
 
-    private fun applicationTabAdapter(): weatherTabAdapter{
+    private fun applicationTabAdapter(): weatherTabAdapter {
         val tabAdapter = weatherTabAdapter(this)
         with(tabAdapter){
             addFragment(TabFragment.newInstance())

@@ -1,4 +1,4 @@
-package com.sjchoi.weather
+package com.sjchoi.weather.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
