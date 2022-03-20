@@ -8,6 +8,47 @@
     android:orientation="horizontal"
     >
 
+    <RelativeLayout
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/addressTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="주소"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/addressDetailTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="ex)서울 영등포구 문래동"
+            android:textSize="14sp"
+            android:layout_centerInParent="true"/>
+
+        <Button
+            android:id="@+id/addressFindBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="18sp"
+            android:layout_marginRight="20dp"
+            android:text="주소찾기" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/dotted_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/address"
+        android:src="@drawable/dotted_line_long"
+        />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/weatherTab"
         android:layout_width="match_parent"
@@ -18,6 +59,7 @@
         android:id="@+id/weatherViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_below="@+id/dotted_line"
         android:layout_weight="1" />
 
 </RelativeLayout>
