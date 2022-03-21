@@ -27,18 +27,15 @@
             android:id="@+id/addressDetailTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:hint="ex)서울 영등포구 문래동"
-            android:textSize="14sp"
-            android:layout_centerInParent="true"/>
+            android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/addressFindBtn"
+        <androidx.appcompat.widget.SearchView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="18sp"
-            android:layout_marginRight="20dp"
-            android:text="주소찾기" />
+            android:layout_marginRight="20dp" />
     </RelativeLayout>
 
     <ImageView

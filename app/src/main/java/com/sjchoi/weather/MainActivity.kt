@@ -1,18 +1,19 @@
 package com.sjchoi.weather
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sjchoi.weather.adapter.weatherTabAdapter
 import com.sjchoi.weather.databinding.ActivityMainBinding
+import com.sjchoi.weather.enum.WeatherTabEnum
 import com.sjchoi.weather.fragment.TabFragment
 import kotlin.math.abs
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var tabItem = listOf("실시간 예보", "생활지수", "주변지역 날씨 지도")
+    private var tabItem = listOf("실시간 예보", "생활지수")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,8 @@ class MainActivity : AppCompatActivity() {
     private fun applicationTabAdapter(): weatherTabAdapter {
         val tabAdapter = weatherTabAdapter(this)
         with(tabAdapter){
-            addFragment(TabFragment.newInstance())
-            addFragment(TabFragment.newInstance())
-            addFragment(TabFragment.newInstance())
+            addFragment(TabFragment.newInstance(WeatherTabEnum.Vilage))
+            addFragment(TabFragment.newInstance(WeatherTabEnum.LifeIndex))
         }
         return tabAdapter
     }

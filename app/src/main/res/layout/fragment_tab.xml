@@ -1,14 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="@color/backGround">
 
     <TextView
+        android:id="@+id/todayFcstTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="6"
+        android:layout_gravity="center"
+        android:text="현재날씨"
+        android:textSize="18sp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"/>
+
+    <LinearLayout
+        android:id="@+id/todayFcstLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop= "true"
-        android:textSize="25sp"
-        android:text="테스트 중" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todayFcstTV">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/todayFcstIV"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_rowSpan="3"
+                android:layout_columnSpan="3"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:src="@drawable/cloud"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/todayTempTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:layout_rowSpan="2"
+                android:layout_gravity="center"
+                android:text="7°"
+                android:textSize="64sp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="3"
+                android:gravity="center"
+                android:text="맑음"
+                android:textSize="18sp"
+                android:layout_below="@+id/todayTempTV"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/todayWetRainWindLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/todayFcstLayout">
+        <TextView
+            android:id="@+id/todayWetTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:text="습도 : 40%"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/todayRainTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:text="강수량 : 0mm"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/todayWindTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center"
+            android:text="바람 : 서 2m/s"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/today_dot_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/todayWetRainWindLayout"
+        android:src="@drawable/dotted_line_long" />
+    <TextView
+        android:id="@+id/timeFcstTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:textSize="14sp"
+        android:text="시간대별 예보"
+        android:layout_below="@id/today_dot_line"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/timeFcstRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeFcstTV"/>
+
+    <ImageView
+        android:id="@+id/time_dot_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeFcstRV"
+        android:src="@drawable/dotted_line_long" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/weekFcstRV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/time_dot_line"/>
+
 </RelativeLayout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">날씨 및 생활지수</string>
+    <string-array name="vilage">
+        <item>초단기 예보</item>
+        <item>초단기 실황</item>
+        <item>단기 예보</item>
+    </string-array>
 </resources>

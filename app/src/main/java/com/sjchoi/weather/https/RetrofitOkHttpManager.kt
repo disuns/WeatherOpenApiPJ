@@ -1,5 +1,7 @@
 package com.sjchoi.weather.https
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.sjchoi.weather.common.DATA_POTAL_URL
 import com.sjchoi.weather.common.WeatherRestService
 import okhttp3.Interceptor
@@ -12,13 +14,15 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object RetrofitOkHttpManager {
+    //val gson : Gson = GsonBuilder().setLenient().create()
+
     private var okHttpClient: OkHttpClient
 
-    private val retrofitBUilderDataPotal : Retrofit.Builder = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create()).baseUrl(DATA_POTAL_URL)
+    private val retrofitBuilderDataPotal : Retrofit.Builder = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create(/*gson*/)).baseUrl(DATA_POTAL_URL)
 
     val weatherRESTService: WeatherRestService
-        get() = retrofitBUilderDataPotal.build().create(WeatherRestService::class.java)
+        get() = retrofitBuilderDataPotal.build().create(WeatherRestService::class.java)
 
     init {
         okHttpClient = OkHttpClient.Builder()
@@ -31,7 +35,7 @@ object RetrofitOkHttpManager {
             }).addInterceptor(RetryInterceptor())
             .connectTimeout(20, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS).build()
-        retrofitBUilderDataPotal.client(okHttpClient)
+        retrofitBuilderDataPotal.client(okHttpClient)
     }
 
     private class RetryInterceptor : Interceptor {
