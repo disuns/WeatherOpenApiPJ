@@ -35,7 +35,14 @@ object DataConvert {
         Log.e("Convert",errorMsg)
     }
 
-    fun vilageCategoryConvert(category: String, code: String) : String{
+    fun checkSKYPTY(){
+
+    }
+    //단위
+    //이미지+날씨젇보
+
+
+    fun fcstConvert(category: String, code: String) : String{
         return when(category){
             "POP"->{"강수확률 : ${code}%"}
             "PTY"->{categoryPTY(code)}

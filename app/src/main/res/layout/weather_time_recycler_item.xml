@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="56dp"
+    android:layout_height="145dp">
+
+    <TextView
+        android:id="@+id/itemTimeTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="11시"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:id="@+id/itemWeatherIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/sunny"
+        android:layout_below="@id/itemTimeTV"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/itemTempTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_below="@id/itemWeatherIV"
+        android:text="15"
+        android:layout_centerHorizontal="true"/>
+    <RelativeLayout
+        android:id="@+id/itemRainRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemTempTV"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/itemRainIV"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/rainper"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+        <TextView
+            android:id="@+id/itemRainTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-%"
+            android:layout_toRightOf="@+id/itemRainIV"
+            android:textSize="12sp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/itemWetRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemRainRV"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/itemWetIV"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/waterper"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30%"
+            android:textSize="12sp"
+            android:layout_toRightOf="@+id/itemWetIV"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/itemWindRV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/itemWetRV"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/itemWindIV"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/wind" />
+
+        <TextView
+            android:id="@+id/itemWindTV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_toRightOf="@id/itemWindIV"
+            android:text="북서"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/itemWindTV2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/itemWindTV1"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_toRightOf="@id/itemWindIV"
+            android:text="30m/s"
+            android:textSize="8sp" />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0mm"
+        android:textSize="12sp"
+        android:layout_below="@+id/itemWindRV"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

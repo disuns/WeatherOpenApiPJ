@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import com.sjchoi.weather.common.DATA_POTAL_SERVICE_KEY
 import com.sjchoi.weather.common.DATA_TYPE
 import com.sjchoi.weather.common.DataConvert
@@ -57,34 +55,34 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private fun fcstRest() {
         val weatherService = RetrofitOkHttpManager.weatherRESTService
 
-        val call: Call<TodayFcstData> = weatherService.requestTodayFcst(
+        val todayFcstCall: Call<TodayFcstData> = weatherService.requestTodayFcst(
             DATA_POTAL_SERVICE_KEY,
             "1",
             "1000",
             DATA_TYPE,
-            "20220321",
-            "1030",
+            "20220322",
+            "1400",
             "55",
             "127"
         )
 
-        call.enqueue(object : Callback<TodayFcstData> {
+        val timeFcstCall: Call<FcstData> = weatherService.requestFcst(
+            DATA_POTAL_SERVICE_KEY,
+            "1",
+            "1000",
+            DATA_TYPE,
+            "20220322",
+            "1400",
+            "55",
+            "127"
+        )
+
+        todayFcstCall.enqueue(object : Callback<TodayFcstData> {
             override fun onResponse(call: Call<TodayFcstData>, response: Response<TodayFcstData>) {
                 if (response.isSuccessful) {
                     val fcstData = response.body() as TodayFcstData
                     if(fcstData.response.header.resultCode == "00") {
-                        with(fcstData.response.body)
-                        {
-                            for (i in items.item.indices) {
-                                Log.e(
-                                    "",
-                                    DataConvert.vilageCategoryConvert(
-                                        items.item[i].category,
-                                        items.item[i].fcstValue
-                                    )
-                                )
-                            }
-                        }
+                        Log.e("","success")
                     }else{
                         DataConvert.dataPotalResultCode(fcstData.response.header.resultCode)
                     }
@@ -95,5 +93,28 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
                 Log.e("",t.message.toString())
             }
         })
+
+        timeFcstCall.enqueue(object :Callback<FcstData>{
+            override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
+                if (response.isSuccessful) {
+                    val fcstData = response.body() as FcstData
+                    if(fcstData.response.header.resultCode == "00") {
+                        Log.e("","success")
+                    }else{
+                        DataConvert.dataPotalResultCode(fcstData.response.header.resultCode)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<FcstData>, t: Throwable) {
+                Log.e("",t.message.toString())
+            }
+        })
     }
+
+    fun timeFcstRest(){
+        val weatherService = RetrofitOkHttpManager.weatherRESTService
+
+    }
+
 }
