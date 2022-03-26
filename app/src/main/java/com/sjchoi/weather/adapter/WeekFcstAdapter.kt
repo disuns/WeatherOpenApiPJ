@@ -7,7 +7,7 @@ import com.sjchoi.weather.data.FcstData
 import com.sjchoi.weather.databinding.WeatherTimeRecyclerItemBinding
 import com.sjchoi.weather.databinding.WeatherWeekRecyclerItemBinding
 
-class WeekFcstAdapterprivate (val adapterItem : FcstData) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class WeekFcstAdapterprivate (private val adapterItem : FcstData) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     inner class TimeFcstViewHolder(val binding: WeatherWeekRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
 

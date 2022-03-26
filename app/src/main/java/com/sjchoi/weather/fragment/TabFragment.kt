@@ -51,7 +51,8 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         when(tabEnum){
             WeatherTabEnum.Fcst->{
                 binding.tabFcst.isVisible = true
-                fcstRest()
+                nowFcstRest()
+                timeFcstRest()
             }
             WeatherTabEnum.LifeIndex->{
                 binding.tabFcst.isVisible=false
@@ -64,36 +65,40 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         super.onDestroyView()
     }
 
-    private fun fcstRest() {
+    private fun nowFcstRest() {
         val weatherService = RetrofitOkHttpManager.weatherRESTService
 
-//        val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
-//            DATA_POTAL_SERVICE_KEY,
-//            "1",
-//            "1000",
-//            DATA_TYPE,
-//            TimeManager.urlNowDate(),
-//            TimeManager.urlNowTime(),
-//            "55",
-//            "127"
-//        )
-//
-//        nowFcstCall.enqueue(object : Callback<FcstData> {
-//            override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
-//                if (response.isSuccessful) {
-//                    val fcstData = response.body() as FcstData
-//                    if (fcstData.response.header.resultCode == "00") {
-//                        nowDataSet(fcstData)
-//                    } else {
-//                        DataConvert.getDataConvert().dataPotalResultCode(fcstData.response.header.resultCode)
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<FcstData>, t: Throwable) {
-//                Log.e("", t.message.toString())
-//            }
-//        })
+        val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
+            DATA_POTAL_SERVICE_KEY,
+            "1",
+            "1000",
+            DATA_TYPE,
+            TimeManager.urlNowDate(),
+            TimeManager.urlNowTime(),
+            "55",
+            "127"
+        )
+
+        nowFcstCall.enqueue(object : Callback<FcstData> {
+            override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
+                if (response.isSuccessful) {
+                    val fcstData = response.body() as FcstData
+                    if (fcstData.response.header.resultCode == "00") {
+                        nowDataSet(fcstData)
+                    } else {
+                        DataConvert.getDataConvert().dataPotalResultCode(fcstData.response.header.resultCode)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<FcstData>, t: Throwable) {
+                Log.e("", t.message.toString())
+            }
+        })
+    }
+
+    fun timeFcstRest(){
+        val weatherService = RetrofitOkHttpManager.weatherRESTService
 
         val timeFcstCall: Call<FcstData> = weatherService.requestFcst(
             DATA_POTAL_SERVICE_KEY,
@@ -125,6 +130,10 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
                 Log.e("",t.message.toString())
             }
         })
+    }
+
+    fun weekFcstRest(){
+
     }
 
     fun nowDataSet(fcstData: FcstData){

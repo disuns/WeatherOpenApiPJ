@@ -203,4 +203,8 @@ object DataConvert {
         return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.time, code.substring(0,2))
     }
 
+    fun dateConvert(){
+
+    }
+
 }
