@@ -5,12 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sjchoi.weather.common.DATA_POTAL_SERVICE_KEY
-import com.sjchoi.weather.common.DATA_TYPE
-import com.sjchoi.weather.common.DataConvert
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.sjchoi.weather.adapter.TimeFcstAdapter
+import com.sjchoi.weather.common.*
 import com.sjchoi.weather.data.FcstData
-import com.sjchoi.weather.data.TodayFcstData
+import com.sjchoi.weather.data.TimeFcstData
 import com.sjchoi.weather.databinding.FragmentTabBinding
+import com.sjchoi.weather.enum.FcstImgEnum
 import com.sjchoi.weather.enum.WeatherTabEnum
 import com.sjchoi.weather.https.RetrofitOkHttpManager
 import retrofit2.Call
@@ -20,6 +23,8 @@ import retrofit2.Response
 class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate) {
 
     var tabEnum: WeatherTabEnum = WeatherTabEnum.None
+    lateinit var timeFcstAdapter: TimeFcstAdapter
+    lateinit var timeFcstLayoutManager: RecyclerView.LayoutManager
 
     companion object {
         fun newInstance(weatherTabEnum: WeatherTabEnum): TabFragment {
@@ -43,9 +48,16 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         super.onViewCreated(view, savedInstanceState)
         tabEnum = arguments?.getSerializable("tabEnum") as WeatherTabEnum
 
-        with(binding) {
+        when(tabEnum){
+            WeatherTabEnum.Fcst->{
+                binding.tabFcst.isVisible = true
+                fcstRest()
+            }
+            WeatherTabEnum.LifeIndex->{
+                binding.tabFcst.isVisible=false
+            }
+            else->{}
         }
-        fcstRest()
     }
 
     override fun onDestroyView() {
@@ -55,53 +67,56 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private fun fcstRest() {
         val weatherService = RetrofitOkHttpManager.weatherRESTService
 
-        val todayFcstCall: Call<TodayFcstData> = weatherService.requestTodayFcst(
-            DATA_POTAL_SERVICE_KEY,
-            "1",
-            "1000",
-            DATA_TYPE,
-            "20220322",
-            "1400",
-            "55",
-            "127"
-        )
+//        val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
+//            DATA_POTAL_SERVICE_KEY,
+//            "1",
+//            "1000",
+//            DATA_TYPE,
+//            TimeManager.urlNowDate(),
+//            TimeManager.urlNowTime(),
+//            "55",
+//            "127"
+//        )
+//
+//        nowFcstCall.enqueue(object : Callback<FcstData> {
+//            override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
+//                if (response.isSuccessful) {
+//                    val fcstData = response.body() as FcstData
+//                    if (fcstData.response.header.resultCode == "00") {
+//                        nowDataSet(fcstData)
+//                    } else {
+//                        DataConvert.getDataConvert().dataPotalResultCode(fcstData.response.header.resultCode)
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<FcstData>, t: Throwable) {
+//                Log.e("", t.message.toString())
+//            }
+//        })
 
         val timeFcstCall: Call<FcstData> = weatherService.requestFcst(
             DATA_POTAL_SERVICE_KEY,
             "1",
             "1000",
             DATA_TYPE,
-            "20220322",
-            "1400",
+            TimeManager.urlNowDate(),
+            TimeManager.urlFcstTime(),
             "55",
             "127"
         )
-
-        todayFcstCall.enqueue(object : Callback<TodayFcstData> {
-            override fun onResponse(call: Call<TodayFcstData>, response: Response<TodayFcstData>) {
-                if (response.isSuccessful) {
-                    val fcstData = response.body() as TodayFcstData
-                    if(fcstData.response.header.resultCode == "00") {
-                        Log.e("","success")
-                    }else{
-                        DataConvert.dataPotalResultCode(fcstData.response.header.resultCode)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<TodayFcstData>, t: Throwable) {
-                Log.e("",t.message.toString())
-            }
-        })
 
         timeFcstCall.enqueue(object :Callback<FcstData>{
             override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
                 if (response.isSuccessful) {
                     val fcstData = response.body() as FcstData
                     if(fcstData.response.header.resultCode == "00") {
-                        Log.e("","success")
+                        timeFcstAdapter = TimeFcstAdapter(timeDataSet(fcstData))
+                        binding.timeFcstRV.adapter = timeFcstAdapter
+                        timeFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.HORIZONTAL,false)
+                        binding.timeFcstRV.layoutManager = timeFcstLayoutManager
                     }else{
-                        DataConvert.dataPotalResultCode(fcstData.response.header.resultCode)
+                        DataConvert.getDataConvert().dataPotalResultCode(fcstData.response.header.resultCode)
                     }
                 }
             }
@@ -112,9 +127,88 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         })
     }
 
-    fun timeFcstRest(){
-        val weatherService = RetrofitOkHttpManager.weatherRESTService
+    fun nowDataSet(fcstData: FcstData){
+        val fcstNow = fcstData.response.body
+        val fcstItem = fcstNow.items.item
+        var windDir = "0"
+        var fcstImg = FcstImgEnum.None
+        with(binding){
+            for(i in fcstItem.indices){
+                if((fcstItem[i].fcstTime.toInt()-fcstItem[i].baseTime.toInt())<100) {
+                    when(fcstItem[i].category) {
+                        "T1H" -> {
+                            nowTempTV.text = DataConvert.getDataConvert().tempConvert(fcstItem[i].fcstValue)
+                        }
+                        "RN1" -> {
+                            nowRainTV.text = DataConvert.getDataConvert().nowRainConvert(fcstItem[i].fcstValue)
+                        }
+                        "REH" -> {
+                            nowWetTV.text = DataConvert.getDataConvert().nowWetConvert(fcstItem[i].fcstValue)
+                        }
+                        "VEC" -> {
+                            windDir = DataConvert.getDataConvert().windDir(fcstItem[i].fcstValue)
+                        }
+                        "WSD" -> {
+                            nowWindTV.text = DataConvert.getDataConvert().windPower(windDir,fcstItem[i].fcstValue)
+                        }
+                        "PTY"->{
+                            fcstImg = DataConvert.getDataConvert().fcstRainImgConvert(fcstItem[i].fcstValue)
+                        }
+                        "SKY"->{
+                            fcstImg = DataConvert.getDataConvert().skyImgEnum(fcstItem[i].fcstValue,fcstImg)
+                            nowFcstIV.setImageDrawable(DataConvert.getDataConvert().fcstImgConvert(fcstImg))
+                            nowFcstTV.text = DataConvert.getDataConvert().skyConvert(fcstItem[i].fcstValue)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
+    fun timeDataSet(fcstData: FcstData):List<TimeFcstData>{
+        var fcstList = mutableListOf<TimeFcstData>()
+        val fcstNow = fcstData.response.body
+        val fcstItem = fcstNow.items.item
+        var timeData = TimeFcstData()
+        for(i in fcstItem.indices){
+            if(timeData.fcstDate != fcstItem[i].fcstDate || timeData.fcstTime != fcstItem[i].fcstTime)
+            {
+                timeData = TimeFcstData()
+                timeData.fcstTime = fcstItem[i].fcstTime
+                timeData.fcstDate = fcstItem[i].fcstDate
+            }
+
+            when(fcstItem[i].category) {
+                "TMP" -> {
+                    timeData.temp = fcstItem[i].fcstValue
+                }
+                "VEC" -> {
+                    timeData.windDir = fcstItem[i].fcstValue
+                }
+                "WSD" -> {
+                    timeData.windPower = fcstItem[i].fcstValue
+                }
+                "SKY" -> {
+                    timeData.sky = fcstItem[i].fcstValue
+                }
+                "PTY" -> {
+                    timeData.rain = fcstItem[i].fcstValue
+                }
+                "POP" -> {
+                    timeData.rainPer = fcstItem[i].fcstValue
+                }
+                "PCP" -> {
+                    timeData.rainMm = fcstItem[i].fcstValue
+                }
+                "REH" -> {
+                    timeData.wet = fcstItem[i].fcstValue
+                    fcstList.add(timeData)
+                }
+                else -> {}
+            }
+        }
+
+        return fcstList
     }
 
 }

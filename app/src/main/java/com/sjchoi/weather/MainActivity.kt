@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private fun applicationTabAdapter(): weatherTabAdapter {
         val tabAdapter = weatherTabAdapter(this)
         with(tabAdapter){
-            addFragment(TabFragment.newInstance(WeatherTabEnum.Vilage))
+            addFragment(TabFragment.newInstance(WeatherTabEnum.Fcst))
             addFragment(TabFragment.newInstance(WeatherTabEnum.LifeIndex))
         }
         return tabAdapter

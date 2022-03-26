@@ -9,7 +9,7 @@ const val DATA_POTAL_SERVICE_KEY = "XaZsPnx+pwzxoELxydXTYGgdm/4grf0F8GEnwfH4F+0+
 /**
  * 단기예보
  */
-const val TODAY_FCST = "/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst"
+const val NOW_FCST = "/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"
 const val VILAGE_FCST = "/1360000/VilageFcstInfoService_2.0/getVilageFcst"
 
 /**

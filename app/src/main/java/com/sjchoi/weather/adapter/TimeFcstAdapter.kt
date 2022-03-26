@@ -4,10 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.R
+import com.sjchoi.weather.common.DataConvert
+import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.data.FcstData
+import com.sjchoi.weather.data.TimeFcstData
 import com.sjchoi.weather.databinding.WeatherTimeRecyclerItemBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
-class TimeFcstAdapter(private val adapterItem : FcstData) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     inner class TimeFcstViewHolder(val binding: WeatherTimeRecyclerItemBinding) :RecyclerView.ViewHolder(binding.root)
 
@@ -17,10 +22,21 @@ class TimeFcstAdapter(private val adapterItem : FcstData) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        //(holder as TimeFcstViewHolder).binding.
+        with((holder as TimeFcstViewHolder).binding){
+            itemTimeTV.text = DataConvert.getDataConvert().timeDataConvert(adapterItem[position].fcstTime)
+            var fcstImg = DataConvert.getDataConvert().fcstRainImgConvert(adapterItem[position].rain)
+            fcstImg = DataConvert.getDataConvert().skyImgEnum(adapterItem[position].sky,fcstImg)
+            itemWeatherIV.setImageDrawable(DataConvert.getDataConvert().fcstImgConvert(fcstImg))
+            itemRainMmTV.text =DataConvert.getDataConvert().rainConvert(adapterItem[position].rainMm)
+            itemRainTV.text =DataConvert.getDataConvert().rainPerConvert(adapterItem[position].rainPer)
+            itemTempTV.text = DataConvert.getDataConvert().tempConvert(adapterItem[position].temp)
+            itemWetTV.text = DataConvert.getDataConvert().wetConvert(adapterItem[position].wet)
+            itemWindTV1.text = DataConvert.getDataConvert().windDir(adapterItem[position].windDir)
+            itemWindTV2.text = DataConvert.getDataConvert().windPower(adapterItem[position].windPower)
+        }
     }
 
     override fun getItemCount(): Int {
-        return adapterItem.response.body.items.item.size
+        return adapterItem.size
     }
 }

@@ -4,10 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.199" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.13341827392578126" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/fragment_tab.xml" value="0.165" />
         <entry key="app/src/main/res/layout/weather_time_recycler_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/weather_week_recycler_item.xml" value="0.375" />
       </map>
     </option>
   </component>

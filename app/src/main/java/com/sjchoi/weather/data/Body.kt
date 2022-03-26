@@ -9,7 +9,7 @@ data class FcstBody(
 )
 
 data class FcstItems(
-    val item: List<FcstItem>
+    val item: MutableList<FcstItem>
 )
 
 data class FcstItem(
@@ -21,26 +21,4 @@ data class FcstItem(
     val fcstDate : String,
     val fcstTime: String,
     val fcstValue: String,
-)
-
-
-data class TodayFcstBody(
-    val dataType: String,
-    val items:TodayFcstItems,
-    val numOfRows: Int,
-    val pageNo: Int,
-    val totalCount: Int
-)
-
-data class TodayFcstItems(
-    val item: List<TodayFcstItem>
-)
-
-data class TodayFcstItem(
-    val baseDate: String,
-    val baseTime: String,
-    val category: String,
-    val nx: Int,
-    val ny: Int,
-    val obsrValue : String
 )

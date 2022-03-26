@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="56dp"
-    android:layout_height="145dp">
+    android:layout_width="70dp"
+    android:layout_height="155dp">
+
+    <TextView
+        android:id="@+id/itemDateTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="3.23"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/itemTimeTV"
@@ -10,22 +18,25 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:text="11시"
+        android:layout_below="@id/itemDateTV"
         android:layout_centerHorizontal="true"/>
+
     <ImageView
         android:id="@+id/itemWeatherIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/sunny"
         android:layout_below="@id/itemTimeTV"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/sunny" />
+
     <TextView
         android:id="@+id/itemTempTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
         android:layout_below="@id/itemWeatherIV"
+        android:layout_centerHorizontal="true"
         android:text="15"
-        android:layout_centerHorizontal="true"/>
+        android:textSize="12sp" />
     <RelativeLayout
         android:id="@+id/itemRainRV"
         android:layout_width="wrap_content"
@@ -40,15 +51,16 @@
             android:src="@drawable/rainper"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
+
         <TextView
             android:id="@+id/itemRainTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-%"
-            android:layout_toRightOf="@+id/itemRainIV"
-            android:textSize="12sp"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginRight="4dp"
+            android:layout_toRightOf="@+id/itemRainIV"
+            android:text="-%"
+            android:textSize="12sp" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/itemWetRV"
@@ -65,6 +77,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
         <TextView
+            android:id="@+id/itemWetTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30%"
@@ -111,12 +124,14 @@
             android:text="30m/s"
             android:textSize="8sp" />
     </RelativeLayout>
+
     <TextView
+        android:id="@+id/itemRainMmTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0mm"
-        android:textSize="12sp"
         android:layout_below="@+id/itemWindRV"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="0mm"
+        android:textSize="12sp" />
 
 </RelativeLayout>

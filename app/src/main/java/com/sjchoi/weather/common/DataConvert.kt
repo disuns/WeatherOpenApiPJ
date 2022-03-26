@@ -1,136 +1,206 @@
 package com.sjchoi.weather.common
 
+import android.graphics.drawable.Drawable
 import android.util.Log
+import com.sjchoi.weather.R
+import com.sjchoi.weather.enum.FcstImgEnum
 
 object DataConvert {
-    private var instance : DataConvert? = null
+    private var instance: DataConvert? = null
 
-    fun getDataConvert() : DataConvert{
-        if(instance == null){
+    fun getDataConvert(): DataConvert {
+        if (instance == null) {
             instance = this
         }
 
         return instance as DataConvert
     }
 
-    fun dataPotalResultCode(code : String){
-        val errorMsg : String = when(code){
-            "01"->{"어플리케이션 에러"}
-            "02"->{"데이터베이스 에러"}
-            "03"->{"데이터없음 에러"}
-            "04"->{"HTTP 에러"}
-            "05"->{"서비스 연결실패 에러"}
-            "10"->{"잘못된 요청 파라메터 에러"}
-            "11"->{"필수요청 파라메터가 없음"}
-            "12"->{"해당 오픈 API서비스가 없거나 폐긴됨"}
-            "20"->{"서비스 접근거부"}
-            "21"->{"일시적으로 사용할 수 없는 서비스 키"}
-            "22"->{"서비스 요청제한횟수 초과에러"}
-            "30"->{"등록되지 않은 서비스키"}
-            "31"->{"기한만료된 서비스키"}
-            "32"->{"등록되지 않은 IP"}
-            "33"->{"서명되지 않은 호출"}
-            else->{"기타에러"}
+    fun dataPotalResultCode(code: String) {
+        val errorMsg: String = when (code) {
+            "01" -> { WeatherApplication.getWeatherApplication().getString(R.string.APPLICATION_ERROR)
+            }
+            "02" -> {WeatherApplication.getWeatherApplication().getString(R.string.DB_ERROR)
+            }
+            "03" -> {WeatherApplication.getWeatherApplication().getString(R.string.NODATA_ERROR)
+            }
+            "04" -> {WeatherApplication.getWeatherApplication().getString(R.string.HTTP_ERROR)
+            }
+            "05" -> {WeatherApplication.getWeatherApplication().getString(R.string.SERVICETIME_OUT)
+            }
+            "10" -> {WeatherApplication.getWeatherApplication().getString(R.string.INVALID_REQUEST_PARAMETER_ERROR)
+            }
+            "11" -> {WeatherApplication.getWeatherApplication().getString(R.string.NO_MANDATORY_REQUEST_PARAMETERS_ERROR)
+            }
+            "12" -> {WeatherApplication.getWeatherApplication().getString(R.string.NO_OPENAPI_SERVICE_ERROR)
+            }
+            "20" -> {WeatherApplication.getWeatherApplication().getString(R.string.SERVICE_ACCESS_DENIED_ERROR)
+            }
+            "21" -> {WeatherApplication.getWeatherApplication().getString(R.string.TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR)
+            }
+            "22" -> {WeatherApplication.getWeatherApplication().getString(R.string.LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR)
+            }
+            "30" -> {WeatherApplication.getWeatherApplication().getString(R.string.SERVICE_KEY_IS_NOT_REGISTERED_ERROR)
+            }
+            "31" -> {WeatherApplication.getWeatherApplication().getString(R.string.DEADLINE_HAS_EXPIRED_ERROR)
+            }
+            "32" -> {WeatherApplication.getWeatherApplication().getString(R.string.UNREGISTERED_IP_ERROR)
+            }
+            "33" -> {WeatherApplication.getWeatherApplication().getString(R.string.UNSIGNED_CALL_ERROR)
+            }
+            else -> {WeatherApplication.getWeatherApplication().getString(R.string.UNKNOWN_ERROR)
+            }
         }
-        Log.e("Convert",errorMsg)
+        Log.e("Convert", errorMsg)
+    }
+    //이미지+날씨정보
+
+    fun rainPerConvert(code: String): String {
+        return WeatherApplication.getWeatherApplication().getString(R.string.rainPerUnit, code)
     }
 
-    fun checkSKYPTY(){
-
+    fun tempConvert(code: String): String {
+        return WeatherApplication.getWeatherApplication().getString(R.string.tempUnit, code)
     }
-    //단위
-    //이미지+날씨젇보
 
+    fun nowWetConvert(code: String): String {
+        return WeatherApplication.getWeatherApplication().getString(R.string.nowWetUnit, code)
+    }
 
-    fun fcstConvert(category: String, code: String) : String{
-        return when(category){
-            "POP"->{"강수확률 : ${code}%"}
-            "PTY"->{categoryPTY(code)}
-            "PCP"->{categoryRN1PCP(code)}
-            "REH"->{"습도 : ${code}%"}
-            "SNO"->{categorySNO(code)}
-            "SKY"->{categorySKY(code)}
-            "TMP"->{"1시간 기온 : ${code}℃"}
-            "TMN"->{"일 최저기온 : ${code}℃"}
-            "TMX"->{"일 최고기온 : ${code}℃"}
-            "UUU"->{categoryUUU(code)}
-            "VVV"->{categoryVVV(code)}
-            "WAV"->{"파고 : ${code}M"}
-            "VEC"->{"풍향 : ${code}deg"}
-            "WSD"->{"풍속 : ${code}m/s"}
-            "T1H"->{"기온 : ${code}℃"}
-            "RN1"->{categoryRN1PCP(code)}
-            "LGT"->{categoryLGT(code)}
-            else -> {"잘못된 카테고리입니다"}
+    fun wetConvert(code: String): String {
+        return WeatherApplication.getWeatherApplication().getString(R.string.wetUnit, code)
+    }
+
+    fun nowRainConvert(code: String): String {
+        return WeatherApplication.getWeatherApplication()
+            .getString(R.string.nowRainUnit, code)
+    }
+
+    fun rainConvert(code: String): String {
+        return WeatherApplication.getWeatherApplication()
+            .getString(R.string.rainUnit, code)
+    }
+
+    fun windDir(code: String): String {
+        val changeCode: Int = ((code.toInt() + 22.5 * 0.5) / 22.5).toInt()
+        return when (changeCode) {
+            1 -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
+            2 -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
+            3 -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
+            4 -> WeatherApplication.getWeatherApplication().getString(R.string.E)
+            5 -> WeatherApplication.getWeatherApplication().getString(R.string.ESE)
+            6 -> WeatherApplication.getWeatherApplication().getString(R.string.SE)
+            7 -> WeatherApplication.getWeatherApplication().getString(R.string.SSE)
+            8 -> WeatherApplication.getWeatherApplication().getString(R.string.S)
+            9 -> WeatherApplication.getWeatherApplication().getString(R.string.SSW)
+            10 -> WeatherApplication.getWeatherApplication().getString(R.string.SW)
+            11 -> WeatherApplication.getWeatherApplication().getString(R.string.WSW)
+            12 -> WeatherApplication.getWeatherApplication().getString(R.string.W)
+            13 -> WeatherApplication.getWeatherApplication().getString(R.string.WNW)
+            14 -> WeatherApplication.getWeatherApplication().getString(R.string.NW)
+            15 -> WeatherApplication.getWeatherApplication().getString(R.string.NNW)
+            else -> WeatherApplication.getWeatherApplication().getString(R.string.N)
         }
     }
 
-    private fun categorySKY(code : String) : String {
+    fun windPower(dir: String, code: String): String {
+        return WeatherApplication.getWeatherApplication()
+            .getString(R.string.nowWindUnit, dir, code)
+    }
+
+    fun windPower(code: String): String {
+        return WeatherApplication.getWeatherApplication()
+            .getString(R.string.windUnit, code)
+    }
+
+    fun fcstRainImgConvert(code: String): FcstImgEnum {
         return when (code) {
-            "1" -> { "하늘상태 : 맑음" }
-            "3" -> { "하늘상태 : 구름많음"}
-            "4" -> { "하늘상태 : 흐림"}
-            else ->{"잘못된 코드입니다"}
+            "1" -> {
+                FcstImgEnum.Rain
+            }
+            "2" -> {
+                FcstImgEnum.Rain
+            }//비+눈
+            "3" -> {
+                FcstImgEnum.Snow
+            }
+            "4" -> {
+                FcstImgEnum.Rain
+            }
+            "5" -> {
+                FcstImgEnum.Rain
+            }
+            "6" -> {
+                FcstImgEnum.Rain
+            }//비+눈
+            "7" -> {
+                FcstImgEnum.Snow
+            }
+            else -> {
+                FcstImgEnum.Sun
+            }
         }
     }
 
-    private fun categoryPTY(code : String) : String {
+    fun fcstImgConvert(enumFcstImgEnum: FcstImgEnum): Drawable? {
+        return when (enumFcstImgEnum) {
+            FcstImgEnum.ClodeSun -> {
+                WeatherApplication.getWeatherApplication().getDrawable(R.drawable.cloudsun)
+            }
+            FcstImgEnum.Cloude -> {
+                WeatherApplication.getWeatherApplication().getDrawable(R.drawable.cloud)
+            }
+            FcstImgEnum.Rain -> {
+                WeatherApplication.getWeatherApplication().getDrawable(R.drawable.rain)
+            }
+            FcstImgEnum.Snow -> {
+                WeatherApplication.getWeatherApplication().getDrawable(R.drawable.snow)
+            }
+            else -> {
+                WeatherApplication.getWeatherApplication().getDrawable(R.drawable.sunny)
+            }
+        }
+    }
+
+    fun skyConvert(code: String): String {
         return when (code) {
-            "0" -> { "강수형태 : 없음" }
-            "1" -> { "강수형태 : 비" }
-            "2" -> { "강수형태 : 비/눈" }
-            "3" -> { "강수형태 : 눈" }
-            "4" -> { "강수형태 : 소나기" }
-            "5" -> { "강수형태 : 빗방울" }
-            "6" -> { "강수형태 : 빗방울눈날림" }
-            "7" -> { "강수형태 : 눈날림" }
-            else ->{"잘못된 코드입니다"}
+            "1" -> {
+                WeatherApplication.getWeatherApplication().getString(R.string.sun)
+            }
+            "3" -> {
+                WeatherApplication.getWeatherApplication().getString(R.string.manycloud)
+            }
+            "4" -> {
+                WeatherApplication.getWeatherApplication().getString(R.string.cloud)
+            }
+            else -> {
+                WeatherApplication.getWeatherApplication().getString(R.string.sun)
+            }
         }
     }
 
-    private fun categoryRN1PCP(code : String) : String {
-        val rainfall = if(code.toFloat()<1.0f)
-            "1.0mm 미만"
-        else if(code.toFloat() >= 1.0f && code.toFloat() < 30.0f )
-            "${code.toFloat()}mm"
-        else if(code.toFloat() >= 30.0f && code.toFloat() < 50.0f)
-            "30.0mm ~ 50.0mm"
-        else if(code.toFloat() >= 50.0)
-            "50.0 mm 이상"
-        else
-            "강수없음"
-
-        return "1시간 강수량 : $rainfall"
+    fun skyImgEnum(code: String, fcstImgEnum: FcstImgEnum): FcstImgEnum {
+        if (fcstImgEnum == FcstImgEnum.Sun) {
+            return when (code) {
+                "1" -> {
+                    FcstImgEnum.Sun
+                }
+                "3" -> {
+                    FcstImgEnum.ClodeSun
+                }
+                "4" -> {
+                    FcstImgEnum.Cloude
+                }
+                else -> {
+                    FcstImgEnum.Sun
+                }
+            }
+        }
+        return FcstImgEnum.Sun
     }
 
-    private fun categorySNO(code : String) : String {
-        val snow = if(code.toFloat()<1.0f)
-            "1.0cm 미만"
-        else if(code.toFloat() >= 1.0f && code.toFloat() < 5.0f )
-            "${code.toFloat()}cm"
-        else if(code.toFloat() >= 5.0)
-            "5.0 cm 이상"
-        else
-            "적설없음"
-
-        return "1시간 신적설 : $snow"
+    fun timeDataConvert(code: String) : String{
+        return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.time, code.substring(0,2))
     }
 
-    private fun categoryLGT(code : String) : String {
-        return "낙뢰 : 에너지밀도(${code.toFloat()}KA/km2"
-    }
-
-    private fun categoryUUU(code:String) : String{
-        return if(code.toFloat()>0.0f)
-            "동"
-        else
-            "서"
-    }
-
-    private fun categoryVVV(code: String) : String{
-        return if(code.toFloat()>0.0f)
-            "북"
-        else
-            "남"
-    }
 }
