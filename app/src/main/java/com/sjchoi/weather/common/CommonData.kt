@@ -1,5 +1,12 @@
 package com.sjchoi.weather.common
 
+const val PERMISSIONS_REQUEST = 1001
+const val CONNECT_TIME_OUT = 20L
+const val READ_TIME_OUT = 15L
+
+const val PAGE_NO_DEFAULT = "1"
+const val NUM_OF_ROWS_DEFAULT = "1000"
+
 const val DATA_POTAL_URL = "http://apis.data.go.kr/"
 const val MAPS_URL = ""
 

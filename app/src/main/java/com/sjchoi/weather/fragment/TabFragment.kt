@@ -51,7 +51,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         when(tabEnum){
             WeatherTabEnum.Fcst->{
                 binding.tabFcst.isVisible = true
-                nowFcstRest()
+                //nowFcstRest()
                 timeFcstRest()
             }
             WeatherTabEnum.LifeIndex->{
@@ -70,8 +70,8 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
         val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
             DATA_POTAL_SERVICE_KEY,
-            "1",
-            "1000",
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_DEFAULT,
             DATA_TYPE,
             TimeManager.urlNowDate(),
             TimeManager.urlNowTime(),
@@ -83,7 +83,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
                 if (response.isSuccessful) {
                     val fcstData = response.body() as FcstData
-                    if (fcstData.response.header.resultCode == "00") {
+                    if (fcstData.response.header.resultCode == NO_ERROR) {
                         nowDataSet(fcstData)
                     } else {
                         DataConvert.getDataConvert().dataPotalResultCode(fcstData.response.header.resultCode)
@@ -92,7 +92,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             }
 
             override fun onFailure(call: Call<FcstData>, t: Throwable) {
-                Log.e("", t.message.toString())
+                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
             }
         })
     }
@@ -102,8 +102,8 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
         val timeFcstCall: Call<FcstData> = weatherService.requestFcst(
             DATA_POTAL_SERVICE_KEY,
-            "1",
-            "1000",
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_DEFAULT,
             DATA_TYPE,
             TimeManager.urlNowDate(),
             TimeManager.urlFcstTime(),
@@ -115,7 +115,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
                 if (response.isSuccessful) {
                     val fcstData = response.body() as FcstData
-                    if(fcstData.response.header.resultCode == "00") {
+                    if(fcstData.response.header.resultCode == NO_ERROR) {
                         timeFcstAdapter = TimeFcstAdapter(timeDataSet(fcstData))
                         binding.timeFcstRV.adapter = timeFcstAdapter
                         timeFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.HORIZONTAL,false)
@@ -127,7 +127,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             }
 
             override fun onFailure(call: Call<FcstData>, t: Throwable) {
-                Log.e("",t.message.toString())
+                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
             }
         })
     }

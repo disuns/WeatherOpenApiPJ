@@ -2,7 +2,9 @@ package com.sjchoi.weather.https
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.sjchoi.weather.common.CONNECT_TIME_OUT
 import com.sjchoi.weather.common.DATA_POTAL_URL
+import com.sjchoi.weather.common.READ_TIME_OUT
 import com.sjchoi.weather.common.WeatherRestService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -33,8 +35,8 @@ object RetrofitOkHttpManager {
                     .build()
                 chain.proceed(newRequest)
             }).addInterceptor(RetryInterceptor())
-            .connectTimeout(20, TimeUnit.SECONDS)
-            .readTimeout(15, TimeUnit.SECONDS).build()
+            .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS).build()
         retrofitBuilderDataPotal.client(okHttpClient)
     }
 

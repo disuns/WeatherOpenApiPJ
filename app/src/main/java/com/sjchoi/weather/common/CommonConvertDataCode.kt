@@ -1,0 +1,22 @@
+package com.sjchoi.weather.common
+
+const val NO_ERROR = "00"
+const val APPLICATION_ERROR = "01"
+const val DB_ERROR = "02"
+const val NODATA_ERROR = "03"
+const val HTTP_ERROR = "04"
+const val SERVICETIME_OUT = "05"
+const val INVALID_REQUEST_PARAMETER_ERROR = "10"
+const val NO_MANDATORY_REQUEST_PARAMETERS_ERROR = "11"
+const val NO_OPENAPI_SERVICE_ERROR = "12"
+const val SERVICE_ACCESS_DENIED_ERROR = "20"
+const val TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR = "21"
+const val LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR = "22"
+const val SERVICE_KEY_IS_NOT_REGISTERED_ERROR = "30"
+const val DEADLINE_HAS_EXPIRED_ERROR = "31"
+const val UNREGISTERED_IP_ERROR = "32"
+const val UNSIGNED_CALL_ERROR = "33"
+
+const val SKY_SUN = "1"
+const val SKY_CLOUDSUN = "3"
+const val SKY_CLOUD = "4"

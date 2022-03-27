@@ -9,11 +9,11 @@ object TimeManager {
     private lateinit var date: Date
 
     fun getTimeManager (): TimeManager  {
-        if (TimeManager .instance == null) {
-            TimeManager .instance = this
+        if (TimeManager.instance == null) {
+            TimeManager.instance = this
         }
 
-        return TimeManager .instance as TimeManager
+        return TimeManager.instance as TimeManager
     }
 
     private fun currentTimeDate(){
@@ -36,9 +36,7 @@ object TimeManager {
 
     fun urlFcstTime() : String{
         var now = System.currentTimeMillis()
-        Log.e("", now.toString())
         now-=7200000L
-        Log.e("", now.toString())
         date = Date(now)
         val timeFormat = SimpleDateFormat("HH00")
         return timeFormat.format(date)

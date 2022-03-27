@@ -5,7 +5,17 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.location.Location
+import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
+import android.telecom.ConnectionService
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.requestPermissions
+import java.util.jar.Manifest
 
 class WeatherApplication  : Application() {
     companion object{
@@ -36,5 +46,27 @@ class WeatherApplication  : Application() {
             override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
             override fun onActivityDestroyed(activity: Activity) {}
         })
+    }
+
+    fun isNetworkCheck() : Boolean{
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            val nw = cm.activeNetwork ?: return false
+            val networkCapabilities = cm.getNetworkCapabilities(nw) ?: return false
+            return when{
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ->true
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ->true
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) ->true
+                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) ->true
+                else -> false
+            }
+        }else{
+            @Suppress("DEPRECATION")
+            return cm.activeNetworkInfo?.isConnected ?: false
+        }
+    }
+
+    fun toastMessage(text:String){
+        Toast.makeText(this,text,Toast.LENGTH_SHORT)
     }
 }
