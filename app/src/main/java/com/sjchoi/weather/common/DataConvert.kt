@@ -49,30 +49,29 @@ object DataConvert {
 
     fun wetConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.wetUnit, code) }
 
-    fun nowRainConvert(code: String): String { return WeatherApplication.getWeatherApplication()
-            .getString(R.string.nowRainUnit, code) }
+    fun nowRainConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.nowRainUnit, code) }
 
     fun rainConvert(code: String): String { return WeatherApplication.getWeatherApplication()
             .getString(R.string.rainUnit, code) }
 
     fun windDir(code: String): String {
-        val changeCode: Int = ((code.toInt() + 22.5 * 0.5) / 22.5).toInt()
-        return when (changeCode as WindDirEnum) {
-            WindDirEnum.NNE -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
-            WindDirEnum.NE -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
-            WindDirEnum.ENE -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
-            WindDirEnum.E -> WeatherApplication.getWeatherApplication().getString(R.string.E)
-            WindDirEnum.ESE -> WeatherApplication.getWeatherApplication().getString(R.string.ESE)
-            WindDirEnum.SE -> WeatherApplication.getWeatherApplication().getString(R.string.SE)
-            WindDirEnum.SSE -> WeatherApplication.getWeatherApplication().getString(R.string.SSE)
-            WindDirEnum.S -> WeatherApplication.getWeatherApplication().getString(R.string.S)
-            WindDirEnum.SSW -> WeatherApplication.getWeatherApplication().getString(R.string.SSW)
-            WindDirEnum.SW -> WeatherApplication.getWeatherApplication().getString(R.string.SW)
-            WindDirEnum.WSW -> WeatherApplication.getWeatherApplication().getString(R.string.WSW)
-            WindDirEnum.W -> WeatherApplication.getWeatherApplication().getString(R.string.W)
-            WindDirEnum.WNW -> WeatherApplication.getWeatherApplication().getString(R.string.WNW)
-            WindDirEnum.NW -> WeatherApplication.getWeatherApplication().getString(R.string.NW)
-            WindDirEnum.NNW -> WeatherApplication.getWeatherApplication().getString(R.string.NNW)
+        var changeCode: Int = ((code.toInt() + 22.5 * 0.5) / 22.5).toInt()
+        return when (changeCode) {
+            1 -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
+            2 -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
+            3 -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
+            4 -> WeatherApplication.getWeatherApplication().getString(R.string.E)
+            5 -> WeatherApplication.getWeatherApplication().getString(R.string.ESE)
+            6 -> WeatherApplication.getWeatherApplication().getString(R.string.SE)
+            7 -> WeatherApplication.getWeatherApplication().getString(R.string.SSE)
+            8 -> WeatherApplication.getWeatherApplication().getString(R.string.S)
+            9 -> WeatherApplication.getWeatherApplication().getString(R.string.SSW)
+            10 -> WeatherApplication.getWeatherApplication().getString(R.string.SW)
+            11 -> WeatherApplication.getWeatherApplication().getString(R.string.WSW)
+            12 -> WeatherApplication.getWeatherApplication().getString(R.string.W)
+            13 -> WeatherApplication.getWeatherApplication().getString(R.string.WNW)
+            14 -> WeatherApplication.getWeatherApplication().getString(R.string.NW)
+            15 -> WeatherApplication.getWeatherApplication().getString(R.string.NNW)
             else -> WeatherApplication.getWeatherApplication().getString(R.string.N)
         }
     }

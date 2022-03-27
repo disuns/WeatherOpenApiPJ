@@ -16,20 +16,18 @@ object TimeManager {
         return TimeManager.instance as TimeManager
     }
 
-    private fun currentTimeDate(){
-        val now = System.currentTimeMillis()
-        date = Date(now)
-    }
-
     fun urlNowDate() : String{
-        currentTimeDate()
+        var now = System.currentTimeMillis()
+        date = Date(now)
         val dateFormat = SimpleDateFormat("yyyyMMdd")
 
         return dateFormat.format(date)
     }
 
     fun urlNowTime() : String{
-        currentTimeDate()
+        var now = System.currentTimeMillis()
+        now-=3600000L
+        date = Date(now)
         val timeFormat = SimpleDateFormat("HHmm")
         return timeFormat.format(date)
     }
@@ -39,6 +37,7 @@ object TimeManager {
         now-=7200000L
         date = Date(now)
         val timeFormat = SimpleDateFormat("HH00")
+        Log.e("",timeFormat.format(date))
         return timeFormat.format(date)
     }
 }

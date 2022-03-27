@@ -13,7 +13,7 @@ interface WeatherRestService {
                             @Query("pageNo") pageNo:String,
                             @Query("numOfRows") numOfRows:String,
                             @Query("dataType") dataType:String,
-                            @Query("base_date") base_data:String,
+                            @Query("base_date") base_date:String,
                             @Query("base_time") base_time:String,
                             @Query("nx") nx:String,
                             @Query("ny") ny:String): Call<FcstData>
@@ -23,7 +23,7 @@ interface WeatherRestService {
                     @Query("pageNo") pageNo:String,
                     @Query("numOfRows") numOfRows:String,
                     @Query("dataType") dataType:String,
-                    @Query("base_date") base_data:String,
+                    @Query("base_date") base_date:String,
                     @Query("base_time") base_time:String,
                     @Query("nx") nx:String,
                     @Query("ny") ny:String): Call<FcstData>

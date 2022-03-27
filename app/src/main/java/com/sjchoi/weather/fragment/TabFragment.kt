@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.adapter.TimeFcstAdapter
 import com.sjchoi.weather.common.*
+import com.sjchoi.weather.common.GpsManager.getlat
+import com.sjchoi.weather.common.GpsManager.getlon
+import com.sjchoi.weather.common.GpsManager.getxLat
+import com.sjchoi.weather.common.GpsManager.getyLon
 import com.sjchoi.weather.data.FcstData
 import com.sjchoi.weather.data.TimeFcstData
 import com.sjchoi.weather.databinding.FragmentTabBinding
@@ -51,7 +55,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         when(tabEnum){
             WeatherTabEnum.Fcst->{
                 binding.tabFcst.isVisible = true
-                //nowFcstRest()
+                nowFcstRest()
                 timeFcstRest()
             }
             WeatherTabEnum.LifeIndex->{
@@ -68,6 +72,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private fun nowFcstRest() {
         val weatherService = RetrofitOkHttpManager.weatherRESTService
 
+        GpsManager.convertLatLon(1)
         val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
@@ -75,9 +80,11 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             DATA_TYPE,
             TimeManager.urlNowDate(),
             TimeManager.urlNowTime(),
-            "55",
-            "127"
+            getxLat().toString(),
+            getyLon().toString()
         )
+
+        Log.e("",nowFcstCall.request().url.toString())
 
         nowFcstCall.enqueue(object : Callback<FcstData> {
             override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
@@ -111,6 +118,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             "127"
         )
 
+        Log.e("",timeFcstCall.request().url.toString())
         timeFcstCall.enqueue(object :Callback<FcstData>{
             override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
                 if (response.isSuccessful) {
@@ -145,25 +153,13 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             for(i in fcstItem.indices){
                 if((fcstItem[i].fcstTime.toInt()-fcstItem[i].baseTime.toInt())<100) {
                     when(fcstItem[i].category) {
-                        "T1H" -> {
-                            nowTempTV.text = DataConvert.getDataConvert().tempConvert(fcstItem[i].fcstValue)
-                        }
-                        "RN1" -> {
-                            nowRainTV.text = DataConvert.getDataConvert().nowRainConvert(fcstItem[i].fcstValue)
-                        }
-                        "REH" -> {
-                            nowWetTV.text = DataConvert.getDataConvert().nowWetConvert(fcstItem[i].fcstValue)
-                        }
-                        "VEC" -> {
-                            windDir = DataConvert.getDataConvert().windDir(fcstItem[i].fcstValue)
-                        }
-                        "WSD" -> {
-                            nowWindTV.text = DataConvert.getDataConvert().windPower(windDir,fcstItem[i].fcstValue)
-                        }
-                        "PTY"->{
-                            fcstImg = DataConvert.getDataConvert().fcstRainImgConvert(fcstItem[i].fcstValue)
-                        }
-                        "SKY"->{
+                        TMP_NOW -> { nowTempTV.text = DataConvert.getDataConvert().tempConvert(fcstItem[i].fcstValue) }
+                        RAIN_MM_NOW -> { nowRainTV.text = DataConvert.getDataConvert().nowRainConvert(fcstItem[i].fcstValue) }
+                        WET -> { nowWetTV.text = DataConvert.getDataConvert().nowWetConvert(fcstItem[i].fcstValue) }
+                        WIND_DIR -> { windDir = DataConvert.getDataConvert().windDir(fcstItem[i].fcstValue) }
+                        WIND_POWER -> { nowWindTV.text = DataConvert.getDataConvert().windPower(windDir,fcstItem[i].fcstValue) }
+                        RAIN_TYPE->{ fcstImg = DataConvert.getDataConvert().fcstRainImgConvert(fcstItem[i].fcstValue) }
+                        SKY->{
                             fcstImg = DataConvert.getDataConvert().skyImgEnum(fcstItem[i].fcstValue,fcstImg)
                             nowFcstIV.setImageDrawable(DataConvert.getDataConvert().fcstImgConvert(fcstImg))
                             nowFcstTV.text = DataConvert.getDataConvert().skyConvert(fcstItem[i].fcstValue)
@@ -188,28 +184,14 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             }
 
             when(fcstItem[i].category) {
-                "TMP" -> {
-                    timeData.temp = fcstItem[i].fcstValue
-                }
-                "VEC" -> {
-                    timeData.windDir = fcstItem[i].fcstValue
-                }
-                "WSD" -> {
-                    timeData.windPower = fcstItem[i].fcstValue
-                }
-                "SKY" -> {
-                    timeData.sky = fcstItem[i].fcstValue
-                }
-                "PTY" -> {
-                    timeData.rain = fcstItem[i].fcstValue
-                }
-                "POP" -> {
-                    timeData.rainPer = fcstItem[i].fcstValue
-                }
-                "PCP" -> {
-                    timeData.rainMm = fcstItem[i].fcstValue
-                }
-                "REH" -> {
+                TMP_TIME -> { timeData.temp = fcstItem[i].fcstValue }
+                WIND_DIR -> { timeData.windDir = fcstItem[i].fcstValue }
+                WIND_POWER -> { timeData.windPower = fcstItem[i].fcstValue }
+                SKY -> { timeData.sky = fcstItem[i].fcstValue }
+                RAIN_TYPE -> { timeData.rain = fcstItem[i].fcstValue }
+                RAIN_PER -> { timeData.rainPer = fcstItem[i].fcstValue }
+                RAIN_MM -> { timeData.rainMm = fcstItem[i].fcstValue }
+                WET -> {
                     timeData.wet = fcstItem[i].fcstValue
                     fcstList.add(timeData)
                 }
