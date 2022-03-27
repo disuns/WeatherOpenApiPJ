@@ -80,8 +80,8 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             DATA_TYPE,
             TimeManager.urlNowDate(),
             TimeManager.urlNowTime(),
-            getxLat().toString(),
-            getyLon().toString()
+            "55",
+            "127"
         )
 
         Log.e("",nowFcstCall.request().url.toString())

@@ -36,13 +36,13 @@ object GpsManager {
 
     fun getLocation(activity : Activity) {
         if (WeatherApplication.getWeatherApplication().isNetworkCheck()) {
-            handler.postDelayed({
-                val mListenr = WeatherApplication.getWeatherApplication().getSystemService(LOCATION_SERVICE) as LocationManager
-
-                val isGPSLocation = mListenr.isProviderEnabled(LocationManager.GPS_PROVIDER)
-                val isNetworkLocation = mListenr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-
-            })
+//            handler.postDelayed({
+//                val mListenr = WeatherApplication.getWeatherApplication().getSystemService(LOCATION_SERVICE) as LocationManager
+//
+//                val isGPSLocation = mListenr.isProviderEnabled(LocationManager.GPS_PROVIDER)
+//                val isNetworkLocation = mListenr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+//
+//            })
 //            if (ActivityCompat.checkSelfPermission(
 //                    WeatherApplication.getWeatherApplication().applicationContext,
 //                    Manifest.permission.ACCESS_FINE_LOCATION

@@ -23,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        getLocation(this)
-        Log.e("", GpsManager.getlat().toString()+"    "+ GpsManager.getlon())
+        //getLocation(this)
+        //Log.e("", GpsManager.getlat().toString()+"    "+ GpsManager.getlon())
         with(binding) {
             with(applicationTabAdapter()) {
                 //weatherViewPager.setPageTransformer(FlipPagerTransformer())
