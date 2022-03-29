@@ -2,6 +2,7 @@ package com.sjchoi.weather.common
 
 import android.util.Log
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 object TimeManager {
@@ -9,11 +10,11 @@ object TimeManager {
     private lateinit var date: Date
 
     fun getTimeManager (): TimeManager  {
-        if (TimeManager.instance == null) {
-            TimeManager.instance = this
+        if (instance == null) {
+            instance = this
         }
 
-        return TimeManager.instance as TimeManager
+        return instance as TimeManager
     }
 
     fun urlNowDate() : String{
@@ -21,23 +22,62 @@ object TimeManager {
         date = Date(now)
         val dateFormat = SimpleDateFormat("yyyyMMdd")
 
+        val timeFormat = SimpleDateFormat("HH")
+
+        if(timeFormat.format(date)<"01") {
+            now-=7200000
+            date = Date(now)
+        }
         return dateFormat.format(date)
     }
 
     fun urlNowTime() : String{
         var now = System.currentTimeMillis()
-        now-=3600000L
+        now-=1800000L
         date = Date(now)
         val timeFormat = SimpleDateFormat("HHmm")
-        return timeFormat.format(date)
+        val timeFormat2 = SimpleDateFormat("HH")
+
+        return if(timeFormat2.format(date)<"01") {
+            "2330"
+        }else {
+            timeFormat.format(date)
+        }
     }
 
-    fun urlFcstTime() : String{
+    fun urlTimeFcstDate() : String{
         var now = System.currentTimeMillis()
-        now-=7200000L
         date = Date(now)
-        val timeFormat = SimpleDateFormat("HH00")
-        Log.e("",timeFormat.format(date))
-        return timeFormat.format(date)
+        val timeFormat = SimpleDateFormat("HH")
+        val dateFormat = SimpleDateFormat("yyyyMMdd")
+
+        if(timeFormat.format(date)<"02") {
+            now-=86400000
+            date = Date(now)
+        }
+
+        return dateFormat.format(date)
+    }
+    fun urlTimeFcstTime() : String{
+        var now = System.currentTimeMillis()
+        date = Date(now)
+        val timeFormat = SimpleDateFormat("HH")
+
+        return if(timeFormat.format(date)>"23" || timeFormat.format(date)<"02")
+            "2300"
+        else if (timeFormat.format(date)>"20")
+            "2000"
+        else if (timeFormat.format(date)>"17")
+            "1700"
+        else if (timeFormat.format(date)>"14")
+            "1400"
+        else if (timeFormat.format(date)>"11")
+            "1100"
+        else if (timeFormat.format(date)>"08")
+            "0800"
+        else if (timeFormat.format(date)>"05")
+            "0500"
+        else
+            "0200"
     }
 }

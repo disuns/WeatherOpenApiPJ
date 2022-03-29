@@ -24,6 +24,7 @@ class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerVi
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with((holder as TimeFcstViewHolder).binding){
             itemTimeTV.text = DataConvert.getDataConvert().timeDataConvert(adapterItem[position].fcstTime)
+            itemDateTV.text = DataConvert.getDataConvert().dateConvert(adapterItem[position].fcstDate)
             var fcstImg = DataConvert.getDataConvert().fcstRainImgConvert(adapterItem[position].rain)
             fcstImg = DataConvert.getDataConvert().skyImgEnum(adapterItem[position].sky,fcstImg)
             itemWeatherIV.setImageDrawable(DataConvert.getDataConvert().fcstImgConvert(fcstImg))

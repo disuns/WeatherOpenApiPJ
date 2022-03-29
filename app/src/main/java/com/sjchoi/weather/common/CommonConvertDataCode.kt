@@ -23,7 +23,7 @@ const val SKY_CLOUD = "4"
 
 const val SKY = "SKY"
 const val TMP_TIME = "TMP"
-const val TMP_NOW = "TMP"
+const val TMP_NOW = "T1H"
 const val WIND_DIR = "VEC"
 const val WIND_POWER = "WSD"
 const val RAIN_TYPE = "PTY"

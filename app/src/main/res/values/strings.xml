@@ -6,6 +6,7 @@
     <string name="timeFcst">시간대별 예보</string>
     <string name="weekFcst">주간 예보</string>
     <string name="time">%s 시</string>
+    <string name="date">%s.%s</string>
     <string name="tempUnit">%s ℃</string>
     <string name="rainUnit">%s</string>
     <string name="wetUnit">%s %%</string>

@@ -5,6 +5,7 @@ import android.util.Log
 import com.sjchoi.weather.R
 import com.sjchoi.weather.enum.FcstImgEnum
 import com.sjchoi.weather.enum.WindDirEnum
+import java.lang.StringBuilder
 
 object DataConvert {
     private var instance: DataConvert? = null
@@ -130,8 +131,10 @@ object DataConvert {
         return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.time, code.substring(0,2))
     }
 
-    fun dateConvert(){
+    fun dateConvert(code : String) : String{
 
+        var splitString = code.chunked(2)
+        return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.date,splitString[2],splitString[3])
     }
 
 }

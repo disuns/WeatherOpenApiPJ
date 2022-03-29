@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="70dp"
-    android:layout_height="155dp">
+    android:layout_height="200dp">
 
     <TextView
         android:id="@+id/itemDateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:text="3.23"
         android:layout_centerHorizontal="true"/>
 
@@ -16,7 +16,7 @@
         android:id="@+id/itemTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:text="11시"
         android:layout_below="@id/itemDateTV"
         android:layout_centerHorizontal="true"/>
@@ -36,7 +36,7 @@
         android:layout_below="@id/itemWeatherIV"
         android:layout_centerHorizontal="true"
         android:text="15"
-        android:textSize="12sp" />
+        android:textSize="11sp" />
     <RelativeLayout
         android:id="@+id/itemRainRV"
         android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
             android:layout_marginRight="4dp"
             android:layout_toRightOf="@+id/itemRainIV"
             android:text="-%"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/itemWetRV"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30%"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:layout_toRightOf="@+id/itemWetIV"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"/>
@@ -111,7 +111,7 @@
             android:layout_marginRight="4dp"
             android:layout_toRightOf="@id/itemWindIV"
             android:text="북서"
-            android:textSize="12sp" />
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/itemWindTV2"
@@ -132,6 +132,6 @@
         android:layout_below="@+id/itemWindRV"
         android:layout_centerHorizontal="true"
         android:text="0mm"
-        android:textSize="12sp" />
+        android:textSize="11sp" />
 
 </RelativeLayout>

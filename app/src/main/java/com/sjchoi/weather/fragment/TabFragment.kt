@@ -9,9 +9,9 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.adapter.TimeFcstAdapter
+import com.sjchoi.weather.adapter.WeekFcstAdapter
 import com.sjchoi.weather.common.*
-import com.sjchoi.weather.common.GpsManager.getlat
-import com.sjchoi.weather.common.GpsManager.getlon
+import com.sjchoi.weather.common.GpsManager.getLocation
 import com.sjchoi.weather.common.GpsManager.getxLat
 import com.sjchoi.weather.common.GpsManager.getyLon
 import com.sjchoi.weather.data.FcstData
@@ -20,6 +20,10 @@ import com.sjchoi.weather.databinding.FragmentTabBinding
 import com.sjchoi.weather.enum.FcstImgEnum
 import com.sjchoi.weather.enum.WeatherTabEnum
 import com.sjchoi.weather.https.RetrofitOkHttpManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,7 +32,9 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
     var tabEnum: WeatherTabEnum = WeatherTabEnum.None
     lateinit var timeFcstAdapter: TimeFcstAdapter
+    lateinit var weekFcstAdapter: WeekFcstAdapter
     lateinit var timeFcstLayoutManager: RecyclerView.LayoutManager
+    lateinit var weekFcstLayoutManager: RecyclerView.LayoutManager
 
     companion object {
         fun newInstance(weatherTabEnum: WeatherTabEnum): TabFragment {
@@ -55,8 +61,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         when(tabEnum){
             WeatherTabEnum.Fcst->{
                 binding.tabFcst.isVisible = true
-                nowFcstRest()
-                timeFcstRest()
+                dataRestCoroutine()
             }
             WeatherTabEnum.LifeIndex->{
                 binding.tabFcst.isVisible=false
@@ -69,19 +74,33 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         super.onDestroyView()
     }
 
+    fun dataRestCoroutine(){
+        GlobalScope.async {
+            delay(500L)
+            launch {
+                nowFcstRest()
+            }.join()
+            launch {
+                timeFcstRest()
+            }.join()
+            launch {
+                weekFcstRest()
+            }
+        }
+    }
+
     private fun nowFcstRest() {
         val weatherService = RetrofitOkHttpManager.weatherRESTService
 
-        GpsManager.convertLatLon(1)
         val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_DEFAULT,
             DATA_TYPE,
-            TimeManager.urlNowDate(),
-            TimeManager.urlNowTime(),
-            "55",
-            "127"
+            TimeManager.getTimeManager().urlNowDate(),
+            TimeManager.getTimeManager().urlNowTime(),
+            getxLat().toString(),
+            getyLon().toString()
         )
 
         Log.e("",nowFcstCall.request().url.toString())
@@ -112,10 +131,10 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_DEFAULT,
             DATA_TYPE,
-            TimeManager.urlNowDate(),
-            TimeManager.urlFcstTime(),
-            "55",
-            "127"
+            TimeManager.getTimeManager().urlTimeFcstDate(),
+            TimeManager.getTimeManager().urlTimeFcstTime(),
+            getxLat().toString(),
+            getyLon().toString()
         )
 
         Log.e("",timeFcstCall.request().url.toString())
@@ -141,7 +160,9 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     }
 
     fun weekFcstRest(){
-
+        binding.weekFcstRV.adapter = weekFcstAdapter
+        weekFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.VERTICAL,false)
+        binding.weekFcstRV.layoutManager = timeFcstLayoutManager
     }
 
     fun nowDataSet(fcstData: FcstData){
