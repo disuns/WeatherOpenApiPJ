@@ -15,6 +15,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import android.Manifest
 
+@SuppressLint("StaticFieldLeak")
 object GpsManager {
 
     private lateinit var mFusedlocationClient: FusedLocationProviderClient
