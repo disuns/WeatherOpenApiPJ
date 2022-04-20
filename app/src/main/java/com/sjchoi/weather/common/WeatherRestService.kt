@@ -1,6 +1,6 @@
 package com.sjchoi.weather.common
 
-import com.sjchoi.weather.data.FcstData
+import com.sjchoi.weather.dataclass.FcstData
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

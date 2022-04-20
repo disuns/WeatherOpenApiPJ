@@ -1,15 +1,13 @@
-package com.sjchoi.weather.common
+package com.sjchoi.weather.common.manager
 
-import android.util.Log
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 object TimeManager {
     private var instance: TimeManager? = null
     private lateinit var date: Date
 
-    fun getTimeManager (): TimeManager  {
+    fun getTimeManager (): TimeManager {
         if (instance == null) {
             instance = this
         }

@@ -4,148 +4,153 @@
     android:layout_height="match_parent"
     android:background="@color/backGround">
 
-    <RelativeLayout
-        android:id="@+id/tabFcst"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/nowFcstTitleTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnSpan="6"
-            android:layout_gravity="center"
-            android:text="@string/nowFcst"
-            android:textSize="18sp"
-            android:layout_centerInParent="true"
-            android:layout_alignParentTop="true"/>
 
-        <LinearLayout
-            android:id="@+id/nowFcstLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/nowFcstTitleTV">
-            <RelativeLayout
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/nowFcstTitleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_columnSpan="6"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:text="@string/nowFcst"
+                android:textSize="18sp" />
 
-                <ImageView
-                    android:id="@+id/nowFcstIV"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
-                    android:layout_rowSpan="3"
-                    android:layout_columnSpan="3"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/nowFcstLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_below="@+id/nowFcstTitleTV">
 
-                <TextView
-                    android:id="@+id/nowTempTV"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_rowSpan="2"
-                    android:layout_columnSpan="3"
-                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/nowFcstIV"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_rowSpan="3"
+                        android:layout_columnSpan="3"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/nowTempTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_rowSpan="2"
+                        android:layout_columnSpan="3"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:textSize="64sp" />
+
+                    <TextView
+                        android:id="@+id/nowFcstTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnSpan="3"
+                        android:layout_below="@+id/nowTempTV"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:textSize="18sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nowWetRainWindLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nowFcstLayout"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nowWetTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="2"
                     android:layout_gravity="center"
-                    android:textSize="64sp" />
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/nowFcstTV"
+                    android:id="@+id/nowRainTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_columnSpan="3"
-                    android:layout_below="@+id/nowTempTV"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:text="맑음"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/nowWetRainWindLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@id/nowFcstLayout">
-            <TextView
-                android:id="@+id/nowWetTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="13sp"/>
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/nowRainTV"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/nowWindTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnSpan="2"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/now_dot_line"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="13sp"/>
+                android:layout_below="@id/nowWetRainWindLayout"
+                android:src="@drawable/dotted_line_long" />
 
             <TextView
-                android:id="@+id/nowWindTV"
+                android:id="@+id/timeFcstTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_columnSpan="2"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="13sp" />
-        </LinearLayout>
+                android:layout_below="@id/now_dot_line"
+                android:layout_marginLeft="14dp"
+                android:text="@string/timeFcst"
+                android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/now_dot_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/nowWetRainWindLayout"
-            android:src="@drawable/dotted_line_long" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/timeFcstRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeFcstTV" />
 
-        <TextView
-            android:id="@+id/timeFcstTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/now_dot_line"
-            android:layout_marginLeft="14dp"
-            android:text="@string/timeFcst"
-            android:textSize="14sp" />
+            <ImageView
+                android:id="@+id/time_dot_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeFcstRV"
+                android:src="@drawable/dotted_line_long" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/timeFcstRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/timeFcstTV"/>
+            <TextView
+                android:id="@+id/weekFcstTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_dot_line"
+                android:layout_marginLeft="14dp"
+                android:text="@string/weekFcst"
+                android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/time_dot_line"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/timeFcstRV"
-            android:src="@drawable/dotted_line_long" />
-
-        <TextView
-            android:id="@+id/weekFcstTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/time_dot_line"
-            android:layout_marginLeft="14dp"
-            android:text="@string/weekFcst"
-            android:textSize="14sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/weekFcstRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/weekFcstTV"/>
-    </RelativeLayout>
-
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/weekFcstRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/weekFcstTV" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

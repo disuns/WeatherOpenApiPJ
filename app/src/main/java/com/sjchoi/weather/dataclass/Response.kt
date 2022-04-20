@@ -1,4 +1,4 @@
-package com.sjchoi.weather.data
+package com.sjchoi.weather.dataclass
 
 data class FcstResponse(
     val header: Header,

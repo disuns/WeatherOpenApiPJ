@@ -1,4 +1,4 @@
-package com.sjchoi.weather.data
+package com.sjchoi.weather.dataclass
 
 data class FcstBody(
     val dataType: String,

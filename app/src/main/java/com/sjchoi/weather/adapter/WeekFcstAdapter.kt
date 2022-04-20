@@ -3,8 +3,7 @@ package com.sjchoi.weather.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sjchoi.weather.data.FcstData
-import com.sjchoi.weather.databinding.WeatherTimeRecyclerItemBinding
+import com.sjchoi.weather.dataclass.FcstData
 import com.sjchoi.weather.databinding.WeatherWeekRecyclerItemBinding
 
 class WeekFcstAdapter (private val adapterItem : FcstData) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
