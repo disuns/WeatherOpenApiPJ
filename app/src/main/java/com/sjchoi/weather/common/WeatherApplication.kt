@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.pm.ActivityInfo
+import android.graphics.Point
 import android.location.Location
 import android.location.LocationManager
 import android.net.ConnectivityManager

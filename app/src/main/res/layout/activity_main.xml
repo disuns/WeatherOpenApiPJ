@@ -13,36 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/addressTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:text="@string/address"
-            android:textSize="18sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/addressTV"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:text="@string/address"-->
+<!--            android:textSize="18sp" />-->
 
-        <TextView
-            android:id="@+id/addressDetailTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+<!--        <TextView-->
+<!--            android:id="@+id/addressDetailTV"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_centerInParent="true" />-->
 
-        <androidx.appcompat.widget.SearchView
+        <Button
+            android:id="@+id/buttonMap"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:hint="@string/exaddress"
-            android:textSize="14sp"/>
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/dotted_line"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/address"
+        android:layout_height="match_parent"
         android:src="@drawable/dotted_line_long"
         />
 
@@ -59,5 +55,13 @@
         android:layout_below="@+id/dotted_line"
         android:layout_above="@+id/weatherTab"
         android:layout_weight="1" />
+
+    <FrameLayout
+        android:id="@+id/naverMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/address"
+        android:visibility="invisible" />
+
 
 </RelativeLayout>

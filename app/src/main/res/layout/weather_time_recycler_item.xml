@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="70dp"
-    android:layout_height="200dp">
+    android:layout_width="@dimen/TimeRVItemWidth"
+    android:layout_height="@dimen/TimeRVItemHeight">
 
     <TextView
         android:id="@+id/itemDateTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
+        android:textSize="@dimen/TimeRVItemText"
         android:text="3.23"
         android:layout_centerHorizontal="true"/>
 
@@ -16,15 +16,15 @@
         android:id="@+id/itemTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:text="11시"
         android:layout_below="@id/itemDateTV"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="11시"
+        android:textSize="@dimen/TimeRVItemText" />
 
     <ImageView
         android:id="@+id/itemWeatherIV"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="@dimen/TimeRVItemIV"
+        android:layout_height="@dimen/TimeRVItemIV"
         android:layout_below="@id/itemTimeTV"
         android:layout_centerHorizontal="true"
         android:src="@drawable/sunny" />
@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/itemWeatherIV"
         android:layout_centerHorizontal="true"
-        android:text="15"
-        android:textSize="11sp" />
+        android:text="15℃"
+        android:textSize="@dimen/TimeRVItemText" />
     <RelativeLayout
         android:id="@+id/itemRainRV"
         android:layout_width="wrap_content"
@@ -46,21 +46,21 @@
 
         <ImageView
             android:id="@+id/itemRainIV"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="@dimen/TimeRVItemIVSmall"
+            android:layout_height="@dimen/TimeRVItemIVSmall"
             android:src="@drawable/rainper"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"/>
 
         <TextView
             android:id="@+id/itemRainTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"
             android:layout_toRightOf="@+id/itemRainIV"
-            android:text="-%"
-            android:textSize="11sp" />
+            android:text="0%"
+            android:textSize="@dimen/TimeRVItemText" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/itemWetRV"
@@ -71,20 +71,20 @@
 
         <ImageView
             android:id="@+id/itemWetIV"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="@dimen/TimeRVItemIVSmall"
+            android:layout_height="@dimen/TimeRVItemIVSmall"
             android:src="@drawable/waterper"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"/>
         <TextView
             android:id="@+id/itemWetTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30%"
-            android:textSize="11sp"
+            android:textSize="@dimen/TimeRVItemText"
             android:layout_toRightOf="@+id/itemWetIV"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"/>
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -96,10 +96,10 @@
 
         <ImageView
             android:id="@+id/itemWindIV"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_width="@dimen/TimeRVItemIVSmall"
+            android:layout_height="@dimen/TimeRVItemIVSmall"
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"
             android:layout_centerVertical="true"
             android:src="@drawable/wind" />
 
@@ -107,22 +107,22 @@
             android:id="@+id/itemWindTV1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"
             android:layout_toRightOf="@id/itemWindIV"
-            android:text="북서"
-            android:textSize="11sp" />
+            android:text="서북서"
+            android:textSize="@dimen/TimeRVItemText" />
 
         <TextView
             android:id="@+id/itemWindTV2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/itemWindTV1"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginLeft="@dimen/TimeRVItemMargin"
+            android:layout_marginRight="@dimen/TimeRVItemMargin"
             android:layout_toRightOf="@id/itemWindIV"
             android:text="30m/s"
-            android:textSize="8sp" />
+            android:textSize="@dimen/TimeRVItemWindText" />
     </RelativeLayout>
 
     <TextView
@@ -132,6 +132,6 @@
         android:layout_below="@+id/itemWindRV"
         android:layout_centerHorizontal="true"
         android:text="0mm"
-        android:textSize="11sp" />
+        android:textSize="@dimen/TimeRVItemText" />
 
 </RelativeLayout>

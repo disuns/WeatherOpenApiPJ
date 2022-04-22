@@ -42,13 +42,13 @@ object DataConvert {
     }
     //이미지+날씨정보
 
-    fun rainPerConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.rainPerUnit, code) }
+    fun rainPerConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.perUnit, code) }
 
     fun tempConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.tempUnit, code) }
 
     fun nowWetConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.nowWetUnit, code) }
 
-    fun wetConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.wetUnit, code) }
+    fun wetConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.perUnit, code) }
 
     fun nowRainConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.nowRainUnit, code) }
 

@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.naver.maps.map.NaverMap
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager
 import com.sjchoi.weather.dataclass.FcstData
@@ -43,20 +44,31 @@ class WeatherViewModel() : ViewModel() {
     private var yLon : Double = 0.0
     private var provider : String = ""
 
-    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var mMap:NaverMap
+
+    fun getXLat() :Int{
+        return xLat.toInt()
+        //58
+    }
+
+    fun getYLon() :Int{
+        return yLon.toInt()
+        //126
+    }
+
+    fun getLat() :Double { return lat }
+
+    fun getLon() :Double{ return lon }
 
     fun checkNowFcstData() : Boolean {
-        return nowFcstData.let {
-            if(it.value!=null){
-                if (it.value!!.response.header.resultCode != NO_ERROR) {
-                    DataConvert.getDataConvert().dataPotalResultCode(it.value!!.response.header.resultCode)
-                    false
-                }else{ true }
-            }else{
+         return nowFcstData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                DataConvert.getDataConvert().dataPotalResultCode(it.response.header.resultCode)
                 false
+            } else {
+                true
             }
-        }
-
+        } ?: false
     }
 
     fun getNowFcstData():MutableLiveData<FcstData> = nowFcstData
@@ -69,8 +81,8 @@ class WeatherViewModel() : ViewModel() {
             DATA_TYPE,
             TimeManager.getTimeManager().urlNowDate(),
             TimeManager.getTimeManager().urlNowTime(),
-            xLat.toInt().toString(),
-            yLon.toInt().toString()
+            getXLat().toString(),
+            getYLon().toString()
         )
 
 
@@ -91,17 +103,14 @@ class WeatherViewModel() : ViewModel() {
     }
 
     fun checkTimeFcstData() : Boolean {
-        //if(timeFcstCheck){
-       return timeFcstData.let {
-            if (it.value != null) {
-                if (it.value!!.response.header.resultCode != NO_ERROR) {
-                    DataConvert.getDataConvert().dataPotalResultCode(it.value!!.response.header.resultCode)
-                    false
-                }else{ true }
-            }
-            else
+        return timeFcstData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                DataConvert.getDataConvert().dataPotalResultCode(it.response.header.resultCode)
                 false
-        }
+            } else {
+                true
+            }
+        } ?: false
     }
 
     fun getTimeFcstData():MutableLiveData<FcstData> = timeFcstData
@@ -114,8 +123,8 @@ class WeatherViewModel() : ViewModel() {
             DATA_TYPE,
             TimeManager.getTimeManager().urlTimeFcstDate(),
             TimeManager.getTimeManager().urlTimeFcstTime(),
-            xLat.toInt().toString(),
-            yLon.toInt().toString()
+            getXLat().toString(),
+            getYLon().toString()
         )
 
         timeFcstCall.enqueue(object :Callback<FcstData>{

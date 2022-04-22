@@ -1,12 +1,20 @@
 package com.sjchoi.weather
 
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
 import com.sjchoi.weather.adapter.weatherTabAdapter
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.enum.WeatherTabEnum
+import com.sjchoi.weather.fragment.NaverMapFragment
 import com.sjchoi.weather.fragment.TabFragment
 import com.sjchoi.weather.viewmodel.WeatherViewModel
 
@@ -35,6 +43,20 @@ class MainActivity : AppCompatActivity() {
             TabLayoutMediator(weatherTab, weatherViewPager) { tab, position ->
                 tab.text = tabItem[position]
             }.attach()
+
+            buttonMap.setOnClickListener {
+//                var mapFragment = supportFragmentManager.findFragmentById(R.id.navermapFragment) as MapFragment
+//                if(mapFragment==null){
+//                    mapFragment = MapFragment.newInstance()
+//                    supportFragmentManager.beginTransaction().add(R.id.navermapFragment,mapFragment).commit()
+//                }
+//                mapFragment?.getMapAsync(this@MainActivity)
+
+                naverMap.visibility = View.VISIBLE
+                val mapFragment = NaverMapFragment.newInstance(viewModel.getLat(),viewModel.getLon())
+                supportFragmentManager.beginTransaction().add(R.id.naverMap,mapFragment).commit()
+
+            }
         }
     }
 
