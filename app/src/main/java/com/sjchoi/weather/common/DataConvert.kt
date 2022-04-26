@@ -3,9 +3,8 @@ package com.sjchoi.weather.common
 import android.graphics.drawable.Drawable
 import android.util.Log
 import com.sjchoi.weather.R
+import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import com.sjchoi.weather.enum.FcstImgEnum
-import com.sjchoi.weather.enum.WindDirEnum
-import java.lang.StringBuilder
 
 object DataConvert {
     private var instance: DataConvert? = null
@@ -116,15 +115,24 @@ object DataConvert {
     }
 
     fun skyImgEnum(code: String, fcstImgEnum: FcstImgEnum): FcstImgEnum {
-        if (fcstImgEnum == FcstImgEnum.Sun) {
-            return when (code) {
-                SKY_SUN -> { FcstImgEnum.Sun }
-                SKY_CLOUDSUN -> { FcstImgEnum.ClodeSun }
-                SKY_CLOUD -> { FcstImgEnum.Cloude }
-                else -> { FcstImgEnum.Sun }
+        var fcstImg = if (fcstImgEnum == FcstImgEnum.Sun) {
+            when (code) {
+                SKY_SUN -> {
+                    FcstImgEnum.Sun
+                }
+                SKY_CLOUDSUN -> {
+                    FcstImgEnum.ClodeSun
+                }
+                SKY_CLOUD -> {
+                    FcstImgEnum.Cloude
+                }
+                else -> {
+                    FcstImgEnum.Sun
+                }
             }
         }
-        return FcstImgEnum.Sun
+        else fcstImgEnum
+        return fcstImg
     }
 
     fun timeDataConvert(code: String) : String{
@@ -135,6 +143,16 @@ object DataConvert {
 
         var splitString = code.chunked(2)
         return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.date,splitString[2],splitString[3])
+    }
+
+    fun mapAddressConvert(reverseGeocoder: ReverseGeocoder):String{
+        with(reverseGeocoder){
+            return if(this.status.code == 0) {
+                "${results[0].region.area1.name} ${results[0].region.area2.name} ${results[0].land.name} ${results[0].land.number1}"
+            }
+            else{
+                "주소를 찾을 수 없습니다"}
+        }
     }
 
 }

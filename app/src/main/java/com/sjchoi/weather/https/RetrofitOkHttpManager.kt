@@ -2,10 +2,9 @@ package com.sjchoi.weather.https
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.sjchoi.weather.common.CONNECT_TIME_OUT
-import com.sjchoi.weather.common.DATA_POTAL_URL
-import com.sjchoi.weather.common.READ_TIME_OUT
-import com.sjchoi.weather.common.WeatherRestService
+import com.sjchoi.weather.common.*
+import com.sjchoi.weather.common.restservice.MapRestService
+import com.sjchoi.weather.common.restservice.WeatherRestService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -16,15 +15,20 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object RetrofitOkHttpManager {
-    //val gson : Gson = GsonBuilder().setLenient().create()
+    val gson : Gson = GsonBuilder().setLenient().create()
 
     private var okHttpClient: OkHttpClient
 
     private val retrofitBuilderDataPotal : Retrofit.Builder = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create(/*gson*/)).baseUrl(DATA_POTAL_URL)
+        .addConverterFactory(GsonConverterFactory.create(gson)).baseUrl(DATA_POTAL_URL)
+
+    private val retrofitBuiderMap : Retrofit.Builder = Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(MAPS_URL)
 
     val weatherRESTService: WeatherRestService
         get() = retrofitBuilderDataPotal.build().create(WeatherRestService::class.java)
+
+    val mapRESTService: MapRestService
+        get() = retrofitBuiderMap.build().create(MapRestService::class.java)
 
     init {
         okHttpClient = OkHttpClient.Builder()
@@ -38,6 +42,7 @@ object RetrofitOkHttpManager {
             .connectTimeout(CONNECT_TIME_OUT, TimeUnit.SECONDS)
             .readTimeout(READ_TIME_OUT, TimeUnit.SECONDS).build()
         retrofitBuilderDataPotal.client(okHttpClient)
+        retrofitBuiderMap.client(okHttpClient)
     }
 
     private class RetryInterceptor : Interceptor {

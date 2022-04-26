@@ -1,5 +1,20 @@
 package com.sjchoi.weather.dataclass
 
+data class FcstData(
+    val response: FcstResponse
+)
+
+data class FcstResponse(
+    val header: Header,
+    val body : FcstBody
+)
+
+data class Header(
+    val resultCode: String,
+    val resultMsg: String
+)
+
+
 data class FcstBody(
     val dataType: String,
     val items: FcstItems,

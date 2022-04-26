@@ -1,20 +1,16 @@
 package com.sjchoi.weather.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.adapter.TimeFcstAdapter
 import com.sjchoi.weather.adapter.WeekFcstAdapter
 import com.sjchoi.weather.common.*
-import com.sjchoi.weather.dataclass.TimeFcstData
+import com.sjchoi.weather.dataclass.fcstdata.TimeFcstData
 import com.sjchoi.weather.databinding.FragmentTabBinding
 import com.sjchoi.weather.dataclass.FcstData
 import com.sjchoi.weather.enum.FcstImgEnum

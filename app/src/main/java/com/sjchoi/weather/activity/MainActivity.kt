@@ -1,17 +1,13 @@
-package com.sjchoi.weather
+package com.sjchoi.weather.activity
 
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
-import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraUpdate
-import com.naver.maps.map.MapFragment
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.sjchoi.weather.R
 import com.sjchoi.weather.adapter.weatherTabAdapter
+import com.sjchoi.weather.common.DataConvert.mapAddressConvert
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.enum.WeatherTabEnum
 import com.sjchoi.weather.fragment.NaverMapFragment
@@ -24,6 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel :WeatherViewModel
 
+    private lateinit var mapFragment : NaverMapFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_main)
@@ -33,7 +31,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
         viewModel.getLocation(this@MainActivity)
 
+
         with(binding) {
+            viewModel.getAddress().observe(this@MainActivity){buttonMap.text = mapAddressConvert(it)}
             with(applicationTabAdapter()) {
                 //weatherViewPager.setPageTransformer(FlipPagerTransformer())
                 weatherViewPager.adapter = this
@@ -45,17 +45,8 @@ class MainActivity : AppCompatActivity() {
             }.attach()
 
             buttonMap.setOnClickListener {
-//                var mapFragment = supportFragmentManager.findFragmentById(R.id.navermapFragment) as MapFragment
-//                if(mapFragment==null){
-//                    mapFragment = MapFragment.newInstance()
-//                    supportFragmentManager.beginTransaction().add(R.id.navermapFragment,mapFragment).commit()
-//                }
-//                mapFragment?.getMapAsync(this@MainActivity)
-
                 naverMap.visibility = View.VISIBLE
-                val mapFragment = NaverMapFragment.newInstance(viewModel.getLat(),viewModel.getLon())
-                supportFragmentManager.beginTransaction().add(R.id.naverMap,mapFragment).commit()
-
+                backStackFragment(savedInstanceState)
             }
         }
     }
@@ -69,5 +60,16 @@ class MainActivity : AppCompatActivity() {
         return tabAdapter
     }
 
+    private fun backStackFragment(savedInstanceState: Bundle?) {
+        mapFragment = NaverMapFragment.newInstance()
+
+        with(supportFragmentManager.beginTransaction()){
+            if (savedInstanceState == null)
+                this.add(R.id.naverMap,mapFragment).addToBackStack(null).commit()
+            else
+                this.replace(R.id.naverMap,mapFragment).addToBackStack(null).commit()
+
+        }
+    }
 
 }

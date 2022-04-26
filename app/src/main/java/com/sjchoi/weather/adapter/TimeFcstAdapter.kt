@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.common.DataConvert
-import com.sjchoi.weather.dataclass.TimeFcstData
+import com.sjchoi.weather.dataclass.fcstdata.TimeFcstData
 import com.sjchoi.weather.databinding.WeatherTimeRecyclerItemBinding
 
 class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){

@@ -1,4 +1,4 @@
-package com.sjchoi.weather
+package com.sjchoi.weather.activity
 
 import android.Manifest
 import android.content.Intent
