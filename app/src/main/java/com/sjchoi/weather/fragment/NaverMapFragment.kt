@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -101,6 +102,7 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
 
     override fun onDestroyView() {
         super.onDestroyView()
+        popBackStack()
     }
 
     override fun onMapReady(map: NaverMap) {
@@ -134,9 +136,8 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     }
 
     private fun popBackStack(){
-        viewModel.getLat().postValue(lat)
-        viewModel.getLon().postValue(lon)
-        viewModel.getLocation(requireActivity())
-        viewModel.reverseGeocodeRest(lat, lon)
+        viewModel.getLat().value =naverMap.cameraPosition.target.latitude
+        viewModel.getLon().value = naverMap.cameraPosition.target.longitude
+        viewModel.convertGRIDGPS(0)
     }
 }

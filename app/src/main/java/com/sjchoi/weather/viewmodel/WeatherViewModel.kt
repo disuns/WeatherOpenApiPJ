@@ -146,13 +146,13 @@ class WeatherViewModel : ViewModel() {
     }
 
     fun getLocation(activity : Activity) {
-//        ornerActivity = activity
-//        provider = ornerActivity.intent.getStringExtra("provider")!!
-//        initMapLocation()
+        ornerActivity = activity
+        provider = ornerActivity.intent.getStringExtra("provider")!!
+        initMapLocation()
 
-        lon.value =126.88237267230349
-        lat.value =37.51982548626224
-        convertGRIDGPS(0)
+//        lon.value =126.88237267230349
+//        lat.value =37.51982548626224
+//        convertGRIDGPS(0)
 
 //        if (ActivityCompat.checkSelfPermission(
 //                WeatherApplication.getWeatherApplication().applicationContext,

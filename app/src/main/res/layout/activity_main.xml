@@ -56,7 +56,7 @@
         android:layout_above="@+id/weatherTab"/>
 
     <FrameLayout
-        android:id="@+id/naverMap"
+        android:id="@+id/naverMapFragmnet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible" />

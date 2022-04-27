@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
-        viewModel.getLocation(this@MainActivity)
+        if (savedInstanceState == null)
+            viewModel.getLocation(this@MainActivity)
 
         with(binding) {
             viewModel.getAddress().observe(this@MainActivity){buttonMap.text = mapAddressConvert(it)}
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             }.attach()
 
             buttonMap.setOnClickListener {
-                naverMap.visibility = View.VISIBLE
+                naverMapFragmnet.visibility = View.VISIBLE
                 backStackFragment(savedInstanceState)
             }
         }
@@ -64,9 +65,9 @@ class MainActivity : AppCompatActivity() {
 
         with(supportFragmentManager.beginTransaction()){
             if (savedInstanceState == null)
-                this.add(R.id.naverMap,mapFragment).addToBackStack(null).commit()
+                this.add(R.id.naverMapFragmnet,mapFragment).addToBackStack(null).commit()
             else
-                this.replace(R.id.naverMap,mapFragment).addToBackStack(null).commit()
+                this.replace(R.id.naverMapFragmnet,mapFragment).addToBackStack(null).commit()
 
         }
     }
