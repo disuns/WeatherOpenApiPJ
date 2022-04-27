@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
         viewModel.getLocation(this@MainActivity)
 
-
         with(binding) {
             viewModel.getAddress().observe(this@MainActivity){buttonMap.text = mapAddressConvert(it)}
             with(applicationTabAdapter()) {

@@ -11,16 +11,15 @@ import androidx.lifecycle.ViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
-import com.sjchoi.weather.common.DataConvert.mapAddressConvert
 import com.sjchoi.weather.common.manager.TimeManager
-import com.sjchoi.weather.common.restservice.MapRestService
-import com.sjchoi.weather.dataclass.FcstData
+import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
+import com.sjchoi.weather.dataclass.fcstdata.FcstData
+import com.sjchoi.weather.dataclass.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import com.sjchoi.weather.https.RetrofitOkHttpManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URLEncoder
 import kotlin.math.*
 
 class WeatherViewModel : ViewModel() {
@@ -30,6 +29,7 @@ class WeatherViewModel : ViewModel() {
 
     private var nowFcstData : MutableLiveData<FcstData> = MutableLiveData()
     private var timeFcstData : MutableLiveData<FcstData> = MutableLiveData()
+    private var weekRainSkyData : MutableLiveData<WeekRainSkyData> = MutableLiveData()
     private var lat : MutableLiveData<Double> = MutableLiveData()
     private var lon : MutableLiveData<Double> = MutableLiveData()
     private var address : MutableLiveData<ReverseGeocoder> = MutableLiveData()
@@ -44,12 +44,10 @@ class WeatherViewModel : ViewModel() {
 
     private fun getXLat() :Int{
         return xLat.toInt()
-        //58
     }
 
     private fun getYLon() :Int{
         return yLon.toInt()
-        //126
     }
 
     fun getLat(): MutableLiveData<Double> {
@@ -95,7 +93,7 @@ class WeatherViewModel : ViewModel() {
         nowFcstCall.enqueue(object : Callback<FcstData> {
             override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
                 if (response.isSuccessful) {
-                    nowFcstData.value = response.body() as FcstData
+                    nowFcstData.postValue(response.body() as FcstData)
                     timeFcstRest()
                 }
             }
@@ -148,9 +146,14 @@ class WeatherViewModel : ViewModel() {
     }
 
     fun getLocation(activity : Activity) {
-        ornerActivity = activity
-        provider = ornerActivity.intent.getStringExtra("provider")!!
-        initMapLocation()
+//        ornerActivity = activity
+//        provider = ornerActivity.intent.getStringExtra("provider")!!
+//        initMapLocation()
+
+        lon.value =126.88237267230349
+        lat.value =37.51982548626224
+        convertGRIDGPS(0)
+
 //        if (ActivityCompat.checkSelfPermission(
 //                WeatherApplication.getWeatherApplication().applicationContext,
 //                Manifest.permission.ACCESS_FINE_LOCATION
@@ -300,10 +303,49 @@ class WeatherViewModel : ViewModel() {
             override fun onResponse(call: Call<ReverseGeocoder>, response: Response<ReverseGeocoder>) {
                 if (response.isSuccessful) {
                     address.postValue(response.body() as ReverseGeocoder)
+                    weekRainSkyRest("")
                 }
             }
 
             override fun onFailure(call: Call<ReverseGeocoder>, t: Throwable) {
+                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
+                Log.e("",t.message.toString())
+            }
+        })
+    }
+
+    fun checkWeekRainSkyData() : Boolean {
+        return weekRainSkyData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                DataConvert.getDataConvert().dataPotalResultCode(it.response.header.resultCode)
+                false
+            } else {
+                true
+            }
+        } ?: false
+    }
+
+    fun getWeekRainSkyData():MutableLiveData<WeekRainSkyData> = weekRainSkyData
+
+    fun weekRainSkyRest(land:String){
+        val weekRainSkyCall: Call<WeekRainSkyData> = weatherService.requestWeekRainSky(
+            DATA_POTAL_SERVICE_KEY,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_WEEK,
+            DATA_TYPE_UPPER,
+            DataConvert.getDataConvert().landCodeGu(land),
+            urlWeekFcstTime()
+        )
+        Log.e("",weekRainSkyCall.request().url.toString())
+
+        weekRainSkyCall.enqueue(object :Callback<WeekRainSkyData>{
+            override fun onResponse(call: Call<WeekRainSkyData>, response: Response<WeekRainSkyData>) {
+                if (response.isSuccessful) {
+                    weekRainSkyData.postValue(response.body() as WeekRainSkyData)
+                }
+            }
+
+            override fun onFailure(call: Call<WeekRainSkyData>, t: Throwable) {
                 WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
                 Log.e("",t.message.toString())
             }

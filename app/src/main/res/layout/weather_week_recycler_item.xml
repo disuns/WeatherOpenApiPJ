@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/WeekRVItemWidth"
-    android:layout_height="@dimen/WeekRVItemHeight"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin = "5dp"
     android:orientation="horizontal">
 
     <TextView
@@ -24,45 +25,86 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="@dimen/WeekRVMarginTV"
+            android:layout_marginBottom="2dp"
             android:text="@string/am"
-            android:textSize="@dimen/WeekRVItmeText" />
-
-        <TextView
-            android:id="@+id/weekAmTempTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/weekAmIV"
-            android:layout_toRightOf="@id/weekAmTV"
-            android:gravity="center"
-            android:text="7"
             android:textSize="@dimen/WeekRVItmeText" />
 
         <ImageView
             android:id="@+id/weekAmRainperIV"
             android:layout_width="@dimen/WeekRVItemIVSmall"
             android:layout_height="@dimen/WeekRVItemIVSmall"
-            android:layout_below="@id/weekAmTempTV"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/weekAmTV"
-            android:src="@drawable/rainper" />
+            android:src="@drawable/rainper"
+            android:layout_marginRight="@dimen/WeekRVMarginIV"/>
 
         <TextView
             android:id="@+id/weekAmRainperTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/weekAmTempTV"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/WeekRVMarginTV"
             android:layout_toRightOf="@id/weekAmRainperIV"
             android:text="20%"
             android:textSize="@dimen/WeekRVItmeText" />
 
-        <ImageView
-            android:id="@+id/weekAmIV"
-            android:layout_width="@dimen/WeekRVItemIV"
-            android:layout_height="@dimen/WeekRVItemIV"
+<!--        <ImageView-->
+<!--            android:id="@+id/weekAmIV"-->
+<!--            android:layout_width="@dimen/WeekRVItemIV"-->
+<!--            android:layout_height="@dimen/WeekRVItemIV"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:layout_toRightOf="@id/weekAmRainperTV"-->
+<!--            android:src="@drawable/cloud" />-->
+
+        <TextView
+            android:id="@+id/weekAmSkyTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/weekAmRainperTV"
-            android:src="@drawable/cloud" />
+            android:text="맑음"
+            android:textSize="@dimen/WeekRVItmeText" />
+
     </RelativeLayout>
 
+<!--    <TextView-->
+<!--        android:id="@+id/weekPmTV"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="@dimen/WeekRVItmeText"-->
+<!--        android:layout_toLeftOf="@+id/weekPmRainperIV"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginRight="@dimen/WeekRVMarginTV"-->
+<!--        android:text="@string/pm"/>-->
+<!--    <ImageView-->
+<!--        android:id="@+id/weekPmRainperIV"-->
+<!--        android:layout_width="@dimen/WeekRVItemIVSmall"-->
+<!--        android:layout_height="@dimen/WeekRVItemIVSmall"-->
+<!--        android:src="@drawable/rainper"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_marginRight="@dimen/WeekRVMarginIV"-->
+<!--        android:layout_toLeftOf="@+id/weekPmRainperTV"/>-->
+<!--    <TextView-->
+<!--        android:id="@+id/weekPmRainperTV"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="@dimen/WeekRVItmeText"-->
+<!--        android:text="20%"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_toLeftOf="@id/weekPmIV"-->
+<!--        android:layout_marginRight="@dimen/WeekRVMarginTV"/>-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/weekPmIV"-->
+<!--        android:layout_width="@dimen/WeekRVItemIV"-->
+<!--        android:layout_height="@dimen/WeekRVItemIV"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:src="@drawable/cloud" />-->
     <TextView
         android:id="@+id/weekPmTV"
         android:layout_width="wrap_content"
@@ -70,22 +112,15 @@
         android:textSize="@dimen/WeekRVItmeText"
         android:layout_toLeftOf="@+id/weekPmRainperIV"
         android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/WeekRVMarginTV"
         android:text="@string/pm"/>
-    <TextView
-        android:id="@+id/weekPmTempTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/WeekRVItmeText"
-        android:text="7"
-        android:gravity="center"
-        android:layout_toRightOf="@id/weekPmTV"
-        android:layout_toLeftOf="@+id/weekPmIV"/>
     <ImageView
         android:id="@+id/weekPmRainperIV"
         android:layout_width="@dimen/WeekRVItemIVSmall"
         android:layout_height="@dimen/WeekRVItemIVSmall"
         android:src="@drawable/rainper"
-        android:layout_below="@id/weekPmTempTV"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/WeekRVMarginIV"
         android:layout_toLeftOf="@+id/weekPmRainperTV"/>
     <TextView
         android:id="@+id/weekPmRainperTV"
@@ -93,16 +128,16 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/WeekRVItmeText"
         android:text="20%"
-        android:layout_below="@+id/weekPmTempTV"
-        android:layout_toLeftOf="@id/weekPmIV"/>
-
-    <ImageView
-        android:id="@+id/weekPmIV"
-        android:layout_width="@dimen/WeekRVItemIV"
-        android:layout_height="@dimen/WeekRVItemIV"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/weekPmSkyTV"
+        android:layout_marginRight="@dimen/WeekRVMarginTV"/>
+    <TextView
+        android:id="@+id/weekPmSkyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/cloud" />
-
+        android:text="맑음"
+        android:textSize="@dimen/WeekRVItmeText" />
 
 </RelativeLayout>

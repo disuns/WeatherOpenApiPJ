@@ -1,6 +1,7 @@
 package com.sjchoi.weather.common
 
 import android.graphics.drawable.Drawable
+import android.location.Geocoder
 import android.util.Log
 import com.sjchoi.weather.R
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
@@ -57,21 +58,21 @@ object DataConvert {
     fun windDir(code: String): String {
         var changeCode: Int = ((code.toInt() + 22.5 * 0.5) / 22.5).toInt()
         return when (changeCode) {
-            1 -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
-            2 -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
-            3 -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
-            4 -> WeatherApplication.getWeatherApplication().getString(R.string.E)
-            5 -> WeatherApplication.getWeatherApplication().getString(R.string.ESE)
-            6 -> WeatherApplication.getWeatherApplication().getString(R.string.SE)
-            7 -> WeatherApplication.getWeatherApplication().getString(R.string.SSE)
-            8 -> WeatherApplication.getWeatherApplication().getString(R.string.S)
-            9 -> WeatherApplication.getWeatherApplication().getString(R.string.SSW)
-            10 -> WeatherApplication.getWeatherApplication().getString(R.string.SW)
-            11 -> WeatherApplication.getWeatherApplication().getString(R.string.WSW)
-            12 -> WeatherApplication.getWeatherApplication().getString(R.string.W)
-            13 -> WeatherApplication.getWeatherApplication().getString(R.string.WNW)
-            14 -> WeatherApplication.getWeatherApplication().getString(R.string.NW)
-            15 -> WeatherApplication.getWeatherApplication().getString(R.string.NNW)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM1).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM2).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM3).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM4).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.E)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM5).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.ESE)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM6).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SE)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM7).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SSE)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM8).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.S)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM9).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SSW)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM10).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SW)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM11).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.WSW)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM12).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.W)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM13).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.WNW)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM14).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NW)
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM15).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NNW)
             else -> WeatherApplication.getWeatherApplication().getString(R.string.N)
         }
     }
@@ -84,13 +85,13 @@ object DataConvert {
 
     fun fcstRainImgConvert(code: String): FcstImgEnum {
         return when (code) {
-            "1" -> { FcstImgEnum.Rain }
-            "2" -> { FcstImgEnum.Rain }//비+눈
-            "3" -> { FcstImgEnum.Snow }
-            "4" -> { FcstImgEnum.Rain }
-            "5" -> { FcstImgEnum.Rain }
-            "6" -> { FcstImgEnum.Rain }//비+눈
-            "7" -> { FcstImgEnum.Snow }
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM1) -> { FcstImgEnum.Rain }
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM2) -> { FcstImgEnum.Rain }//비+눈
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM3) -> { FcstImgEnum.Snow }
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM4) -> { FcstImgEnum.Rain }
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM5) -> { FcstImgEnum.Rain }
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM6) -> { FcstImgEnum.Rain }//비+눈
+            WeatherApplication.getWeatherApplication().getString(R.string.NUM7) -> { FcstImgEnum.Snow }
             else -> { FcstImgEnum.Sun }
         }
     }
@@ -151,8 +152,25 @@ object DataConvert {
                 "${results[0].region.area1.name} ${results[0].region.area2.name} ${results[0].land.name} ${results[0].land.number1}"
             }
             else{
-                "주소를 찾을 수 없습니다"}
+
+                val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
+                geocoder
+                WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.UNKNOWN_ADDRESS)}
         }
     }
 
+    fun landCodeGu(land:String):String{
+        //중기예보 육상예보 REST
+        //11B00000 서울, 인천,경기도
+        //11D10000 강원도영서
+        //11D20000 강원도영동
+        //11C20000 대전, 세종, 충청남도
+        //11C10000 충청북도
+        //11F20000 광주, 전라남도
+        //11F10000 전라북도
+        //11H10000 대구, 경상북도
+        //11H20000 부산, 울산, 경상남도
+        //11G0000 제주도
+        return "11B00000"
+    }
 }

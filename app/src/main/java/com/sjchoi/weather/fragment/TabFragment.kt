@@ -12,7 +12,9 @@ import com.sjchoi.weather.adapter.WeekFcstAdapter
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.dataclass.fcstdata.TimeFcstData
 import com.sjchoi.weather.databinding.FragmentTabBinding
-import com.sjchoi.weather.dataclass.FcstData
+import com.sjchoi.weather.dataclass.fcstdata.FcstData
+import com.sjchoi.weather.dataclass.fcstdata.WeekFcstData
+import com.sjchoi.weather.dataclass.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.enum.FcstImgEnum
 import com.sjchoi.weather.enum.WeatherTabEnum
 import com.sjchoi.weather.viewmodel.WeatherViewModel
@@ -54,8 +56,8 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         when(tabEnum){
             WeatherTabEnum.Fcst->{
                 viewModel.getNowFcstData().observe(viewLifecycleOwner){ nowDataSet(it) }
-
                 viewModel.getTimeFcstData().observe(viewLifecycleOwner){ timeDataSet(it) }
+                viewModel.getWeekRainSkyData().observe(viewLifecycleOwner){ weekDataSet(it) }
             }
             WeatherTabEnum.LifeIndex->{
             }
@@ -127,8 +129,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private fun timeDataList(fcstData : FcstData):List<TimeFcstData>{
         var fcstList = mutableListOf<TimeFcstData>()
         if(viewModel.checkTimeFcstData()) {
-            val fcstNow = fcstData.response.body
-            val fcstItem = fcstNow.items.item
+            val fcstItem = fcstData.response.body.items.item
             var timeData = TimeFcstData()
             for (i in fcstItem.indices) {
                 if (timeData.fcstDate != fcstItem[i].fcstDate || timeData.fcstTime != fcstItem[i].fcstTime) {
@@ -172,11 +173,32 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         return fcstList
     }
 
-    private fun weekDataList(){
-
+    private fun weekDataList(weekRainSkyData: WeekRainSkyData): MutableList<WeekFcstData> {
+        var weekList = mutableListOf<WeekFcstData>()
+        if(viewModel.checkWeekRainSkyData()) {
+            val weekData = weekRainSkyData.response.body.items.item
+            for(i in weekData.indices){
+                weekList.add(setWeekFcstData(weekData[i].rnSt3Am.toString(), weekData[i].rnSt3Pm.toString(), weekData[i].wf3Am, weekData[i].wf3Pm))
+                weekList.add(setWeekFcstData(weekData[i].rnSt4Am.toString(), weekData[i].rnSt4Pm.toString(), weekData[i].wf4Am, weekData[i].wf4Pm))
+                weekList.add(setWeekFcstData(weekData[i].rnSt5Am.toString(), weekData[i].rnSt5Pm.toString(), weekData[i].wf5Am, weekData[i].wf5Pm))
+                weekList.add(setWeekFcstData(weekData[i].rnSt6Am.toString(), weekData[i].rnSt6Pm.toString(), weekData[i].wf6Am, weekData[i].wf6Pm))
+                weekList.add(setWeekFcstData(weekData[i].rnSt7Am.toString(), weekData[i].rnSt7Pm.toString(), weekData[i].wf7Am, weekData[i].wf7Pm))
+            }
+        }
+        return weekList
     }
 
-    private fun weekDataSet(){
+    private fun setWeekFcstData(rainAM:String, rainPM:String, skyAM:String, skyPM:String): WeekFcstData {
+        var weekFcstData = WeekFcstData()
+        weekFcstData.rainAm = rainAM
+        weekFcstData.rainPm = rainPM
+        weekFcstData.skyAm = skyAM
+        weekFcstData.skyPm = skyPM
+        return weekFcstData
+    }
+
+    private fun weekDataSet(fcstData : WeekRainSkyData){
+        weekFcstAdapter = WeekFcstAdapter(weekDataList(fcstData))
         binding.weekFcstRV.adapter = weekFcstAdapter
         weekFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.VERTICAL,false)
         binding.weekFcstRV.layoutManager = weekFcstLayoutManager

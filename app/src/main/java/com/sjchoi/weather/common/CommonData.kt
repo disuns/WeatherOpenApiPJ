@@ -5,6 +5,7 @@ const val READ_TIME_OUT = 15L
 
 const val PAGE_NO_DEFAULT = "1"
 const val NUM_OF_ROWS_DEFAULT = "1000"
+const val NUM_OF_ROWS_WEEK = "10"
 
 const val DATA_POTAL_URL = "http://apis.data.go.kr/"
 const val MAPS_URL = "https://naveropenapi.apigw.ntruss.com/"
@@ -26,8 +27,10 @@ const val MAP_REVERSE_GEOCODE = "/map-reversegeocode/v2/gc"
  */
 const val NOW_FCST = "/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst"
 const val VILAGE_FCST = "/1360000/VilageFcstInfoService_2.0/getVilageFcst"
-
-//onst val Mid
+/**
+ * 중기예보
+ */
+const val WEEK_RAIN_SKY = "/1360000/MidFcstInfoService/getMidLandFcst"
 
 /**
  * 대기오염 정보

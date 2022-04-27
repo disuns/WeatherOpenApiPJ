@@ -51,4 +51,25 @@
     <string name="UNREGISTERED_IP_ERROR">등록되지 않은 IP</string>
     <string name="UNSIGNED_CALL_ERROR">서명되지 않은 호출</string>
     <string name="UNKNOWN_ERROR">기타에러</string>
+    <string name="UNKNOWN_ADDRESS">주소를 찾을 수 없습니다</string>
+    <string name="NUM1">1</string>
+    <string name ="NUM2">2</string>
+    <string name ="NUM3">3</string>
+    <string name ="NUM4">4</string>
+    <string name ="NUM5">5</string>
+    <string name ="NUM6">6</string>
+    <string name ="NUM7">7</string>
+    <string name ="NUM8">8</string>
+    <string name ="NUM9">9</string>
+    <string name ="NUM10">10</string>
+    <string name ="NUM11">11</string>
+    <string name ="NUM12">12</string>
+    <string name ="NUM13">13</string>
+    <string name ="NUM14">14</string>
+    <string name ="NUM15">15</string>
+    <string name ="NUM16">16</string>
+    <string name ="NUM17">17</string>
+    <string name ="NUM18">18</string>
+    <string name ="NUM19">19</string>
+    <string name ="NUM20">20</string>
 </resources>

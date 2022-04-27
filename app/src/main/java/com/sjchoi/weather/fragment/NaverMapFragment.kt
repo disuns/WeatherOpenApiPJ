@@ -31,6 +31,8 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     private var address : String = ""
     private val marker = Marker()
 
+    private val loadAddress : String = ""
+
     private lateinit var viewModel : WeatherViewModel
 
     companion object{
@@ -105,7 +107,8 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
         naverMap = map
         lat = viewModel.getLat().value!!
         lon = viewModel.getLon().value!!
-        viewModel.getAddress().observe(viewLifecycleOwner){address = DataConvert.mapAddressConvert(it)
+        viewModel.getAddress().observe(viewLifecycleOwner){
+            address = DataConvert.mapAddressConvert(it)
             binding.mapSearchView.setQuery(address as CharSequence, false)
         }
 

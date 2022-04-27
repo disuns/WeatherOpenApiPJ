@@ -61,21 +61,38 @@ object TimeManager {
         date = Date(now)
         val timeFormat = SimpleDateFormat("HH")
 
-        return if(timeFormat.format(date)>"23" || timeFormat.format(date)<"02")
-            "2300"
-        else if (timeFormat.format(date)>"20")
-            "2000"
-        else if (timeFormat.format(date)>"17")
-            "1700"
-        else if (timeFormat.format(date)>"14")
-            "1400"
-        else if (timeFormat.format(date)>"11")
-            "1100"
-        else if (timeFormat.format(date)>"08")
-            "0800"
-        else if (timeFormat.format(date)>"05")
-            "0500"
-        else
-            "0200"
+        return with(timeFormat.format(date)){
+            if(this>"23" || this<"02")
+                "2300"
+            else if (this>"20")
+                "2000"
+            else if (this>"17")
+                "1700"
+            else if (this>"14")
+                "1400"
+            else if (this>"11")
+                "1100"
+            else if (this>"08")
+                "0800"
+            else if (this>"05")
+                "0500"
+            else
+                "0200"
+        }
+    }
+
+    fun urlWeekFcstTime():String{
+        var now = System.currentTimeMillis()
+        date = Date(now)
+
+        val timeFormat = SimpleDateFormat("HH")
+        val dateFormat: SimpleDateFormat = with(timeFormat.format(date)) {
+            if (this > "06" || this <= "18")
+                SimpleDateFormat("yyyyMMdd0600")
+            else
+                SimpleDateFormat("yyyyMMdd1800")
+        }
+
+        return dateFormat.format(date)
     }
 }

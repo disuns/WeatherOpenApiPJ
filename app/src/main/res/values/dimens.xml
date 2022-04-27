@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="FcstTitle">18sp</dimen>
+    <dimen name="FcstTitle">28sp</dimen>
     <dimen name="NowTempTV">64sp</dimen>
     <dimen name="NowFcstTV">18sp</dimen>
     <dimen name="NowWetRainWindLayout">13sp</dimen>
-    <dimen name="FcstRvTitle">14sp</dimen>
-    <dimen name="WeekRVItemWidth">304dp</dimen>
-    <dimen name="WeekRVItemHeight">35dp</dimen>
-    <dimen name="WeekRVItmeText">12sp</dimen>
+    <dimen name="FcstRvTitle">24sp</dimen>
+    <dimen name="WeekRVItmeText">18sp</dimen>
     <dimen name="WeekRVItemIV">30dp</dimen>
     <dimen name="WeekRVItemIVSmall">15dp</dimen>
     <dimen name="TimeRVItemWidth">65sp</dimen>
@@ -17,4 +15,6 @@
     <dimen name="TimeRVItemMargin">4dp</dimen>
     <dimen name="TimeRVItemIV">30dp</dimen>
     <dimen name="TimeRVItemIVSmall">15dp</dimen>
+    <dimen name="WeekRVMarginIV">2dp</dimen>
+    <dimen name="WeekRVMarginTV">3dp</dimen>
 </resources>
