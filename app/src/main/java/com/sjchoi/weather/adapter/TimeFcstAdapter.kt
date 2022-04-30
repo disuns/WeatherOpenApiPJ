@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.common.DataConvert
+import com.sjchoi.weather.databinding.WeatherTimeItemBinding
 import com.sjchoi.weather.dataclass.fcstdata.TimeFcstData
-import com.sjchoi.weather.databinding.WeatherTimeRecyclerItemBinding
 
 class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    inner class TimeFcstViewHolder(val binding: WeatherTimeRecyclerItemBinding) :RecyclerView.ViewHolder(binding.root)
+    inner class TimeFcstViewHolder(val binding: WeatherTimeItemBinding) :RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = WeatherTimeRecyclerItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = WeatherTimeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TimeFcstViewHolder(binding)
     }
 

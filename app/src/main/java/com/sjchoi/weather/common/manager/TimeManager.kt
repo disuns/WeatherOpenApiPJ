@@ -1,8 +1,10 @@
 package com.sjchoi.weather.common.manager
 
+import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
 
+@SuppressLint("SimpleDateFormat")
 object TimeManager {
     private var instance: TimeManager? = null
     private lateinit var date: Date
@@ -57,7 +59,7 @@ object TimeManager {
         return dateFormat.format(date)
     }
     fun urlTimeFcstTime() : String{
-        var now = System.currentTimeMillis()
+        val now = System.currentTimeMillis()
         date = Date(now)
         val timeFormat = SimpleDateFormat("HH")
 
@@ -82,7 +84,7 @@ object TimeManager {
     }
 
     fun urlWeekFcstTime():String{
-        var now = System.currentTimeMillis()
+        val now = System.currentTimeMillis()
         date = Date(now)
 
         val timeFormat = SimpleDateFormat("HH")

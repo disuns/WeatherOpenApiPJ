@@ -15,7 +15,7 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 object RetrofitOkHttpManager {
-    val gson : Gson = GsonBuilder().setLenient().create()
+    private val gson : Gson = GsonBuilder().setLenient().create()
 
     private var okHttpClient: OkHttpClient
 

@@ -13,7 +13,7 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.databinding.ActivitySplashBinding
 
-class SplashActivity : AppCompatActivity() {
+class LoadingActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
 
     private val handler = Handler(Looper.getMainLooper())
@@ -24,10 +24,10 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Loading()
+        loading()
     }
 
-    private fun Loading(){
+    private fun loading(){
 
         if (WeatherApplication.getWeatherApplication().isNetworkCheck()) {
             handler.postDelayed({
@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    fun gpsPermission() {
+    private fun gpsPermission() {
         val mListenr = WeatherApplication.getWeatherApplication()
             .getSystemService(LOCATION_SERVICE) as LocationManager
 
@@ -58,7 +58,7 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    fun gpsCheckPermissionLocation(){
+    private fun gpsCheckPermissionLocation(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             permissionCheck()
         }else{

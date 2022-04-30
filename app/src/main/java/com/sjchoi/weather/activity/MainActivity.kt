@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sjchoi.weather.R
-import com.sjchoi.weather.adapter.weatherTabAdapter
+import com.sjchoi.weather.adapter.WeatherTabAdapter
 import com.sjchoi.weather.common.DataConvert.mapAddressConvert
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.enum.WeatherTabEnum
@@ -51,8 +51,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun applicationTabAdapter(): weatherTabAdapter {
-        val tabAdapter = weatherTabAdapter(this)
+    private fun applicationTabAdapter(): WeatherTabAdapter {
+        val tabAdapter = WeatherTabAdapter(this)
         with(tabAdapter) {
             addFragment(TabFragment.newInstance(WeatherTabEnum.Fcst))
             addFragment(TabFragment.newInstance(WeatherTabEnum.LifeIndex))
@@ -65,9 +65,9 @@ class MainActivity : AppCompatActivity() {
 
         with(supportFragmentManager.beginTransaction()){
             if (savedInstanceState == null)
-                this.add(R.id.naverMapFragmnet,mapFragment).addToBackStack(null).commit()
+                add(R.id.naverMapFragmnet,mapFragment).addToBackStack(null).commit()
             else
-                this.replace(R.id.naverMapFragmnet,mapFragment).addToBackStack(null).commit()
+                replace(R.id.naverMapFragmnet,mapFragment).addToBackStack(null).commit()
 
         }
     }

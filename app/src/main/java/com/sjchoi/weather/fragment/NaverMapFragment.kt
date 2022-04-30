@@ -3,12 +3,8 @@ package com.sjchoi.weather.fragment
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.SearchView
 import android.widget.SearchView.OnQueryTextListener
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -22,8 +18,6 @@ import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.databinding.FragmentNavermapBinding
 import com.sjchoi.weather.viewmodel.WeatherViewModel
 import java.io.IOException
-import java.util.*
-import kotlin.collections.ArrayList
 
 class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBinding::inflate), OnMapReadyCallback {
     private lateinit var naverMap : NaverMap
@@ -31,8 +25,6 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     private var lon : Double = 0.0
     private var address : String = ""
     private val marker = Marker()
-
-    private val loadAddress : String = ""
 
     private lateinit var viewModel : WeatherViewModel
 
@@ -48,14 +40,6 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
 //            return mapFragment
 //        }
         fun newInstance() = NaverMapFragment()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,7 +58,7 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
 
                         var addressList : MutableList<Address>? = null
 
-                        if(!location.isNullOrEmpty()){
+                        if(location.isNotEmpty()){
                             val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
 
                             try {

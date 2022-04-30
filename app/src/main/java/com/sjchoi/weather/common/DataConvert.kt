@@ -1,7 +1,7 @@
 package com.sjchoi.weather.common
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
-import android.location.Geocoder
 import android.util.Log
 import com.sjchoi.weather.R
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
@@ -56,8 +56,7 @@ object DataConvert {
             .getString(R.string.rainUnit, code) }
 
     fun windDir(code: String): String {
-        var changeCode: Int = ((code.toInt() + 22.5 * 0.5) / 22.5).toInt()
-        return when (changeCode) {
+        return when (((code.toInt() + 22.5 * 0.5) / 22.5).toInt()) {
             WeatherApplication.getWeatherApplication().getString(R.string.NUM1).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
             WeatherApplication.getWeatherApplication().getString(R.string.NUM2).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
             WeatherApplication.getWeatherApplication().getString(R.string.NUM3).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
@@ -96,6 +95,7 @@ object DataConvert {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun fcstImgConvert(enumFcstImgEnum: FcstImgEnum): Drawable? {
         return when (enumFcstImgEnum) {
             FcstImgEnum.ClodeSun -> { WeatherApplication.getWeatherApplication().getDrawable(R.drawable.cloudsun) }
@@ -116,7 +116,7 @@ object DataConvert {
     }
 
     fun skyImgEnum(code: String, fcstImgEnum: FcstImgEnum): FcstImgEnum {
-        var fcstImg = if (fcstImgEnum == FcstImgEnum.Sun) {
+        val fcstImg = if (fcstImgEnum == FcstImgEnum.Sun) {
             when (code) {
                 SKY_SUN -> {
                     FcstImgEnum.Sun
@@ -141,8 +141,7 @@ object DataConvert {
     }
 
     fun dateConvert(code : String) : String{
-
-        var splitString = code.chunked(2)
+        val splitString = code.chunked(2)
         return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.date,splitString[2],splitString[3])
     }
 
@@ -152,10 +151,10 @@ object DataConvert {
                 "${results[0].region.area1.name} ${results[0].region.area2.name} ${results[0].land.name} ${results[0].land.number1}"
             }
             else{
-
-                val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
-                geocoder
-                WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.UNKNOWN_ADDRESS)}
+//                val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
+//                geocoder
+                WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.UNKNOWN_ADDRESS)
+            }
         }
     }
 
