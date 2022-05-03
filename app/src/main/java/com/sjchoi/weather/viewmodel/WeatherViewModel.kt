@@ -8,6 +8,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
@@ -17,15 +18,14 @@ import com.sjchoi.weather.dataclass.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import com.sjchoi.weather.https.RetrofitOkHttpManager
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import kotlin.math.*
 
-class WeatherViewModel : ViewModel() {
-
-    private val weatherService = RetrofitOkHttpManager.weatherRESTService
-    private val mapService = RetrofitOkHttpManager.mapRESTService
+class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
 
     private var nowFcstData : MutableLiveData<FcstData> = MutableLiveData()
     private var timeFcstData : MutableLiveData<FcstData> = MutableLiveData()
@@ -75,36 +75,6 @@ class WeatherViewModel : ViewModel() {
 
     fun getNowFcstData():MutableLiveData<FcstData> = nowFcstData
 
-    private fun nowFcstRest() {
-        val nowFcstCall: Call<FcstData> = weatherService.requestNowFcst(
-            DATA_POTAL_SERVICE_KEY,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_DEFAULT,
-            DATA_TYPE_UPPER,
-            TimeManager.getTimeManager().urlNowDate(),
-            TimeManager.getTimeManager().urlNowTime(),
-            getXLat().toString(),
-            getYLon().toString()
-        )
-
-
-        Log.e("",nowFcstCall.request().url.toString())
-
-        nowFcstCall.enqueue(object : Callback<FcstData> {
-            override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
-                if (response.isSuccessful) {
-                    nowFcstData.postValue(response.body() as FcstData)
-                    timeFcstRest()
-                }
-            }
-
-            override fun onFailure(call: Call<FcstData>, t: Throwable) {
-                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
-                Log.e("",t.message.toString())
-            }
-        })
-    }
-
     fun checkTimeFcstData() : Boolean {
         return timeFcstData.value?.let {
             if (it.response.header.resultCode != NO_ERROR) {
@@ -117,33 +87,6 @@ class WeatherViewModel : ViewModel() {
     }
 
     fun getTimeFcstData():MutableLiveData<FcstData> = timeFcstData
-
-    private fun timeFcstRest(){
-        val timeFcstCall: Call<FcstData> = weatherService.requestFcst(
-            DATA_POTAL_SERVICE_KEY,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_DEFAULT,
-            DATA_TYPE_UPPER,
-            TimeManager.getTimeManager().urlTimeFcstDate(),
-            TimeManager.getTimeManager().urlTimeFcstTime(),
-            getXLat().toString(),
-            getYLon().toString()
-        )
-        Log.e("",timeFcstCall.request().url.toString())
-
-        timeFcstCall.enqueue(object :Callback<FcstData>{
-            override fun onResponse(call: Call<FcstData>, response: Response<FcstData>) {
-                if (response.isSuccessful) {
-                    timeFcstData.postValue(response.body() as FcstData)
-                }
-            }
-
-            override fun onFailure(call: Call<FcstData>, t: Throwable) {
-                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
-                Log.e("",t.message.toString())
-            }
-        })
-    }
 
     fun getLocation(activity : Activity) {
 //        ornerActivity = activity
@@ -216,6 +159,7 @@ class WeatherViewModel : ViewModel() {
             mCurrentLocation = locationResult.locations[0]
             lat.value =mCurrentLocation.latitude
             lon.value =mCurrentLocation.longitude
+            restReGe(lat.value!!,lon.value!!)
             convertGRIDGPS(0)
         }
     }
@@ -282,36 +226,7 @@ class WeatherViewModel : ViewModel() {
             lat.postValue(alat * RADDEG)
             lon.postValue(alon * RADDEG)
         }
-        reverseGeocodeRest(lat.value!!, lon.value!!)
-        nowFcstRest()
-    }
-
-    fun reverseGeocodeRest(latGeo : Double, lonGeo:Double){
-        val latlon = "${lonGeo},${latGeo}"
-        val reverseGeocodeCall: Call<ReverseGeocoder> = mapService.requestReverseGeo(
-            MAP_REQUEST_DEFAULT,
-            latlon,
-            MAP_COORDINATE,
-            DATA_TYPE_LOWER,
-            MAP_ORDERS,
-            MAP_CLIENT_KEY_ID,
-            MAP_CLIENT_KEY
-        )
-        Log.e("",reverseGeocodeCall.request().url.toString())
-
-        reverseGeocodeCall.enqueue(object :Callback<ReverseGeocoder>{
-            override fun onResponse(call: Call<ReverseGeocoder>, response: Response<ReverseGeocoder>) {
-                if (response.isSuccessful) {
-                    address.postValue(response.body() as ReverseGeocoder)
-                    weekRainSkyRest("")
-                }
-            }
-
-            override fun onFailure(call: Call<ReverseGeocoder>, t: Throwable) {
-                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
-                Log.e("",t.message.toString())
-            }
-        })
+        restInit(lat.value!!, lon.value!!)
     }
 
     fun checkWeekRainSkyData() : Boolean {
@@ -327,28 +242,105 @@ class WeatherViewModel : ViewModel() {
 
     fun getWeekRainSkyData():MutableLiveData<WeekRainSkyData> = weekRainSkyData
 
-    fun weekRainSkyRest(land:String){
-        val weekRainSkyCall: Call<WeekRainSkyData> = weatherService.requestWeekRainSky(
+    private suspend fun reverseGeoRest(latGeo : Double, lonGeo:Double) {
+        val latlon = "${lonGeo},${latGeo}"
+
+        val reverseGeocoderCo = repository.requestReverseGeoCo(
+            MAP_REQUEST_DEFAULT,
+            latlon,
+            MAP_COORDINATE,
+            DATA_TYPE_LOWER,
+            MAP_ORDERS,
+            MAP_CLIENT_KEY_ID,
+            MAP_CLIENT_KEY
+        )
+
+        with(reverseGeocoderCo) {
+            if (isSuccessful) {
+                address.postValue(body() as ReverseGeocoder)
+                Log.e("",raw().request.url.toString())
+            } else {
+                WeatherApplication.getWeatherApplication().toastMessage(message())
+                Log.e("", message())
+            }
+        }
+    }
+
+    private suspend fun fcstRest(land : String){
+        val timeFcstCo = repository.requestFcstCo(
+            DATA_POTAL_SERVICE_KEY,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_DEFAULT,
+            DATA_TYPE_UPPER,
+            TimeManager.getTimeManager().urlTimeFcstDate(),
+            TimeManager.getTimeManager().urlTimeFcstTime(),
+            getXLat().toString(),
+            getYLon().toString())
+
+        with(timeFcstCo){
+            if(isSuccessful){
+                timeFcstData.postValue(body() as FcstData)
+                Log.e("",raw().request.url.toString())
+            }else{
+                WeatherApplication.getWeatherApplication().toastMessage(message())
+                Log.e("",message())
+            }
+        }
+
+        val nowFcstCo = repository.requestNowFcstCo(
+            DATA_POTAL_SERVICE_KEY,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_DEFAULT,
+            DATA_TYPE_UPPER,
+            TimeManager.getTimeManager().urlNowDate(),
+            TimeManager.getTimeManager().urlNowTime(),
+            getXLat().toString(),
+            getYLon().toString())
+
+        with(nowFcstCo){
+            if(isSuccessful){
+                nowFcstData.postValue(body() as FcstData)
+                Log.e("",raw().request.url.toString())
+            }else{
+                WeatherApplication.getWeatherApplication().toastMessage(message())
+                Log.e("",message())
+            }
+        }
+
+        val rainSkyCo = repository.requestWeekRainSkyCo(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_WEEK,
             DATA_TYPE_UPPER,
             DataConvert.getDataConvert().landCodeGu(land),
-            urlWeekFcstTime()
-        )
-        Log.e("",weekRainSkyCall.request().url.toString())
+            urlWeekFcstTime())
 
-        weekRainSkyCall.enqueue(object :Callback<WeekRainSkyData>{
-            override fun onResponse(call: Call<WeekRainSkyData>, response: Response<WeekRainSkyData>) {
-                if (response.isSuccessful) {
-                    weekRainSkyData.postValue(response.body() as WeekRainSkyData)
-                }
+        with(rainSkyCo){
+            if(isSuccessful){
+                weekRainSkyData.postValue(body() as WeekRainSkyData)
+                Log.e("",raw().request.url.toString())
+            }else{
+                WeatherApplication.getWeatherApplication().toastMessage(message())
+                Log.e("",message())
             }
+        }
+    }
+    private fun restInit(latGeo : Double, lonGeo:Double){
+        viewModelScope.launch {
+            reverseGeoRest(latGeo, lonGeo)
+            fcstRest("")
+        }
+    }
 
-            override fun onFailure(call: Call<WeekRainSkyData>, t: Throwable) {
-                WeatherApplication.getWeatherApplication().toastMessage(t.message.toString())
-                Log.e("",t.message.toString())
-            }
-        })
+    fun restReGe(latGeo : Double, lonGeo:Double){
+        viewModelScope.launch {
+            reverseGeoRest(latGeo, lonGeo)
+        }
+    }
+
+    private fun restFcst(){
+        viewModelScope.launch {
+            fcstRest("")
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.sjchoi.weather.common.manager
 
 import android.annotation.SuppressLint
+import com.sjchoi.weather.dataclass.WeekDate
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
@@ -96,5 +98,27 @@ object TimeManager {
         }
 
         return dateFormat.format(date)
+    }
+
+    fun getFcstWeekUIDate(dayLater : Int) : WeekDate{
+        val calendar = Calendar.getInstance()
+        var now = System.currentTimeMillis()
+        date = Date(now +(1000 * 60 * 60 * 24 * dayLater))
+        val monthFormat = SimpleDateFormat("MM")
+        val dayFormat = SimpleDateFormat("dd")
+
+        calendar.time=date
+        val strWeek:String= when(calendar.get(Calendar.DAY_OF_WEEK)){
+            1->{"일"}
+            2->{"월"}
+            3->{"화"}
+            4->{"수"}
+            5->{"목"}
+            6->{"금"}
+            else->{"토"}
+        }
+
+        return WeekDate(monthFormat.format(date),dayFormat.format(date),strWeek)
+
     }
 }

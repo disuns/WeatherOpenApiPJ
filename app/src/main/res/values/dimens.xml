@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="FcstTitle">28sp</dimen>
-    <dimen name="NowTempTV">64sp</dimen>
-    <dimen name="NowFcstTV">30sp</dimen>
+    <!--text-->
+    <dimen name="FcstTitle">28dp</dimen>
+    <dimen name="NowTempTV">64dp</dimen>
+    <dimen name="NowFcstTV">30dp</dimen>
+    <dimen name="NowWetRainWindLayout">18dp</dimen>
+    <dimen name="FcstRvTitle">24dp</dimen>
+    <dimen name="WeekRVItemText">18dp</dimen>
+    <dimen name="TimeItemTextDateTime">20dp</dimen>
+    <dimen name="TimeItemText">18dp</dimen>
+    <dimen name="TimeItemWindText">14dp</dimen>
+    <dimen name="MainText">16dp</dimen>
+    <!--ui-->
     <dimen name="NowFcstIV">110dp</dimen>
     <dimen name="NowFcstMarginStart">14dp</dimen>
     <dimen name="NowFcstMarginEnd">10dp</dimen>
     <dimen name="NowFcstMargin">3dp</dimen>
-    <dimen name="NowWetRainWindLayout">18sp</dimen>
-    <dimen name="FcstRvTitle">24sp</dimen>
-    <dimen name="WeekRVItmeText">18sp</dimen>
     <dimen name="WeekRVItemIV">30dp</dimen>
     <dimen name="WeekRVItemIVSmall">15dp</dimen>
-    <dimen name="TimeItemTextDateTime">20sp</dimen>
-    <dimen name="TimeItemText">18sp</dimen>
-    <dimen name="TimeItemWindText">14sp</dimen>
     <dimen name="TimeItemFcstargin">25dp</dimen>
-    <dimen name="TimeItemMargin">4dp</dimen>
+    <dimen name="ItemMargin">4dp</dimen>
     <dimen name="TimeItemIV">50dp</dimen>
     <dimen name="TimeItemIVSmall">28dp</dimen>
-    <dimen name="TimeItemCornerRadius">12dp</dimen>
+    <dimen name="ItemCornerRadius">12dp</dimen>
     <dimen name="TimeItemElevation">3dp</dimen>
     <dimen name="TimeItemcontentPadding">4dp</dimen>
-    <dimen name="WeekRVMarginIV">2dp</dimen>
-    <dimen name="WeekRVMarginTV">3dp</dimen>
+    <dimen name="WeekItemcontentPaddingElevation">1dp</dimen>
+    <dimen name="WeekRVMarginIV">3dp</dimen>
+    <dimen name="WeekRVMarginTV">10dp</dimen>
     <dimen name="OffsetBetweenPages">80dp</dimen>
     <dimen name="CardViewMargin">90dp</dimen>
 </resources>

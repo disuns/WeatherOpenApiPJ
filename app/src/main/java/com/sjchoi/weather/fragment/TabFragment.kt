@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.R
+import com.sjchoi.weather.WeatherViewModelFactory
 import com.sjchoi.weather.adapter.TimeFcstAdapter
 import com.sjchoi.weather.adapter.WeekFcstAdapter
 import com.sjchoi.weather.common.*
+import com.sjchoi.weather.common.manager.TimeManager
 import com.sjchoi.weather.databinding.FragmentTabBinding
+import com.sjchoi.weather.dataclass.WeekDate
 import com.sjchoi.weather.dataclass.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.fcstdata.TimeFcstData
 import com.sjchoi.weather.dataclass.fcstdata.WeekFcstData
@@ -24,7 +27,6 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private var tabEnum: WeatherTabEnum = WeatherTabEnum.None
     private var timeFcstAdapter: TimeFcstAdapter? = null
     private var weekFcstAdapter: WeekFcstAdapter? = null
-    lateinit var timeFcstLayoutManager: RecyclerView.LayoutManager
     private lateinit var weekFcstLayoutManager: RecyclerView.LayoutManager
 
     private lateinit var viewModel :WeatherViewModel
@@ -43,7 +45,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         super.onViewCreated(view, savedInstanceState)
         tabEnum = arguments?.getSerializable("tabEnum") as WeatherTabEnum
 
-       viewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
 
         when(tabEnum){
             WeatherTabEnum.Fcst->{
@@ -113,32 +115,10 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             timeFcstVP2.adapter = timeFcstAdapter
             timeFcstVP2.offscreenPageLimit = 4
 
-            val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.OffsetBetweenPages).toFloat()
             timeFcstVP2.setPageTransformer { page, position ->
-                val myOffset = position * -(2 * offsetBetweenPages)
-                when {
-                    position < -1 -> {
-                        page.translationX = -myOffset
-                    }
-                    position <= 1 -> {
-                        // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
-                        val scaleFactor = 0.8f.coerceAtLeast(1 - abs(position))
-                        page.translationX = myOffset
-                        page.scaleY = scaleFactor
-                        page.alpha = scaleFactor
-                    }
-                    else -> {
-                        page.alpha = 0f
-                        page.translationX = myOffset
-                    }
-                }
+                pageTransForm(page, position)
             }
         }
-
-        //timeFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.HORIZONTAL,false)
-//        val snapHelper = PagerSnapHelper()
-//        snapHelper.attachToRecyclerView(binding.timeFcstRV)
-//        binding.timeFcstRV.layoutManager = timeFcstLayoutManager
     }
 
     private fun timeDataList(fcstData : FcstData):List<TimeFcstData>{
@@ -193,18 +173,19 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         if(viewModel.checkWeekRainSkyData()) {
             val weekData = weekRainSkyData.response.body.items.item
             for(i in weekData.indices){
-                weekList.add(setWeekFcstData(weekData[i].rnSt3Am.toString(), weekData[i].rnSt3Pm.toString(), weekData[i].wf3Am, weekData[i].wf3Pm))
-                weekList.add(setWeekFcstData(weekData[i].rnSt4Am.toString(), weekData[i].rnSt4Pm.toString(), weekData[i].wf4Am, weekData[i].wf4Pm))
-                weekList.add(setWeekFcstData(weekData[i].rnSt5Am.toString(), weekData[i].rnSt5Pm.toString(), weekData[i].wf5Am, weekData[i].wf5Pm))
-                weekList.add(setWeekFcstData(weekData[i].rnSt6Am.toString(), weekData[i].rnSt6Pm.toString(), weekData[i].wf6Am, weekData[i].wf6Pm))
-                weekList.add(setWeekFcstData(weekData[i].rnSt7Am.toString(), weekData[i].rnSt7Pm.toString(), weekData[i].wf7Am, weekData[i].wf7Pm))
+                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(3),weekData[i].rnSt3Am.toString(), weekData[i].rnSt3Pm.toString(), weekData[i].wf3Am, weekData[i].wf3Pm))
+                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(4),weekData[i].rnSt4Am.toString(), weekData[i].rnSt4Pm.toString(), weekData[i].wf4Am, weekData[i].wf4Pm))
+                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(5),weekData[i].rnSt5Am.toString(), weekData[i].rnSt5Pm.toString(), weekData[i].wf5Am, weekData[i].wf5Pm))
+                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(6),weekData[i].rnSt6Am.toString(), weekData[i].rnSt6Pm.toString(), weekData[i].wf6Am, weekData[i].wf6Pm))
+                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(7),weekData[i].rnSt7Am.toString(), weekData[i].rnSt7Pm.toString(), weekData[i].wf7Am, weekData[i].wf7Pm))
             }
         }
         return weekList
     }
 
-    private fun setWeekFcstData(rainAM:String, rainPM:String, skyAM:String, skyPM:String): WeekFcstData {
+    private fun setWeekFcstData(weekDate: WeekDate, rainAM:String, rainPM:String, skyAM:String, skyPM:String): WeekFcstData {
         val weekFcstData = WeekFcstData()
+        weekFcstData.weekDate = weekDate
         weekFcstData.rainAm = rainAM
         weekFcstData.rainPm = rainPM
         weekFcstData.skyAm = skyAM
@@ -217,5 +198,26 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         binding.weekFcstRV.adapter = weekFcstAdapter
         weekFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.VERTICAL,false)
         binding.weekFcstRV.layoutManager = weekFcstLayoutManager
+    }
+
+    private fun pageTransForm(page:View, position : Float){
+        val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.OffsetBetweenPages).toFloat()
+        val myOffset = position * -(2 * offsetBetweenPages)
+        when {
+            position < -1 -> {
+                page.translationX = -myOffset
+            }
+            position <= 1 -> {
+                // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
+                val scaleFactor = 0.8f.coerceAtLeast(1 - abs(position))
+                page.translationX = myOffset
+                page.scaleY = scaleFactor
+                page.alpha = scaleFactor
+            }
+            else -> {
+                page.alpha = 0f
+                page.translationX = myOffset
+            }
+        }
     }
 }

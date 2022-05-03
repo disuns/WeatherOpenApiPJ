@@ -6,8 +6,8 @@
     android:orientation="horizontal"
     android:layout_marginEnd="@dimen/CardViewMargin"
     android:layout_marginStart="@dimen/CardViewMargin"
-    app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="@dimen/TimeItemCornerRadius"
+    app:cardBackgroundColor="@color/cardviewBackGround"
+    app:cardCornerRadius="@dimen/ItemCornerRadius"
     app:cardElevation="@dimen/TimeItemElevation"
     app:contentPadding="@dimen/TimeItemcontentPadding"
     app:cardUseCompatPadding="true">
@@ -31,14 +31,16 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/itemTimeTV"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/TimeItemTextDateTime" />
+                android:textSize="@dimen/TimeItemTextDateTime"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/itemTimeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/TimeItemTextDateTime" />
+                android:textSize="@dimen/TimeItemTextDateTime"
+                android:textColor="@color/white"/>
 
             <ImageView
                 android:id="@+id/itemWeatherIV"
@@ -47,7 +49,8 @@
                 android:layout_below="@id/itemTimeTV"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/sunny"
-                android:contentDescription="@string/imageLoadFail"/>
+                android:contentDescription="@string/imageLoadFail"
+                app:tint="@color/white" />
         </RelativeLayout>
 
 
@@ -64,7 +67,8 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@id/itemRainRV"
                 android:layout_centerHorizontal="true"
-                android:textSize="@dimen/TimeItemText" />
+                android:textSize="@dimen/TimeItemText"
+                android:textColor="@color/white" />
 
             <RelativeLayout
                 android:id="@+id/itemRainRV"
@@ -78,19 +82,21 @@
                     android:layout_width="@dimen/TimeItemIVSmall"
                     android:layout_height="@dimen/TimeItemIVSmall"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/TimeItemMargin"
-                    android:layout_marginEnd="@dimen/TimeItemMargin"
+                    android:layout_marginStart="@dimen/ItemMargin"
+                    android:layout_marginEnd="@dimen/ItemMargin"
+                    android:contentDescription="@string/imageLoadFail"
                     android:src="@drawable/rainper"
-                    android:contentDescription="@string/imageLoadFail" />
+                    app:tint="@color/white"  />
 
                 <TextView
                     android:id="@+id/itemRainTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/TimeItemMargin"
-                    android:layout_marginEnd="@dimen/TimeItemMargin"
+                    android:layout_marginStart="@dimen/ItemMargin"
+                    android:layout_marginEnd="@dimen/ItemMargin"
                     android:layout_toEndOf="@+id/itemRainIV"
-                    android:textSize="@dimen/TimeItemText" />
+                    android:textSize="@dimen/TimeItemText"
+                    android:textColor="@color/white"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -104,19 +110,21 @@
                     android:layout_width="@dimen/TimeItemIVSmall"
                     android:layout_height="@dimen/TimeItemIVSmall"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/TimeItemMargin"
-                    android:layout_marginEnd="@dimen/TimeItemMargin"
+                    android:layout_marginStart="@dimen/ItemMargin"
+                    android:layout_marginEnd="@dimen/ItemMargin"
+                    android:contentDescription="@string/imageLoadFail"
                     android:src="@drawable/waterper"
-                    android:contentDescription="@string/imageLoadFail" />
+                    app:tint="@color/white"  />
 
                 <TextView
                     android:id="@+id/itemWetTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/TimeItemMargin"
-                    android:layout_marginEnd="@dimen/TimeItemMargin"
+                    android:layout_marginStart="@dimen/ItemMargin"
+                    android:layout_marginEnd="@dimen/ItemMargin"
                     android:layout_toEndOf="@+id/itemWetIV"
-                    android:textSize="@dimen/TimeItemText" />
+                    android:textSize="@dimen/TimeItemText"
+                    android:textColor="@color/white" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -131,10 +139,11 @@
                     android:layout_width="@dimen/TimeItemIVSmall"
                     android:layout_height="@dimen/TimeItemIVSmall"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/TimeItemMargin"
-                    android:layout_marginEnd="@dimen/TimeItemMargin"
+                    android:layout_marginStart="@dimen/ItemMargin"
+                    android:layout_marginEnd="@dimen/ItemMargin"
+                    android:contentDescription="@string/imageLoadFail"
                     android:src="@drawable/wind"
-                    android:contentDescription="@string/imageLoadFail"/>
+                    app:tint="@color/white"  />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -146,10 +155,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginStart="@dimen/TimeItemMargin"
-                        android:layout_marginEnd="@dimen/TimeItemMargin"
+                        android:layout_marginStart="@dimen/ItemMargin"
+                        android:layout_marginEnd="@dimen/ItemMargin"
                         android:gravity="end"
-                        android:textSize="@dimen/TimeItemText" />
+                        android:textSize="@dimen/TimeItemText"
+                        android:textColor="@color/white"/>
 
                     <TextView
                         android:id="@+id/itemWindTV2"
@@ -157,9 +167,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/itemWindTV1"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginStart="@dimen/TimeItemMargin"
-                        android:layout_marginEnd="@dimen/TimeItemMargin"
-                        android:textSize="@dimen/TimeItemWindText" />
+                        android:layout_marginStart="@dimen/ItemMargin"
+                        android:layout_marginEnd="@dimen/ItemMargin"
+                        android:textSize="@dimen/TimeItemWindText"
+                        android:textColor="@color/white" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -170,7 +181,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/itemWindRV"
                 android:layout_centerHorizontal="true"
-                android:textSize="@dimen/TimeItemText" />
+                android:textSize="@dimen/TimeItemText"
+                android:textColor="@color/white" />
         </RelativeLayout>
 
     </RelativeLayout>

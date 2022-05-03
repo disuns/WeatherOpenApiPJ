@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sjchoi.weather.R
+import com.sjchoi.weather.WeatherViewModelFactory
 import com.sjchoi.weather.adapter.WeatherTabAdapter
 import com.sjchoi.weather.common.DataConvert.mapAddressConvert
+import com.sjchoi.weather.common.PJRepository
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.enum.WeatherTabEnum
 import com.sjchoi.weather.fragment.NaverMapFragment
@@ -27,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
+        val viewModelFactory = WeatherViewModelFactory(PJRepository())
+        viewModel = ViewModelProvider(this, viewModelFactory)[WeatherViewModel::class.java]
         if (savedInstanceState == null)
             viewModel.getLocation(this@MainActivity)
 

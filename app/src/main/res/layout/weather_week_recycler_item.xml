@@ -1,98 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin = "5dp"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/cardviewBackGround"
+    app:cardCornerRadius="@dimen/ItemCornerRadius"
+    app:cardElevation="@dimen/WeekItemcontentPaddingElevation"
+    app:contentPadding="@dimen/WeekItemcontentPaddingElevation"
+    app:cardUseCompatPadding="true">
 
-    <TextView
-        android:id="@+id/weekDateTV"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="3.01(월)"
-        android:textSize="@dimen/WeekRVItmeText" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toStartOf="@id/weekPmTV"
-        android:layout_toEndOf="@+id/weekDateTV"
-        android:gravity="center">
-
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="10">
         <TextView
-            android:id="@+id/weekAmTV"
-            android:layout_width="wrap_content"
+            android:id="@+id/weekDateTV"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="@dimen/WeekRVMarginTV"
-            android:layout_marginBottom="2dp"
-            android:text="@string/am"
-            android:textSize="@dimen/WeekRVItmeText" />
+            android:layout_weight="3"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/WeekRVItemText" />
 
-        <ImageView
-            android:id="@+id/weekAmRainperIV"
-            android:layout_width="@dimen/WeekRVItemIVSmall"
-            android:layout_height="@dimen/WeekRVItemIVSmall"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/weekAmTV"
-            android:src="@drawable/rainper"
-            android:contentDescription="@string/imageLoadFail"
-            android:layout_marginEnd="@dimen/WeekRVMarginIV"/>
-
-        <TextView
-            android:id="@+id/weekAmRainperTV"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/WeekRVMarginTV"
-            android:layout_toEndOf="@id/weekAmRainperIV"
-            android:textSize="@dimen/WeekRVItmeText" />
+            android:layout_weight="7"
+            android:layout_marginVertical="@dimen/ItemMargin"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/weekAmSkyTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/weekAmRainperTV"
-            android:textSize="@dimen/WeekRVItmeText" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/weekAmTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/am"
+                    android:textSize="@dimen/WeekRVItemText"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/WeekRVMarginTV"/>
 
-    <TextView
-        android:id="@+id/weekPmTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/WeekRVItmeText"
-        android:layout_toStartOf="@+id/weekPmRainperIV"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/WeekRVMarginTV"
-        android:text="@string/pm"/>
-    <ImageView
-        android:id="@+id/weekPmRainperIV"
-        android:layout_width="@dimen/WeekRVItemIVSmall"
-        android:layout_height="@dimen/WeekRVItemIVSmall"
-        android:src="@drawable/rainper"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/WeekRVMarginIV"
-        android:contentDescription="@string/imageLoadFail"
-        android:layout_toStartOf="@+id/weekPmRainperTV"/>
-    <TextView
-        android:id="@+id/weekPmRainperTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/WeekRVItmeText"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/weekPmSkyTV"
-        android:layout_marginEnd="@dimen/WeekRVMarginTV"/>
-    <TextView
-        android:id="@+id/weekPmSkyTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:textSize="@dimen/WeekRVItmeText" />
+                <ImageView
+                    android:id="@+id/weekAmRainperIV"
+                    android:layout_width="@dimen/WeekRVItemIVSmall"
+                    android:layout_height="@dimen/WeekRVItemIVSmall"
+                    android:src="@drawable/rainper"
+                    app:tint="@color/white"
+                    android:contentDescription="@string/imageLoadFail"
+                    android:layout_marginEnd="@dimen/WeekRVMarginIV"
+                    android:layout_marginStart="@dimen/WeekRVMarginIV"/>
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/weekAmRainperTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/WeekRVMarginTV"
+                    android:textSize="@dimen/WeekRVItemText" />
+
+                <TextView
+                    android:id="@+id/weekAmSkyTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/WeekRVItemText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:layout_marginVertical="@dimen/ItemMargin"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/weekPmTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pm"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/WeekRVItemText"
+                    android:layout_marginEnd="@dimen/WeekRVMarginTV"/>
+                <ImageView
+                    android:id="@+id/weekPmRainperIV"
+                    android:layout_width="@dimen/WeekRVItemIVSmall"
+                    android:layout_height="@dimen/WeekRVItemIVSmall"
+                    android:src="@drawable/rainper"
+                    app:tint="@color/white"
+                    android:contentDescription="@string/imageLoadFail"
+                    android:layout_marginEnd="@dimen/WeekRVMarginIV"
+                    android:layout_marginStart="@dimen/WeekRVMarginIV"/>
+                <TextView
+                    android:id="@+id/weekPmRainperTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/WeekRVMarginTV"
+                    android:textSize="@dimen/WeekRVItemText" />
+                <TextView
+                    android:id="@+id/weekPmSkyTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/WeekRVItemText" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+</androidx.cardview.widget.CardView>

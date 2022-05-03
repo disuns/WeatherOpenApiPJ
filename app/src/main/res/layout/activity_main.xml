@@ -7,37 +7,61 @@
     android:orientation="horizontal"
     >
 
-    <RelativeLayout
-        android:id="@+id/address"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="16">
 
         <Button
             android:id="@+id/buttonMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:textSize="@dimen/MainText"/>
 
-    <ImageView
-        android:id="@+id/dotted_line"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/address"
-        android:src="@drawable/dotted_line_long"
-        android:contentDescription="@string/imageLoadFail" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/weatherViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="14"
+            android:layout_below="@+id/address"
+            android:layout_above="@+id/weatherTab"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/weatherTab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/weatherTab"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true"
+            android:textSize="@dimen/MainText"/>
+    </LinearLayout>
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/address"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/weatherViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/dotted_line"
-        android:layout_above="@+id/weatherTab"/>
+<!--        <Button-->
+<!--            android:id="@+id/buttonMap"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@color/white"-->
+<!--            android:textSize="16dp"/>-->
+<!--    </RelativeLayout>-->
+
+<!--    <com.google.android.material.tabs.TabLayout-->
+<!--        android:id="@+id/weatherTab"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"/>-->
+
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:id="@+id/weatherViewPager"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_below="@+id/address"-->
+<!--        android:layout_above="@+id/weatherTab"/>-->
 
     <FrameLayout
         android:id="@+id/naverMapFragmnet"

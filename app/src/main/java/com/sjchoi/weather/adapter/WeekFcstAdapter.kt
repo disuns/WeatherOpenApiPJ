@@ -18,6 +18,7 @@ class WeekFcstAdapter (private val adapterItem : MutableList<WeekFcstData>) : Re
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with((holder as WeekFcstViewHolder).binding){
+            weekDateTV.text = DataConvert.getDataConvert().weekDateConvert(adapterItem[position].weekDate)
             weekAmRainperTV.text=DataConvert.getDataConvert().rainPerConvert(adapterItem[position].rainAm)
             weekPmRainperTV.text=DataConvert.getDataConvert().rainPerConvert(adapterItem[position].rainPm)
             weekAmSkyTV.text=adapterItem[position].skyAm

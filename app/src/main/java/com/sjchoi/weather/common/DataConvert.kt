@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.util.Log
 import com.sjchoi.weather.R
+import com.sjchoi.weather.dataclass.WeekDate
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import com.sjchoi.weather.enum.FcstImgEnum
+import java.time.DayOfWeek
 
 object DataConvert {
     private var instance: DataConvert? = null
@@ -171,5 +173,9 @@ object DataConvert {
         //11H20000 부산, 울산, 경상남도
         //11G0000 제주도
         return "11B00000"
+    }
+
+    fun weekDateConvert(weekDate: WeekDate) : String{
+        return WeatherApplication.getWeatherApplication().getString(R.string.weekDate, weekDate.month,weekDate.day,weekDate.dayOfWeek)
     }
 }
