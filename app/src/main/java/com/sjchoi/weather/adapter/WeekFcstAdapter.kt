@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.common.DataConvert
 import com.sjchoi.weather.databinding.WeatherWeekRecyclerItemBinding
-import com.sjchoi.weather.dataclass.fcstdata.WeekFcstData
+import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekFcstData
 
 class WeekFcstAdapter (private val adapterItem : MutableList<WeekFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 

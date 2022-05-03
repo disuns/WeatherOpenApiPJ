@@ -3,7 +3,7 @@ package com.sjchoi.weather.common.manager
 import android.annotation.SuppressLint
 import com.sjchoi.weather.R
 import com.sjchoi.weather.common.WeatherApplication
-import com.sjchoi.weather.dataclass.WeekDate
+import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekDate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -101,7 +101,7 @@ object TimeManager {
         return dateFormat.format(date)
     }
 
-    fun getFcstWeekUIDate(dayLater : Int) : WeekDate{
+    fun getFcstWeekUIDate(dayLater : Int) : WeekDate {
         val calendar = Calendar.getInstance()
         val now = System.currentTimeMillis()
         date = Date(now +(1000 * 60 * 60 * 24 * dayLater))

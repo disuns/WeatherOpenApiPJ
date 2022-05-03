@@ -2,64 +2,38 @@ package com.sjchoi.weather.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.R
-import com.sjchoi.weather.WeatherViewModelFactory
 import com.sjchoi.weather.adapter.TimeFcstAdapter
 import com.sjchoi.weather.adapter.WeekFcstAdapter
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager
 import com.sjchoi.weather.databinding.FragmentTabBinding
-import com.sjchoi.weather.dataclass.WeekDate
-import com.sjchoi.weather.dataclass.fcstdata.FcstData
-import com.sjchoi.weather.dataclass.fcstdata.TimeFcstData
-import com.sjchoi.weather.dataclass.fcstdata.WeekFcstData
-import com.sjchoi.weather.dataclass.fcstdata.WeekRainSkyData
+import com.sjchoi.weather.dataclass.datapotal.fcstdata.*
 import com.sjchoi.weather.enum.FcstImgEnum
-import com.sjchoi.weather.enum.WeatherTabEnum
-import com.sjchoi.weather.viewmodel.WeatherViewModel
 import kotlin.math.abs
 
 class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate) {
 
-    private var tabEnum: WeatherTabEnum = WeatherTabEnum.None
     private var timeFcstAdapter: TimeFcstAdapter? = null
     private var weekFcstAdapter: WeekFcstAdapter? = null
     private lateinit var weekFcstLayoutManager: RecyclerView.LayoutManager
 
-    private lateinit var viewModel :WeatherViewModel
-
     companion object {
-        fun newInstance(weatherTabEnum: WeatherTabEnum): TabFragment {
-            val fragment = TabFragment()
-            val bundle = Bundle()
-            bundle.putSerializable("tabEnum", weatherTabEnum)
-            fragment.arguments = bundle
-            return fragment
-        }
+        fun newInstance() = TabFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tabEnum = arguments?.getSerializable("tabEnum") as WeatherTabEnum
 
-        viewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
-
-        when(tabEnum){
-            WeatherTabEnum.Fcst->{
-                with(viewModel){
-                    getNowFcstData().observe(viewLifecycleOwner){ nowDataSet(it) }
-                    getTimeFcstData().observe(viewLifecycleOwner){ timeDataSet(it) }
-                    getWeekRainSkyData().observe(viewLifecycleOwner){ weekDataSet(it) }
-                }
-            }
-            WeatherTabEnum.LifeIndex->{
-            }
-            else->{}
+        with(viewModel) {
+            getNowFcstData().observe(viewLifecycleOwner) { nowDataSet(it) }
+            getTimeFcstData().observe(viewLifecycleOwner) { timeDataSet(it) }
+            getWeekRainSkyData().observe(viewLifecycleOwner) { weekDataSet(it) }
         }
     }
+
 
     private fun nowDataSet(fcstData : FcstData){
         if (viewModel.checkNowFcstData()) {

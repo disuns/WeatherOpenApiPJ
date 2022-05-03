@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/NowFcstMargin"
     android:background="@color/backGround"
     android:orientation="vertical"
-    android:weightSum="8">
+    android:weightSum="11">
 
     <TextView
         android:id="@+id/nowFcstTitleTV"
@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/NowFcstMarginStart"
         android:layout_marginEnd="@dimen/NowFcstMarginEnd"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:orientation="vertical"
         android:weightSum="7">
 
@@ -113,7 +113,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:orientation="vertical">
 
         <ImageView
@@ -143,7 +143,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:orientation="vertical">
 
         <ImageView

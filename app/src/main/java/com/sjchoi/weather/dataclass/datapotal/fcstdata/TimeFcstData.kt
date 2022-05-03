@@ -1,4 +1,4 @@
-package com.sjchoi.weather.dataclass.fcstdata
+package com.sjchoi.weather.dataclass.datapotal.fcstdata
 
 data class TimeFcstData(
     var fcstDate : String = "",

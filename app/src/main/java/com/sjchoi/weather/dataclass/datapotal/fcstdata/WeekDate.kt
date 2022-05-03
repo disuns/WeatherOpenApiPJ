@@ -1,4 +1,4 @@
-package com.sjchoi.weather.dataclass
+package com.sjchoi.weather.dataclass.datapotal.fcstdata
 
 data class WeekDate(
     val month: String="",

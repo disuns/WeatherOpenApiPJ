@@ -27,8 +27,6 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     private var address : String = ""
     private val marker = Marker()
 
-    private lateinit var viewModel : WeatherViewModel
-
     companion object{
         fun newInstance() = NaverMapFragment()
     }
@@ -36,7 +34,6 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
         val mapFragment = childFragmentManager.findFragmentById(R.id.naverMap) as MapFragment?
             ?: MapFragment.newInstance().also {
                 childFragmentManager.beginTransaction().add(R.id.naverMap, it).commit()
@@ -91,7 +88,7 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
                 binding.mapSearchView.setQuery(address as CharSequence, false)
             }
         }
-        with(naverMap){
+        with(naverMap) {
             //줌, 위경도 제한
             extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
             minZoom = 5.0
@@ -100,19 +97,25 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
             val cameraUpdate = CameraUpdate.scrollTo(LatLng(lat, lon))
             moveCamera(cameraUpdate)
 
-            with(cameraPosition.target){
-                markerSetCamPos(marker, latitude,longitude)
-                marker.map=naverMap
+            markerSetCamPos(marker, cameraPosition.target.latitude, cameraPosition.target.longitude)
+            marker.map = this
 
-                addOnCameraChangeListener { _, _ ->
-                    markerSetCamPos(marker, latitude,longitude)
-                }
+            addOnCameraChangeListener { _, _ ->
+                markerSetCamPos(
+                    marker,
+                    cameraPosition.target.latitude,
+                    cameraPosition.target.longitude
+                )
+            }
 
-                addOnCameraIdleListener {
-                    markerSetCamPos(marker, latitude,longitude)
-                    viewModel.restReGe(latitude, longitude)
-                    binding.mapSearchView.setQuery(address as CharSequence, false)
-                }
+            addOnCameraIdleListener {
+                markerSetCamPos(
+                    marker,
+                    cameraPosition.target.latitude,
+                    cameraPosition.target.longitude
+                )
+                viewModel.restReGe(cameraPosition.target.latitude, cameraPosition.target.longitude)
+                binding.mapSearchView.setQuery(address as CharSequence, false)
             }
         }
     }

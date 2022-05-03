@@ -14,8 +14,8 @@ import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager
 import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
-import com.sjchoi.weather.dataclass.fcstdata.FcstData
-import com.sjchoi.weather.dataclass.fcstdata.WeekRainSkyData
+import com.sjchoi.weather.dataclass.datapotal.fcstdata.FcstData
+import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import kotlinx.coroutines.launch
 import kotlin.math.*
@@ -240,7 +240,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private suspend fun reverseGeoRest(latGeo : Double, lonGeo:Double) {
         val latlon = "${lonGeo},${latGeo}"
 
-        val reverseGeocoderCo = repository.requestReverseGeoCo(
+        val reverseGeocoderCo = repository.requestReverseGeo(
             MAP_REQUEST_DEFAULT,
             latlon,
             MAP_COORDINATE,
@@ -262,7 +262,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     }
 
     private suspend fun fcstRest(){
-        val timeFcstCo = repository.requestFcstCo(
+        val timeFcst = repository.requestFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_DEFAULT,
@@ -272,7 +272,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             getXLat().toString(),
             getYLon().toString())
 
-        with(timeFcstCo){
+        with(timeFcst){
             if(isSuccessful){
                 timeFcstData.postValue(body() as FcstData)
                 Log.e("",raw().request.url.toString())
@@ -282,7 +282,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             }
         }
 
-        val nowFcstCo = repository.requestNowFcstCo(
+        val nowFcst = repository.requestNowFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_DEFAULT,
@@ -292,7 +292,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             getXLat().toString(),
             getYLon().toString())
 
-        with(nowFcstCo){
+        with(nowFcst){
             if(isSuccessful){
                 nowFcstData.postValue(body() as FcstData)
                 Log.e("",raw().request.url.toString())
@@ -303,7 +303,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         }
 
         val adr = address.value!!
-        val rainSkyCo = repository.requestWeekRainSkyCo(
+        val rainSky = repository.requestWeekRainSky(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_WEEK,
@@ -312,7 +312,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 adr.results[adr.results.lastIndex].region.area1.name),
             urlWeekFcstTime())
 
-        with(rainSkyCo){
+        with(rainSky){
             if(isSuccessful){
                 weekRainSkyData.postValue(body() as WeekRainSkyData)
                 Log.e("",raw().request.url.toString())
@@ -321,6 +321,15 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 Log.e("",message())
             }
         }
+
+//        val airQuality = repository.requestAirQuality(
+//            DATA_POTAL_SERVICE_KEY,
+//            DATA_TYPE_LOWER,
+//            PAGE_NO_DEFAULT,
+//            NUM_OF_ROWS_AIR,
+//
+//        )
+
     }
     private fun restInit(latGeo : Double, lonGeo:Double){
         viewModelScope.launch {

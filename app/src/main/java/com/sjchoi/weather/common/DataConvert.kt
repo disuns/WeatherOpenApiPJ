@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.util.Log
 import com.sjchoi.weather.R
-import com.sjchoi.weather.dataclass.WeekDate
+import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekDate
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import com.sjchoi.weather.enum.FcstImgEnum
 

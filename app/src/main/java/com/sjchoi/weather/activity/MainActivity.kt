@@ -11,14 +11,14 @@ import com.sjchoi.weather.adapter.WeatherTabAdapter
 import com.sjchoi.weather.common.DataConvert.mapAddressConvert
 import com.sjchoi.weather.common.PJRepository
 import com.sjchoi.weather.databinding.ActivityMainBinding
-import com.sjchoi.weather.enum.WeatherTabEnum
+import com.sjchoi.weather.fragment.IndexFragment
 import com.sjchoi.weather.fragment.NaverMapFragment
 import com.sjchoi.weather.fragment.TabFragment
 import com.sjchoi.weather.viewmodel.WeatherViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var tabItem = listOf("실시간 예보", "생활지수")
+    private var tabItem = listOf("실시간 예보", "대기 예보")
 
     private lateinit var viewModel :WeatherViewModel
 
@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() {
     private fun applicationTabAdapter(): WeatherTabAdapter {
         val tabAdapter = WeatherTabAdapter(this)
         with(tabAdapter) {
-            addFragment(TabFragment.newInstance(WeatherTabEnum.Fcst))
-            addFragment(TabFragment.newInstance(WeatherTabEnum.LifeIndex))
+            addFragment(TabFragment.newInstance())
+            addFragment(IndexFragment.newInstance())
         }
         return tabAdapter
     }

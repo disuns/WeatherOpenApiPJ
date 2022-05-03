@@ -1,6 +1,4 @@
-package com.sjchoi.weather.dataclass.fcstdata
-
-import com.sjchoi.weather.dataclass.WeekDate
+package com.sjchoi.weather.dataclass.datapotal.fcstdata
 
 data class WeekFcstData(
     var weekDate : WeekDate = WeekDate(),
