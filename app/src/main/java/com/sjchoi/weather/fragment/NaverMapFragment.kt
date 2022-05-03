@@ -7,21 +7,17 @@ import android.view.View
 import android.widget.SearchView.OnQueryTextListener
 import androidx.lifecycle.ViewModelProvider
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.sjchoi.weather.R
-import com.sjchoi.weather.WeatherViewModelFactory
 import com.sjchoi.weather.common.DataConvert
-import com.sjchoi.weather.common.PJRepository
 import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.databinding.FragmentNavermapBinding
 import com.sjchoi.weather.viewmodel.WeatherViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.io.IOException
 
 class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBinding::inflate), OnMapReadyCallback {
@@ -34,16 +30,6 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     private lateinit var viewModel : WeatherViewModel
 
     companion object{
-//        fun newInstance(lat: Double, lon : Double): NaverMapFragment {
-//            val mapFragment  = NaverMapFragment()
-//
-//            var bundle = Bundle()
-//            bundle.putDouble("lat", lat)
-//            bundle.putDouble("lon", lon)
-//
-//            mapFragment.arguments=bundle
-//            return mapFragment
-//        }
         fun newInstance() = NaverMapFragment()
     }
 
@@ -96,28 +82,38 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map
-        lat = viewModel.getLat().value!!
-        lon = viewModel.getLon().value!!
-        viewModel.getAddress().observe(viewLifecycleOwner){
-            address = DataConvert.mapAddressConvert(it)
-            binding.mapSearchView.setQuery(address as CharSequence, false)
+
+        with(viewModel){
+            lat = getLat().value!!
+            lon = getLon().value!!
+            getAddress().observe(viewLifecycleOwner){
+                address = DataConvert.mapAddressConvert(it)
+                binding.mapSearchView.setQuery(address as CharSequence, false)
+            }
         }
+        with(naverMap){
+            //줌, 위경도 제한
+            extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
+            minZoom = 5.0
+            maxZoom = 18.0
 
-        val cameraUpdate = CameraUpdate.scrollTo(LatLng(lat, lon))
-        map.moveCamera(cameraUpdate)
+            val cameraUpdate = CameraUpdate.scrollTo(LatLng(lat, lon))
+            moveCamera(cameraUpdate)
 
-        markerSetCamPos(marker, naverMap.cameraPosition.target.latitude,naverMap.cameraPosition.target.longitude)
-        marker.map=naverMap
+            with(cameraPosition.target){
+                markerSetCamPos(marker, latitude,longitude)
+                marker.map=naverMap
 
-        naverMap.addOnCameraChangeListener { _, _ ->
-            markerSetCamPos(marker, naverMap.cameraPosition.target.latitude,naverMap.cameraPosition.target.longitude)
-        }
+                addOnCameraChangeListener { _, _ ->
+                    markerSetCamPos(marker, latitude,longitude)
+                }
 
-        naverMap.addOnCameraIdleListener {
-            markerSetCamPos(marker, naverMap.cameraPosition.target.latitude,naverMap.cameraPosition.target.longitude)
-//            viewModel.reverseGeocodeRest(naverMap.cameraPosition.target.latitude, naverMap.cameraPosition.target.longitude)
-            CoroutineScope(Dispatchers.IO).launch { viewModel.restReGe(naverMap.cameraPosition.target.latitude, naverMap.cameraPosition.target.longitude) }
-            binding.mapSearchView.setQuery(address as CharSequence, false)
+                addOnCameraIdleListener {
+                    markerSetCamPos(marker, latitude,longitude)
+                    viewModel.restReGe(latitude, longitude)
+                    binding.mapSearchView.setQuery(address as CharSequence, false)
+                }
+            }
         }
     }
 
@@ -126,8 +122,10 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
     }
 
     private fun popBackStack(){
-        viewModel.getLat().value = naverMap.cameraPosition.target.latitude
-        viewModel.getLon().value = naverMap.cameraPosition.target.longitude
-        viewModel.convertGRIDGPS(0)
+        with(viewModel){
+            getLat().value = naverMap.cameraPosition.target.latitude
+            getLon().value = naverMap.cameraPosition.target.longitude
+            convertGRIDGPS(0)
+        }
     }
 }

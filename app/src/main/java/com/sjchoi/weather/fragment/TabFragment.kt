@@ -49,9 +49,11 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
         when(tabEnum){
             WeatherTabEnum.Fcst->{
-                viewModel.getNowFcstData().observe(viewLifecycleOwner){ nowDataSet(it) }
-                viewModel.getTimeFcstData().observe(viewLifecycleOwner){ timeDataSet(it) }
-                viewModel.getWeekRainSkyData().observe(viewLifecycleOwner){ weekDataSet(it) }
+                with(viewModel){
+                    getNowFcstData().observe(viewLifecycleOwner){ nowDataSet(it) }
+                    getTimeFcstData().observe(viewLifecycleOwner){ timeDataSet(it) }
+                    getWeekRainSkyData().observe(viewLifecycleOwner){ weekDataSet(it) }
+                }
             }
             WeatherTabEnum.LifeIndex->{
             }
@@ -68,39 +70,33 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
             with(binding) {
                 for (i in fcstItem.indices) {
                     if ((fcstItem[i].fcstTime.toInt() - fcstItem[i].baseTime.toInt()) < 100) {
-                        when (fcstItem[i].category) {
-                            TMP_NOW -> {
-                                nowTempTV.text =
-                                    DataConvert.getDataConvert().tempConvert(fcstItem[i].fcstValue)
-                            }
-                            RAIN_MM_NOW -> {
-                                nowRainTV.text = DataConvert.getDataConvert()
-                                    .nowRainConvert(fcstItem[i].fcstValue)
-                            }
-                            WET -> {
-                                nowWetTV.text = DataConvert.getDataConvert()
-                                    .nowWetConvert(fcstItem[i].fcstValue)
-                            }
-                            WIND_DIR -> {
-                                windDir =
-                                    DataConvert.getDataConvert().windDir(fcstItem[i].fcstValue)
-                            }
-                            WIND_POWER -> {
-                                nowWindTV.text = DataConvert.getDataConvert()
-                                    .windPower(windDir, fcstItem[i].fcstValue)
-                            }
-                            RAIN_TYPE -> {
-                                fcstImg = DataConvert.getDataConvert()
-                                    .fcstRainImgConvert(fcstItem[i].fcstValue)
-                            }
-                            SKY -> {
-                                fcstImg = DataConvert.getDataConvert()
-                                    .skyImgEnum(fcstItem[i].fcstValue, fcstImg)
-                                nowFcstIV.setImageDrawable(
-                                    DataConvert.getDataConvert().fcstImgConvert(fcstImg)
-                                )
-                                nowFcstTV.text =
-                                    DataConvert.getDataConvert().skyConvert(fcstItem[i].fcstValue)
+                        with(DataConvert.getDataConvert())
+                        {
+                            when (fcstItem[i].category) {
+                                TMP_NOW -> {
+                                    nowTempTV.text =
+                                        tempConvert(fcstItem[i].fcstValue)
+                                }
+                                RAIN_MM_NOW -> {
+                                    nowRainTV.text = nowRainConvert(fcstItem[i].fcstValue)
+                                }
+                                WET -> {
+                                    nowWetTV.text = nowWetConvert(fcstItem[i].fcstValue)
+                                }
+                                WIND_DIR -> {
+                                    windDir = windDir(fcstItem[i].fcstValue)
+                                }
+                                WIND_POWER -> {
+                                    nowWindTV.text = windPower(windDir, fcstItem[i].fcstValue)
+                                }
+                                RAIN_TYPE -> {
+                                    fcstImg = fcstRainImgConvert(fcstItem[i].fcstValue)
+                                }
+                                SKY -> {
+                                    fcstImg =skyImgEnum(fcstItem[i].fcstValue, fcstImg)
+                                    nowFcstIV.setImageDrawable(fcstImgConvert(fcstImg))
+                                    nowFcstTV.text = skyConvert(fcstItem[i].fcstValue)
+                                }
                             }
                         }
                     }
@@ -111,11 +107,10 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
     private fun timeDataSet(fcstData : FcstData){
         timeFcstAdapter = TimeFcstAdapter(timeDataList(fcstData))
-        with(binding){
-            timeFcstVP2.adapter = timeFcstAdapter
-            timeFcstVP2.offscreenPageLimit = 4
-
-            timeFcstVP2.setPageTransformer { page, position ->
+        with(binding.timeFcstVP2){
+            adapter = timeFcstAdapter
+            offscreenPageLimit = 4
+            setPageTransformer { page, position ->
                 pageTransForm(page, position)
             }
         }
@@ -133,34 +128,38 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
                     timeData.fcstDate = fcstItem[i].fcstDate
                 }
 
-                when (fcstItem[i].category) {
-                    TMP_TIME -> {
-                        timeData.temp = fcstItem[i].fcstValue
+                with(fcstItem[i])
+                {
+                    when (category) {
+                        TMP_TIME -> {
+                            timeData.temp = fcstValue
+                        }
+                        WIND_DIR -> {
+                            timeData.windDir = fcstValue
+                        }
+                        WIND_POWER -> {
+                            timeData.windPower = fcstValue
+                        }
+                        SKY -> {
+                            timeData.sky = fcstValue
+                        }
+                        RAIN_TYPE -> {
+                            timeData.rain = fcstValue
+                        }
+                        RAIN_PER -> {
+                            timeData.rainPer = fcstValue
+                        }
+                        RAIN_MM -> {
+                            timeData.rainMm = fcstValue
+                        }
+                        WET -> {
+                            timeData.wet = fcstValue
+                            fcstList.add(timeData)
+                        }
+                        else -> {}
                     }
-                    WIND_DIR -> {
-                        timeData.windDir = fcstItem[i].fcstValue
-                    }
-                    WIND_POWER -> {
-                        timeData.windPower = fcstItem[i].fcstValue
-                    }
-                    SKY -> {
-                        timeData.sky = fcstItem[i].fcstValue
-                    }
-                    RAIN_TYPE -> {
-                        timeData.rain = fcstItem[i].fcstValue
-                    }
-                    RAIN_PER -> {
-                        timeData.rainPer = fcstItem[i].fcstValue
-                    }
-                    RAIN_MM -> {
-                        timeData.rainMm = fcstItem[i].fcstValue
-                    }
-                    WET -> {
-                        timeData.wet = fcstItem[i].fcstValue
-                        fcstList.add(timeData)
-                    }
-                    else -> {}
                 }
+
             }
 
         }
@@ -172,12 +171,15 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
         val weekList = mutableListOf<WeekFcstData>()
         if(viewModel.checkWeekRainSkyData()) {
             val weekData = weekRainSkyData.response.body.items.item
+            val timeManager = TimeManager.getTimeManager()
             for(i in weekData.indices){
-                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(3),weekData[i].rnSt3Am.toString(), weekData[i].rnSt3Pm.toString(), weekData[i].wf3Am, weekData[i].wf3Pm))
-                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(4),weekData[i].rnSt4Am.toString(), weekData[i].rnSt4Pm.toString(), weekData[i].wf4Am, weekData[i].wf4Pm))
-                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(5),weekData[i].rnSt5Am.toString(), weekData[i].rnSt5Pm.toString(), weekData[i].wf5Am, weekData[i].wf5Pm))
-                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(6),weekData[i].rnSt6Am.toString(), weekData[i].rnSt6Pm.toString(), weekData[i].wf6Am, weekData[i].wf6Pm))
-                weekList.add(setWeekFcstData(TimeManager.getTimeManager().getFcstWeekUIDate(7),weekData[i].rnSt7Am.toString(), weekData[i].rnSt7Pm.toString(), weekData[i].wf7Am, weekData[i].wf7Pm))
+                with(weekData[i]){
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(3),rnSt3Am.toString(), rnSt3Pm.toString(), wf3Am, wf3Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(4),rnSt4Am.toString(), rnSt4Pm.toString(), wf4Am, wf4Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(5),rnSt5Am.toString(), rnSt5Pm.toString(), wf5Am, wf5Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(6),rnSt6Am.toString(), rnSt6Pm.toString(), wf6Am, wf6Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(7),rnSt7Am.toString(), rnSt7Pm.toString(), wf7Am, wf7Pm))
+                }
             }
         }
         return weekList
@@ -185,11 +187,13 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
     private fun setWeekFcstData(weekDate: WeekDate, rainAM:String, rainPM:String, skyAM:String, skyPM:String): WeekFcstData {
         val weekFcstData = WeekFcstData()
-        weekFcstData.weekDate = weekDate
-        weekFcstData.rainAm = rainAM
-        weekFcstData.rainPm = rainPM
-        weekFcstData.skyAm = skyAM
-        weekFcstData.skyPm = skyPM
+        with(weekFcstData){
+            this.weekDate = weekDate
+            rainAm = rainAM
+            rainPm = rainPM
+            skyAm = skyAM
+            skyPm = skyPM
+        }
         return weekFcstData
     }
 
@@ -203,20 +207,22 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private fun pageTransForm(page:View, position : Float){
         val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.OffsetBetweenPages).toFloat()
         val myOffset = position * -(2 * offsetBetweenPages)
-        when {
-            position < -1 -> {
-                page.translationX = -myOffset
-            }
-            position <= 1 -> {
-                // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
-                val scaleFactor = 0.8f.coerceAtLeast(1 - abs(position))
-                page.translationX = myOffset
-                page.scaleY = scaleFactor
-                page.alpha = scaleFactor
-            }
-            else -> {
-                page.alpha = 0f
-                page.translationX = myOffset
+        with(page) {
+            when {
+                position < -1 -> {
+                    translationX = -myOffset
+                }
+                position <= 1 -> {
+                    // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
+                    val scaleFactor = 0.8f.coerceAtLeast(1 - abs(position))
+                    translationX = myOffset
+                    scaleY = scaleFactor
+                    alpha = scaleFactor
+                }
+                else -> {
+                    alpha = 0f
+                    translationX = myOffset
+                }
             }
         }
     }

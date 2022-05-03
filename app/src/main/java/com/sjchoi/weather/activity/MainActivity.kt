@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             viewModel.getAddress().observe(this@MainActivity){buttonMap.text = mapAddressConvert(it)}
             with(applicationTabAdapter()) {
-                //weatherViewPager.setPageTransformer(FlipPagerTransformer())
                 weatherViewPager.adapter = this
                 weatherViewPager.isUserInputEnabled = false
             }

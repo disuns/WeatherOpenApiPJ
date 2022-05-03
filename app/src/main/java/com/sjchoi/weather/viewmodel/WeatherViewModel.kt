@@ -17,12 +17,7 @@ import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
 import com.sjchoi.weather.dataclass.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
-import com.sjchoi.weather.https.RetrofitOkHttpManager
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.lang.Exception
 import kotlin.math.*
 
 class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
@@ -257,7 +252,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
 
         with(reverseGeocoderCo) {
             if (isSuccessful) {
-                address.postValue(body() as ReverseGeocoder)
+                address.value = body() as ReverseGeocoder
                 Log.e("",raw().request.url.toString())
             } else {
                 WeatherApplication.getWeatherApplication().toastMessage(message())
@@ -266,7 +261,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         }
     }
 
-    private suspend fun fcstRest(land : String){
+    private suspend fun fcstRest(){
         val timeFcstCo = repository.requestFcstCo(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
@@ -307,12 +302,14 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             }
         }
 
+        val adr = address.value!!
         val rainSkyCo = repository.requestWeekRainSkyCo(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_WEEK,
             DATA_TYPE_UPPER,
-            DataConvert.getDataConvert().landCodeGu(land),
+            DataConvert.getDataConvert().landCodeGu(
+                adr.results[adr.results.lastIndex].region.area1.name),
             urlWeekFcstTime())
 
         with(rainSkyCo){
@@ -328,7 +325,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private fun restInit(latGeo : Double, lonGeo:Double){
         viewModelScope.launch {
             reverseGeoRest(latGeo, lonGeo)
-            fcstRest("")
+            fcstRest()
         }
     }
 
@@ -340,7 +337,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
 
     private fun restFcst(){
         viewModelScope.launch {
-            fcstRest("")
+            fcstRest()
         }
     }
 }

@@ -18,11 +18,15 @@ class WeekFcstAdapter (private val adapterItem : MutableList<WeekFcstData>) : Re
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with((holder as WeekFcstViewHolder).binding){
-            weekDateTV.text = DataConvert.getDataConvert().weekDateConvert(adapterItem[position].weekDate)
-            weekAmRainperTV.text=DataConvert.getDataConvert().rainPerConvert(adapterItem[position].rainAm)
-            weekPmRainperTV.text=DataConvert.getDataConvert().rainPerConvert(adapterItem[position].rainPm)
-            weekAmSkyTV.text=adapterItem[position].skyAm
-            weekPmSkyTV.text=adapterItem[position].skyPm
+            with(DataConvert.getDataConvert()){
+                with(adapterItem[position]){
+                    weekDateTV.text = weekDateConvert(weekDate)
+                    weekAmRainperTV.text=rainPerConvert(rainAm)
+                    weekPmRainperTV.text=rainPerConvert(rainPm)
+                    weekAmSkyTV.text=skyAm
+                    weekPmSkyTV.text=skyPm
+                }
+            }
         }
     }
 

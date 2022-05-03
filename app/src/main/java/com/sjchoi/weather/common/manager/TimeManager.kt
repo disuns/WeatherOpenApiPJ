@@ -1,9 +1,10 @@
 package com.sjchoi.weather.common.manager
 
 import android.annotation.SuppressLint
+import com.sjchoi.weather.R
+import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.dataclass.WeekDate
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.*
 
 @SuppressLint("SimpleDateFormat")
@@ -102,20 +103,22 @@ object TimeManager {
 
     fun getFcstWeekUIDate(dayLater : Int) : WeekDate{
         val calendar = Calendar.getInstance()
-        var now = System.currentTimeMillis()
+        val now = System.currentTimeMillis()
         date = Date(now +(1000 * 60 * 60 * 24 * dayLater))
         val monthFormat = SimpleDateFormat("MM")
         val dayFormat = SimpleDateFormat("dd")
 
         calendar.time=date
-        val strWeek:String= when(calendar.get(Calendar.DAY_OF_WEEK)){
-            1->{"일"}
-            2->{"월"}
-            3->{"화"}
-            4->{"수"}
-            5->{"목"}
-            6->{"금"}
-            else->{"토"}
+        val strWeek:String= with(WeatherApplication.getWeatherApplication()){
+            when(calendar.get(Calendar.DAY_OF_WEEK)){
+                getString(R.string.NUM1).toInt()->{getString(R.string.sunday)}
+                getString(R.string.NUM2).toInt()->{getString(R.string.monday)}
+                getString(R.string.NUM3).toInt()->{getString(R.string.tuesday)}
+                getString(R.string.NUM4).toInt()->{getString(R.string.wednesday)}
+                getString(R.string.NUM5).toInt()->{getString(R.string.thursday)}
+                getString(R.string.NUM6).toInt()->{getString(R.string.friday)}
+                else->{getString(R.string.saturday)}
+            }
         }
 
         return WeekDate(monthFormat.format(date),dayFormat.format(date),strWeek)

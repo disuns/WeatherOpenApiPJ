@@ -7,7 +7,6 @@ import com.sjchoi.weather.R
 import com.sjchoi.weather.dataclass.WeekDate
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import com.sjchoi.weather.enum.FcstImgEnum
-import java.time.DayOfWeek
 
 object DataConvert {
     private var instance: DataConvert? = null
@@ -21,24 +20,60 @@ object DataConvert {
     }
 
     fun dataPotalResultCode(code: String) {
-        val errorMsg: String = when (code) {
-            APPLICATION_ERROR -> { WeatherApplication.getWeatherApplication().getString(R.string.APPLICATION_ERROR) }
-            DB_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.DB_ERROR) }
-            NODATA_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.NODATA_ERROR) }
-            HTTP_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.HTTP_ERROR) }
-            SERVICETIME_OUT -> {WeatherApplication.getWeatherApplication().getString(R.string.SERVICETIME_OUT) }
-            INVALID_REQUEST_PARAMETER_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.INVALID_REQUEST_PARAMETER_ERROR) }
-            NO_MANDATORY_REQUEST_PARAMETERS_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.NO_MANDATORY_REQUEST_PARAMETERS_ERROR) }
-            NO_OPENAPI_SERVICE_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.NO_OPENAPI_SERVICE_ERROR) }
-            SERVICE_ACCESS_DENIED_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.SERVICE_ACCESS_DENIED_ERROR) }
-            TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR) }
-            LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR) }
-            SERVICE_KEY_IS_NOT_REGISTERED_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.SERVICE_KEY_IS_NOT_REGISTERED_ERROR) }
-            DEADLINE_HAS_EXPIRED_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.DEADLINE_HAS_EXPIRED_ERROR) }
-            UNREGISTERED_IP_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.UNREGISTERED_IP_ERROR) }
-            UNSIGNED_CALL_ERROR -> {WeatherApplication.getWeatherApplication().getString(R.string.UNSIGNED_CALL_ERROR) }
-            else -> {WeatherApplication.getWeatherApplication().getString(R.string.UNKNOWN_ERROR) }
+
+        val errorMsg: String = with(WeatherApplication.getWeatherApplication()) {
+            when (code) {
+                APPLICATION_ERROR -> {
+                    getString(R.string.APPLICATION_ERROR)
+                }
+                DB_ERROR -> {
+                    getString(R.string.DB_ERROR)
+                }
+                NODATA_ERROR -> {
+                    getString(R.string.NODATA_ERROR)
+                }
+                HTTP_ERROR -> {
+                    getString(R.string.HTTP_ERROR)
+                }
+                SERVICETIME_OUT -> {
+                    getString(R.string.SERVICETIME_OUT)
+                }
+                INVALID_REQUEST_PARAMETER_ERROR -> {
+                    getString(R.string.INVALID_REQUEST_PARAMETER_ERROR)
+                }
+                NO_MANDATORY_REQUEST_PARAMETERS_ERROR -> {
+                    getString(R.string.NO_MANDATORY_REQUEST_PARAMETERS_ERROR)
+                }
+                NO_OPENAPI_SERVICE_ERROR -> {
+                    getString(R.string.NO_OPENAPI_SERVICE_ERROR)
+                }
+                SERVICE_ACCESS_DENIED_ERROR -> {
+                    getString(R.string.SERVICE_ACCESS_DENIED_ERROR)
+                }
+                TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR -> {
+                    getString(R.string.TEMPORARILY_DISABLE_THE_SERVICEKEY_ERROR)
+                }
+                LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR -> {
+                    getString(R.string.LIMITED_NUMBER_OF_SERVICE_REQUESTS_EXCEEDS_ERROR)
+                }
+                SERVICE_KEY_IS_NOT_REGISTERED_ERROR -> {
+                    getString(R.string.SERVICE_KEY_IS_NOT_REGISTERED_ERROR)
+                }
+                DEADLINE_HAS_EXPIRED_ERROR -> {
+                    getString(R.string.DEADLINE_HAS_EXPIRED_ERROR)
+                }
+                UNREGISTERED_IP_ERROR -> {
+                    getString(R.string.UNREGISTERED_IP_ERROR)
+                }
+                UNSIGNED_CALL_ERROR -> {
+                    getString(R.string.UNSIGNED_CALL_ERROR)
+                }
+                else -> {
+                    getString(R.string.UNKNOWN_ERROR)
+                }
+            }
         }
+
         Log.e("convert", errorMsg)
         WeatherApplication.getWeatherApplication().toastMessage(errorMsg)
     }
@@ -58,23 +93,40 @@ object DataConvert {
             .getString(R.string.rainUnit, code) }
 
     fun windDir(code: String): String {
-        return when (((code.toInt() + 22.5 * 0.5) / 22.5).toInt()) {
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM1).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NNE)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM2).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NE)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM3).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.ENE)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM4).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.E)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM5).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.ESE)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM6).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SE)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM7).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SSE)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM8).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.S)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM9).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SSW)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM10).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.SW)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM11).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.WSW)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM12).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.W)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM13).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.WNW)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM14).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NW)
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM15).toInt() -> WeatherApplication.getWeatherApplication().getString(R.string.NNW)
-            else -> WeatherApplication.getWeatherApplication().getString(R.string.N)
+        return with(WeatherApplication.getWeatherApplication()) {
+            when (((code.toInt() + 22.5 * 0.5) / 22.5).toInt()) {
+                getString(R.string.NUM1)
+                    .toInt() -> getString(R.string.NNE)
+                getString(R.string.NUM2)
+                    .toInt() -> getString(R.string.NE)
+                getString(R.string.NUM3)
+                    .toInt() -> getString(R.string.ENE)
+                getString(R.string.NUM4)
+                    .toInt() -> getString(R.string.E)
+                getString(R.string.NUM5)
+                    .toInt() -> getString(R.string.ESE)
+                getString(R.string.NUM6)
+                    .toInt() -> getString(R.string.SE)
+                getString(R.string.NUM7)
+                    .toInt() -> getString(R.string.SSE)
+                getString(R.string.NUM8)
+                    .toInt() -> getString(R.string.S)
+                getString(R.string.NUM9)
+                    .toInt() -> getString(R.string.SSW)
+                getString(R.string.NUM10)
+                    .toInt() -> getString(R.string.SW)
+                getString(R.string.NUM11)
+                    .toInt() -> getString(R.string.WSW)
+                getString(R.string.NUM12)
+                    .toInt() -> getString(R.string.W)
+                getString(R.string.NUM13)
+                    .toInt() -> getString(R.string.WNW)
+                getString(R.string.NUM14)
+                    .toInt() -> getString(R.string.NW)
+                getString(R.string.NUM15)
+                    .toInt() -> getString(R.string.NNW)
+                else -> getString(R.string.N)
+            }
         }
     }
 
@@ -85,36 +137,70 @@ object DataConvert {
             .getString(R.string.windUnit, code) }
 
     fun fcstRainImgConvert(code: String): FcstImgEnum {
-        return when (code) {
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM1) -> { FcstImgEnum.Rain }
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM2) -> { FcstImgEnum.Rain }//비+눈
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM3) -> { FcstImgEnum.Snow }
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM4) -> { FcstImgEnum.Rain }
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM5) -> { FcstImgEnum.Rain }
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM6) -> { FcstImgEnum.Rain }//비+눈
-            WeatherApplication.getWeatherApplication().getString(R.string.NUM7) -> { FcstImgEnum.Snow }
-            else -> { FcstImgEnum.Sun }
+
+        return with(WeatherApplication.getWeatherApplication()) {
+            when (code) {
+                getString(R.string.NUM1) -> {
+                    FcstImgEnum.Rain
+                }
+                getString(R.string.NUM2) -> {
+                    FcstImgEnum.Rain
+                }//비+눈
+                getString(R.string.NUM3) -> {
+                    FcstImgEnum.Snow
+                }
+                getString(R.string.NUM4) -> {
+                    FcstImgEnum.Rain
+                }
+                getString(R.string.NUM5) -> {
+                    FcstImgEnum.Rain
+                }
+                getString(R.string.NUM6) -> {
+                    FcstImgEnum.Rain
+                }//비+눈
+                getString(R.string.NUM7) -> {
+                    FcstImgEnum.Snow
+                }
+                else -> {
+                    FcstImgEnum.Sun
+                }
+            }
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun fcstImgConvert(enumFcstImgEnum: FcstImgEnum): Drawable? {
-        return when (enumFcstImgEnum) {
-            FcstImgEnum.ClodeSun -> { WeatherApplication.getWeatherApplication().getDrawable(R.drawable.cloudsun) }
-            FcstImgEnum.Cloude -> { WeatherApplication.getWeatherApplication().getDrawable(R.drawable.cloud) }
-            FcstImgEnum.Rain -> { WeatherApplication.getWeatherApplication().getDrawable(R.drawable.rain) }
-            FcstImgEnum.Snow -> { WeatherApplication.getWeatherApplication().getDrawable(R.drawable.snow) }
-            else -> { WeatherApplication.getWeatherApplication().getDrawable(R.drawable.sunny) }
+        return with(WeatherApplication.getWeatherApplication()) {
+            when (enumFcstImgEnum) {
+                FcstImgEnum.ClodeSun -> {
+                    getDrawable(R.drawable.cloudsun)
+                }
+                FcstImgEnum.Cloude -> {
+                    getDrawable(R.drawable.cloud)
+                }
+                FcstImgEnum.Rain -> {
+                    getDrawable(R.drawable.rain)
+                }
+                FcstImgEnum.Snow -> {
+                    getDrawable(R.drawable.snow)
+                }
+                else -> {
+                    getDrawable(R.drawable.sunny)
+                }
+            }
         }
     }
 
     fun skyConvert(code: String): String {
-        return when (code) {
-            SKY_SUN -> { WeatherApplication.getWeatherApplication().getString(R.string.sun) }
-            SKY_CLOUDSUN -> { WeatherApplication.getWeatherApplication().getString(R.string.manycloud) }
-            SKY_CLOUD -> { WeatherApplication.getWeatherApplication().getString(R.string.cloud) }
-            else -> { WeatherApplication.getWeatherApplication().getString(R.string.sun) }
+        return with(WeatherApplication.getWeatherApplication()){
+            when (code) {
+                SKY_SUN -> { getString(R.string.sun) }
+                SKY_CLOUDSUN -> { getString(R.string.manycloud) }
+                SKY_CLOUD -> { getString(R.string.cloud) }
+                else -> { getString(R.string.sun) }
+            }
         }
+
     }
 
     fun skyImgEnum(code: String, fcstImgEnum: FcstImgEnum): FcstImgEnum {
@@ -150,7 +236,13 @@ object DataConvert {
     fun mapAddressConvert(reverseGeocoder: ReverseGeocoder):String{
         with(reverseGeocoder){
             return if(this.status.code == 0) {
-                "${results[0].region.area1.name} ${results[0].region.area2.name} ${results[0].land.name} ${results[0].land.number1}"
+                with(results[results.lastIndex]){
+                    when(name){
+                        "roadaddr"->{"${region.area1.name} ${region.area2.name} ${land.name} ${land.number1}"}
+                        "addr"->{"${region.area1.name} ${region.area2.name} ${region.area3.name} ${land.number1}"}
+                        else->{""}
+                    }
+                }
             }
             else{
 //                val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
@@ -161,10 +253,31 @@ object DataConvert {
     }
 
     fun landCodeGu(land:String):String{
+        return with(WeatherApplication.getWeatherApplication()) {
+            when(land){
+                this.getString(R.string.land1)->{getString(R.string.landCode1)}
+                getString(R.string.land2)->{getString(R.string.landCode1)}
+                getString(R.string.land3)->{getString(R.string.landCode1)}
+                getString(R.string.land4)->{getString(R.string.landCode2)}
+                getString(R.string.land5)->{getString(R.string.landCode3)}
+                getString(R.string.land6)->{getString(R.string.landCode3)}
+                getString(R.string.land7)->{getString(R.string.landCode3)}
+                getString(R.string.land8)->{getString(R.string.landCode4)}
+                getString(R.string.land9)->{getString(R.string.landCode5)}
+                getString(R.string.land10)->{getString(R.string.landCode5)}
+                getString(R.string.land11)->{getString(R.string.landCode6)}
+                getString(R.string.land12)->{getString(R.string.landCode7)}
+                getString(R.string.land13)->{getString(R.string.landCode7)}
+                getString(R.string.land14)->{getString(R.string.landCode8)}
+                getString(R.string.land15)->{getString(R.string.landCode8)}
+                getString(R.string.land16)->{getString(R.string.landCode8)}
+                else->{getString(R.string.landCode9)}
+            }
+        }
+
         //중기예보 육상예보 REST
         //11B00000 서울, 인천,경기도
         //11D10000 강원도영서
-        //11D20000 강원도영동
         //11C20000 대전, 세종, 충청남도
         //11C10000 충청북도
         //11F20000 광주, 전라남도
@@ -172,7 +285,6 @@ object DataConvert {
         //11H10000 대구, 경상북도
         //11H20000 부산, 울산, 경상남도
         //11G0000 제주도
-        return "11B00000"
     }
 
     fun weekDateConvert(weekDate: WeekDate) : String{

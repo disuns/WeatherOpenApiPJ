@@ -18,17 +18,21 @@ class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerVi
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with((holder as TimeFcstViewHolder).binding){
-            itemTimeTV.text = DataConvert.getDataConvert().timeDataConvert(adapterItem[position].fcstTime)
-            itemDateTV.text = DataConvert.getDataConvert().dateConvert(adapterItem[position].fcstDate)
-            var fcstImg = DataConvert.getDataConvert().fcstRainImgConvert(adapterItem[position].rain)
-            fcstImg = DataConvert.getDataConvert().skyImgEnum(adapterItem[position].sky,fcstImg)
-            itemWeatherIV.setImageDrawable(DataConvert.getDataConvert().fcstImgConvert(fcstImg))
-            itemRainMmTV.text =DataConvert.getDataConvert().rainConvert(adapterItem[position].rainMm)
-            itemRainTV.text =DataConvert.getDataConvert().rainPerConvert(adapterItem[position].rainPer)
-            itemTempTV.text = DataConvert.getDataConvert().tempConvert(adapterItem[position].temp)
-            itemWetTV.text = DataConvert.getDataConvert().wetConvert(adapterItem[position].wet)
-            itemWindTV1.text = DataConvert.getDataConvert().windDir(adapterItem[position].windDir)
-            itemWindTV2.text = DataConvert.getDataConvert().windPower(adapterItem[position].windPower)
+            with(DataConvert.getDataConvert()){
+                with(adapterItem[position]){
+                    itemTimeTV.text = timeDataConvert(fcstTime)
+                    itemDateTV.text = dateConvert(fcstDate)
+                    var fcstImg = fcstRainImgConvert(rain)
+                    fcstImg = skyImgEnum(sky,fcstImg)
+                    itemWeatherIV.setImageDrawable(fcstImgConvert(fcstImg))
+                    itemRainMmTV.text =rainConvert(rainMm)
+                    itemRainTV.text =rainPerConvert(rainPer)
+                    itemTempTV.text = tempConvert(temp)
+                    itemWetTV.text = wetConvert(wet)
+                    itemWindTV1.text = windDir(windDir)
+                    itemWindTV2.text = windPower(windPower)
+                }
+            }
         }
     }
 

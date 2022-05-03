@@ -1,6 +1,6 @@
 package com.sjchoi.weather.dataclass
 
-data class weatherUVIndex(
+data class WeatherUVIndex(
     val resultCode : Int,
     val resultMsg : String,
     val numOfRows : Int,
@@ -16,7 +16,7 @@ data class weatherUVIndex(
     val twodaysaftertomorrow : Int
 )
 
-data class atmospherIndex(
+data class AtmospherIndex(
     val numOfRows : Int,
     val pageNo : Int,
     val totalCount :Int,
