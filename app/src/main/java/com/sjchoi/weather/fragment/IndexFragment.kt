@@ -12,5 +12,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getAirQualityIndex().observe(viewLifecycleOwner){}
+        viewModel.getRltmStationIndex().observe(viewLifecycleOwner){}
     }
 }

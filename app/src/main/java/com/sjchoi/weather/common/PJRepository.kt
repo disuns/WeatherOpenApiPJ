@@ -48,7 +48,8 @@ class PJRepository {
                                    @Query("pageNo") pageNo:String,
                                    @Query("numOfRows") numOfRows:String,
                                    @Query("stationName") stationName:String,
-                                   @Query("dataTerm") dataTerm:String) = weatherService.requestRltmStation(serviceKey, returnType, pageNo, numOfRows, stationName, dataTerm)
+                                   @Query("dataTerm") dataTerm:String,
+                                    @Query("ver")ver:String) = weatherService.requestRltmStation(serviceKey, returnType, pageNo, numOfRows, stationName, dataTerm, ver)
 
     suspend fun requestReverseGeo(@Query("request") request: String,
                                   @Query("coords", encoded = true) coords:String,

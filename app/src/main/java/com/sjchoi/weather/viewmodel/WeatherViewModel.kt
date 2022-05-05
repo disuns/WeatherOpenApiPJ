@@ -16,6 +16,8 @@ import com.sjchoi.weather.common.manager.TimeManager
 import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekRainSkyData
+import com.sjchoi.weather.dataclass.datapotal.indexdata.AirQualityIndex
+import com.sjchoi.weather.dataclass.datapotal.indexdata.RltmStationIndex
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import kotlinx.coroutines.launch
 import kotlin.math.*
@@ -25,6 +27,8 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private var nowFcstData : MutableLiveData<FcstData> = MutableLiveData()
     private var timeFcstData : MutableLiveData<FcstData> = MutableLiveData()
     private var weekRainSkyData : MutableLiveData<WeekRainSkyData> = MutableLiveData()
+    private var airQualityData : MutableLiveData<AirQualityIndex> = MutableLiveData()
+    private var rltmStationData : MutableLiveData<RltmStationIndex> = MutableLiveData()
     private var lat : MutableLiveData<Double> = MutableLiveData()
     private var lon : MutableLiveData<Double> = MutableLiveData()
     private var address : MutableLiveData<ReverseGeocoder> = MutableLiveData()
@@ -55,6 +59,14 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
 
     fun getAddress() : MutableLiveData<ReverseGeocoder>{
         return address
+    }
+
+    fun getAirQualityIndex():MutableLiveData<AirQualityIndex>{
+        return airQualityData
+    }
+
+    fun getRltmStationIndex():MutableLiveData<RltmStationIndex>{
+        return rltmStationData
     }
 
     fun checkNowFcstData() : Boolean {
@@ -322,13 +334,44 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             }
         }
 
-//        val airQuality = repository.requestAirQuality(
-//            DATA_POTAL_SERVICE_KEY,
-//            DATA_TYPE_LOWER,
-//            PAGE_NO_DEFAULT,
-//            NUM_OF_ROWS_AIR,
-//
-//        )
+        val airQuality = repository.requestAirQuality(
+            DATA_POTAL_SERVICE_KEY,
+            DATA_TYPE_LOWER,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_AIR,
+            "2022-05-04",
+            "PM10"
+        )
+
+        with(airQuality){
+            if(isSuccessful){
+                airQualityData.postValue(body() as AirQualityIndex)
+                Log.e("",raw().request.url.toString())
+            }else{
+                WeatherApplication.getWeatherApplication().toastMessage(message())
+                Log.e("",message())
+            }
+        }
+
+        val rltmStation = repository.requestRltmStation(
+            DATA_POTAL_SERVICE_KEY,
+            DATA_TYPE_LOWER,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_AIR,
+            "영등포구",
+            "DAILY",
+            "1.0"
+        )
+
+        with(rltmStation){
+            if(isSuccessful){
+                rltmStationData.postValue(body() as RltmStationIndex)
+                Log.e("",raw().request.url.toString())
+            }else{
+                WeatherApplication.getWeatherApplication().toastMessage(message())
+                Log.e("",message())
+            }
+        }
 
     }
     private fun restInit(latGeo : Double, lonGeo:Double){

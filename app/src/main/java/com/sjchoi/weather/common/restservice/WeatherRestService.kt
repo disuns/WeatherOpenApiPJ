@@ -52,5 +52,6 @@ interface WeatherRestService {
                                      @Query("pageNo") pageNo:String,
                                      @Query("numOfRows") numOfRows:String,
                                      @Query("stationName") stationName:String,
-                                     @Query("dataTerm") dataTerm:String): Response<RltmStationIndex>
+                                     @Query("dataTerm") dataTerm:String,
+                                    @Query("ver")ver:String): Response<RltmStationIndex>
 }
