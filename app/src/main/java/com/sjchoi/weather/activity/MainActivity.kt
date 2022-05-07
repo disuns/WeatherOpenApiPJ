@@ -13,7 +13,7 @@ import com.sjchoi.weather.common.PJRepository
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.fragment.IndexFragment
 import com.sjchoi.weather.fragment.NaverMapFragment
-import com.sjchoi.weather.fragment.TabFragment
+import com.sjchoi.weather.fragment.FcstFragment
 import com.sjchoi.weather.viewmodel.WeatherViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     private fun applicationTabAdapter(): WeatherTabAdapter {
         val tabAdapter = WeatherTabAdapter(this)
         with(tabAdapter) {
-            addFragment(TabFragment.newInstance())
+            addFragment(FcstFragment.newInstance())
             addFragment(IndexFragment.newInstance())
         }
         return tabAdapter

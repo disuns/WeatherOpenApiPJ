@@ -9,6 +9,8 @@ import com.sjchoi.weather.dataclass.datapotal.fcstdata.TimeFcstData
 
 class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
+    private val dataConvert = DataConvert.getDataConvert()
+
     inner class TimeFcstViewHolder(val binding: WeatherTimeItemBinding) :RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -18,7 +20,7 @@ class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerVi
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with((holder as TimeFcstViewHolder).binding){
-            with(DataConvert.getDataConvert()){
+            with(dataConvert){
                 with(adapterItem[position]){
                     itemTimeTV.text = timeDataConvert(fcstTime)
                     itemDateTV.text = dateConvert(fcstDate)

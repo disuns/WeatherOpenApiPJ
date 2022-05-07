@@ -9,19 +9,19 @@ import com.sjchoi.weather.adapter.TimeFcstAdapter
 import com.sjchoi.weather.adapter.WeekFcstAdapter
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager
-import com.sjchoi.weather.databinding.FragmentTabBinding
+import com.sjchoi.weather.databinding.FragmentFcstBinding
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.*
 import com.sjchoi.weather.enum.FcstImgEnum
 import kotlin.math.abs
 
-class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate) {
+class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::inflate) {
 
     private var timeFcstAdapter: TimeFcstAdapter? = null
     private var weekFcstAdapter: WeekFcstAdapter? = null
     private lateinit var weekFcstLayoutManager: RecyclerView.LayoutManager
 
     companion object {
-        fun newInstance() = TabFragment()
+        fun newInstance() = FcstFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,14 +37,13 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
 
     private fun nowDataSet(fcstData : FcstData){
         if (viewModel.checkNowFcstData()) {
-            val fcstNow = fcstData.response.body
-            val fcstItem = fcstNow.items.item
+            val fcstItem = fcstData.response.body.items.item
             var windDir = "0"
             var fcstImg = FcstImgEnum.None
             with(binding) {
                 for (i in fcstItem.indices) {
                     if ((fcstItem[i].fcstTime.toInt() - fcstItem[i].baseTime.toInt()) < 100) {
-                        with(DataConvert.getDataConvert())
+                        with(dataConvert)
                         {
                             when (fcstItem[i].category) {
                                 TMP_NOW -> {
@@ -174,7 +173,7 @@ class TabFragment : BaseFragment<FragmentTabBinding>(FragmentTabBinding::inflate
     private fun weekDataSet(fcstData : WeekRainSkyData){
         weekFcstAdapter = WeekFcstAdapter(weekDataList(fcstData))
         binding.weekFcstRV.adapter = weekFcstAdapter
-        weekFcstLayoutManager = LinearLayoutManager(WeatherApplication.getWeatherApplication().applicationContext, RecyclerView.VERTICAL,false)
+        weekFcstLayoutManager = LinearLayoutManager(weatherApplication.applicationContext, RecyclerView.VERTICAL,false)
         binding.weekFcstRV.layoutManager = weekFcstLayoutManager
     }
 

@@ -3,8 +3,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/NowFcstMargin"
     android:background="@color/backGround"
+    android:paddingStart="@dimen/PaddingStart"
+    android:paddingEnd="@dimen/PaddingEnd"
     android:orientation="vertical"
     android:weightSum="11">
 
@@ -20,8 +21,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/NowFcstMarginStart"
-        android:layout_marginEnd="@dimen/NowFcstMarginEnd"
         android:layout_weight="4"
         android:orientation="vertical"
         android:weightSum="7">
@@ -86,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="start"
-                android:layout_margin="@dimen/NowFcstMargin"
                 android:layout_weight="1"
                 android:textSize="@dimen/NowWetRainWindLayout" />
 
@@ -95,7 +93,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="start"
-                android:layout_margin="@dimen/NowFcstMargin"
                 android:layout_weight="1"
                 android:textSize="@dimen/NowWetRainWindLayout" />
 
@@ -104,7 +101,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="start"
-                android:layout_margin="@dimen/NowFcstMargin"
                 android:layout_weight="1"
                 android:textSize="@dimen/NowWetRainWindLayout" />
         </LinearLayout>
@@ -127,7 +123,6 @@
             android:id="@+id/timeFcstTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/NowFcstMarginStart"
             android:text="@string/timeFcst"
             android:textSize="@dimen/FcstRvTitle"
             android:textStyle="bold" />
@@ -157,7 +152,6 @@
             android:id="@+id/weekFcstTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/NowFcstMarginStart"
             android:text="@string/weekFcst"
             android:textSize="@dimen/FcstRvTitle"
             android:textStyle="bold" />
@@ -165,8 +159,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/weekFcstRV"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/NowFcstMarginStart"
-            android:layout_marginEnd="@dimen/NowFcstMarginEnd" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

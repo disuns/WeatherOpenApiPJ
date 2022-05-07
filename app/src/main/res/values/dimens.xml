@@ -11,14 +11,16 @@
     <dimen name="TimeItemText">18dp</dimen>
     <dimen name="TimeItemWindText">14dp</dimen>
     <dimen name="MainText">16dp</dimen>
+    <dimen name="IndexTitle">28dp</dimen>
+    <dimen name="IndexValueSize">16dp</dimen>
+    <dimen name="IndexAirDateCode">14dp</dimen>
     <!--ui-->
     <dimen name="NowFcstIV">110dp</dimen>
-    <dimen name="NowFcstMarginStart">14dp</dimen>
-    <dimen name="NowFcstMarginEnd">10dp</dimen>
-    <dimen name="NowFcstMargin">3dp</dimen>
+    <dimen name="PaddingStart">14dp</dimen>
+    <dimen name="PaddingEnd">10dp</dimen>
     <dimen name="WeekRVItemIV">30dp</dimen>
     <dimen name="WeekRVItemIVSmall">15dp</dimen>
-    <dimen name="TimeItemFcstargin">25dp</dimen>
+    <dimen name="TimeItemFcstMargin">25dp</dimen>
     <dimen name="ItemMargin">4dp</dimen>
     <dimen name="TimeItemIV">50dp</dimen>
     <dimen name="TimeItemIVSmall">28dp</dimen>
@@ -30,4 +32,6 @@
     <dimen name="WeekRVMarginTV">10dp</dimen>
     <dimen name="OffsetBetweenPages">80dp</dimen>
     <dimen name="CardViewMargin">90dp</dimen>
+    <dimen name="SpinnerPadding">12dp</dimen>
+    <dimen name="SpinnerItemPadding">8dp</dimen>
 </resources>

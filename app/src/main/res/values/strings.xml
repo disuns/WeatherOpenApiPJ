@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+<resources>
     <string name="app_name">날씨 및 생활지수</string>
     <string name="address">주소</string>
     <string name="exaddress">ex)서울 영등포구 문래동</string>
@@ -52,6 +52,7 @@
     <string name="UNSIGNED_CALL_ERROR">서명되지 않은 호출</string>
     <string name="UNKNOWN_ERROR">기타에러</string>
     <string name="UNKNOWN_ADDRESS">주소를 찾을 수 없습니다</string>
+    <string name="NUM0">0</string>
     <string name="NUM1">1</string>
     <string name="NUM2">2</string>
     <string name="NUM3">3</string>
@@ -106,6 +107,27 @@
     <string name="thursday">목</string>
     <string name="friday">금</string>
     <string name="saturday">토</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="grade1">좋음</string>
+    <string name="grade2">보통</string>
+    <string name="grade3">나쁨</string>
+    <string name="grade4">매우나쁨</string>
+    <string name="stationTime">측정시간 : %s</string>
+    <string name="rltmStation">측정소 : %s</string>
+    <string name="concentration">농도 : %s</string>
+    <string name="grade">등급 : %s</string>
+    <string name="flag">플래그 : %s</string>
+    <string name="rltmUnit1">%s ㎍/㎥</string>
+    <string name="rltmUnit2">%s ppm</string>
+    <string name="airQualityTitle">대기질 예보</string>
+    <string name="dateAndCode">%s(%s)</string>
+    
+    <string-array name="rltmData">
+        <item>통합 대기</item>
+        <item>초미세먼지</item>
+        <item>미세먼지</item>
+        <item>오존</item>
+        <item>일산화탄소</item>
+        <item>이산화질소</item>
+        <item>아황산가스</item>
+    </string-array>
 </resources>

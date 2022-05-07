@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.sjchoi.weather.common.DataConvert
+import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.viewmodel.WeatherViewModel
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -16,6 +18,8 @@ abstract class BaseFragment<VB : ViewBinding>(private val inflate:Inflate<VB>) :
     val binding get()= _binding!!
 
     lateinit var viewModel : WeatherViewModel
+    val dataConvert = DataConvert.getDataConvert()
+    val weatherApplication = WeatherApplication.getWeatherApplication()
 
     override fun onCreateView(
         inflater: LayoutInflater,

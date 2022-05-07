@@ -14,6 +14,11 @@ const val MAPS_URL = "https://naveropenapi.apigw.ntruss.com/"
 const val DATA_TYPE_UPPER = "JSON"
 const val DATA_TYPE_LOWER = "json"
 
+const val DATE_TERM = "DAILY"
+const val RLTM_DATA_VERSION = "1.3"
+
+const val AIR_CODE = "PM10"
+
 const val DATA_POTAL_SERVICE_KEY = "XaZsPnx+pwzxoELxydXTYGgdm/4grf0F8GEnwfH4F+0+NOqPp4qjBGgEHFgCdBc9GEZmWUaF2p1AFoSylmuT0g=="
 
 const val MAP_REQUEST_DEFAULT = "coordToaddr"

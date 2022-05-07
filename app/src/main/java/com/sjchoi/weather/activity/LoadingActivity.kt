@@ -19,6 +19,8 @@ class LoadingActivity : AppCompatActivity() {
     private val handler = Handler(Looper.getMainLooper())
     private var provider : String = ""
 
+    private val weatherApplication = WeatherApplication.getWeatherApplication()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -29,20 +31,19 @@ class LoadingActivity : AppCompatActivity() {
 
     private fun loading(){
 
-        if (WeatherApplication.getWeatherApplication().isNetworkCheck()) {
+        if (weatherApplication.isNetworkCheck()) {
             handler.postDelayed({
                 gpsPermission()
                 gpsCheckPermissionLocation()
             }, 1000L)
         }else{
-            WeatherApplication.getWeatherApplication().toastMessage("네트워크를 연결해주세요")
+            weatherApplication.toastMessage("네트워크를 연결해주세요")
             finish()
         }
     }
 
     private fun gpsPermission() {
-        val mListenr = WeatherApplication.getWeatherApplication()
-            .getSystemService(LOCATION_SERVICE) as LocationManager
+        val mListenr = weatherApplication.getSystemService(LOCATION_SERVICE) as LocationManager
 
         val isGPSLocation = mListenr.isProviderEnabled(LocationManager.GPS_PROVIDER)
         val isNetworkLocation = mListenr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
@@ -76,7 +77,7 @@ class LoadingActivity : AppCompatActivity() {
             activityMainStart()
         }
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            WeatherApplication.getWeatherApplication().toastMessage("위치제공이 필요합니다.")
+            weatherApplication.toastMessage("위치제공이 필요합니다.")
             finish()
         }
     }

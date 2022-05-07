@@ -47,12 +47,12 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
                         var addressList : MutableList<Address>? = null
 
                         if(location.isNotEmpty()){
-                            val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
+                            val geocoder = Geocoder(weatherApplication.applicationContext)
 
                             try {
                                 addressList = geocoder.getFromLocationName(location, 1)
                             }catch (e:IOException){
-                                WeatherApplication.getWeatherApplication().toastMessage(e.toString())
+                                weatherApplication.toastMessage(e.toString())
                             }
 
                             val address = addressList!![0]

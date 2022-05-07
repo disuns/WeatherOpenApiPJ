@@ -9,6 +9,7 @@ import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekFcstData
 
 class WeekFcstAdapter (private val adapterItem : MutableList<WeekFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
+    private val dataConvert = DataConvert.getDataConvert()
     inner class WeekFcstViewHolder(val binding: WeatherWeekRecyclerItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -18,7 +19,7 @@ class WeekFcstAdapter (private val adapterItem : MutableList<WeekFcstData>) : Re
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         with((holder as WeekFcstViewHolder).binding){
-            with(DataConvert.getDataConvert()){
+            with(dataConvert){
                 with(adapterItem[position]){
                     weekDateTV.text = weekDateConvert(weekDate)
                     weekAmRainperTV.text=rainPerConvert(rainAm)

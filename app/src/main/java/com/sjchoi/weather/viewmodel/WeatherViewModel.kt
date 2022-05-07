@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager
+import com.sjchoi.weather.common.manager.TimeManager.getTimeManager
 import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekRainSkyData
@@ -23,6 +24,9 @@ import kotlinx.coroutines.launch
 import kotlin.math.*
 
 class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
+
+    private val dataConvert = DataConvert.getDataConvert()
+    private val weatherApplication = WeatherApplication.getWeatherApplication()
 
     private var nowFcstData : MutableLiveData<FcstData> = MutableLiveData()
     private var timeFcstData : MutableLiveData<FcstData> = MutableLiveData()
@@ -41,51 +45,43 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private var yLon : Double = 0.0
     private var provider : String = ""
 
-    private fun getXLat() :Int{
-        return xLat.toInt()
-    }
+    private fun getXLat() = xLat.toInt()
+    private fun getYLon() = yLon.toInt()
+    fun getNowFcstData() = nowFcstData
+    fun getTimeFcstData() = timeFcstData
+    fun getWeekRainSkyData() = weekRainSkyData
+    fun getAirQualityIndex() = airQualityData
+    fun getRltmStationIndex() = rltmStationData
+    fun getLat() = lat
+    fun getLon() = lon
+    fun getAddress() = address
 
-    private fun getYLon() :Int{
-        return yLon.toInt()
-    }
-
-    fun getLat(): MutableLiveData<Double> {
-        return lat
-    }
-
-    fun getLon(): MutableLiveData<Double> {
-        return lon
-    }
-
-    fun getAddress() : MutableLiveData<ReverseGeocoder>{
-        return address
-    }
-
-    fun getAirQualityIndex():MutableLiveData<AirQualityIndex>{
-        return airQualityData
-    }
-
-    fun getRltmStationIndex():MutableLiveData<RltmStationIndex>{
-        return rltmStationData
+    fun checkWeekRainSkyData() : Boolean {
+        return weekRainSkyData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                dataConvert.dataPotalResultCode(it.response.header.resultCode)
+                false
+            } else {
+                true
+            }
+        } ?: false
     }
 
     fun checkNowFcstData() : Boolean {
          return nowFcstData.value?.let {
             if (it.response.header.resultCode != NO_ERROR) {
-                DataConvert.getDataConvert().dataPotalResultCode(it.response.header.resultCode)
+                dataConvert.dataPotalResultCode(it.response.header.resultCode)
                 false
             } else {
                 true
             }
         } ?: false
     }
-
-    fun getNowFcstData():MutableLiveData<FcstData> = nowFcstData
 
     fun checkTimeFcstData() : Boolean {
         return timeFcstData.value?.let {
             if (it.response.header.resultCode != NO_ERROR) {
-                DataConvert.getDataConvert().dataPotalResultCode(it.response.header.resultCode)
+                dataConvert.dataPotalResultCode(it.response.header.resultCode)
                 false
             } else {
                 true
@@ -93,7 +89,27 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         } ?: false
     }
 
-    fun getTimeFcstData():MutableLiveData<FcstData> = timeFcstData
+    fun checkAirQualityData() : Boolean {
+        return airQualityData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                dataConvert.dataPotalResultCode(it.response.header.resultCode)
+                false
+            } else {
+                true
+            }
+        } ?: false
+    }
+
+    fun checkRltmStationData() : Boolean {
+        return rltmStationData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                dataConvert.dataPotalResultCode(it.response.header.resultCode)
+                false
+            } else {
+                true
+            }
+        } ?: false
+    }
 
     fun getLocation(activity : Activity) {
 //        ornerActivity = activity
@@ -105,11 +121,11 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         convertGRIDGPS(0)
 
 //        if (ActivityCompat.checkSelfPermission(
-//                WeatherApplication.getWeatherApplication().applicationContext,
+//                weatherApplication.applicationContext,
 //                Manifest.permission.ACCESS_FINE_LOCATION
 //            ) != PackageManager.PERMISSION_GRANTED
 //            || ActivityCompat.checkSelfPermission(
-//                WeatherApplication.getWeatherApplication().applicationContext,
+//                weatherApplication.applicationContext,
 //                Manifest.permission.ACCESS_COARSE_LOCATION
 //            ) != PackageManager.PERMISSION_GRANTED
 //        ) {
@@ -236,19 +252,6 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         restInit(lat.value!!, lon.value!!)
     }
 
-    fun checkWeekRainSkyData() : Boolean {
-        return weekRainSkyData.value?.let {
-            if (it.response.header.resultCode != NO_ERROR) {
-                DataConvert.getDataConvert().dataPotalResultCode(it.response.header.resultCode)
-                false
-            } else {
-                true
-            }
-        } ?: false
-    }
-
-    fun getWeekRainSkyData():MutableLiveData<WeekRainSkyData> = weekRainSkyData
-
     private suspend fun reverseGeoRest(latGeo : Double, lonGeo:Double) {
         val latlon = "${lonGeo},${latGeo}"
 
@@ -267,40 +270,20 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 address.value = body() as ReverseGeocoder
                 Log.e("",raw().request.url.toString())
             } else {
-                WeatherApplication.getWeatherApplication().toastMessage(message())
+                weatherApplication.toastMessage(message())
                 Log.e("", message())
             }
         }
     }
 
     private suspend fun fcstRest(){
-        val timeFcst = repository.requestFcst(
-            DATA_POTAL_SERVICE_KEY,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_DEFAULT,
-            DATA_TYPE_UPPER,
-            TimeManager.getTimeManager().urlTimeFcstDate(),
-            TimeManager.getTimeManager().urlTimeFcstTime(),
-            getXLat().toString(),
-            getYLon().toString())
-
-        with(timeFcst){
-            if(isSuccessful){
-                timeFcstData.postValue(body() as FcstData)
-                Log.e("",raw().request.url.toString())
-            }else{
-                WeatherApplication.getWeatherApplication().toastMessage(message())
-                Log.e("",message())
-            }
-        }
-
         val nowFcst = repository.requestNowFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_DEFAULT,
             DATA_TYPE_UPPER,
-            TimeManager.getTimeManager().urlNowDate(),
-            TimeManager.getTimeManager().urlNowTime(),
+            getTimeManager().urlNowDate(),
+            getTimeManager().urlNowTime(),
             getXLat().toString(),
             getYLon().toString())
 
@@ -309,7 +292,26 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 nowFcstData.postValue(body() as FcstData)
                 Log.e("",raw().request.url.toString())
             }else{
-                WeatherApplication.getWeatherApplication().toastMessage(message())
+                weatherApplication.toastMessage(message())
+                Log.e("",message())
+            }
+        }
+        val timeFcst = repository.requestFcst(
+            DATA_POTAL_SERVICE_KEY,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_DEFAULT,
+            DATA_TYPE_UPPER,
+            getTimeManager().urlTimeFcstDate(),
+            getTimeManager().urlTimeFcstTime(),
+            getXLat().toString(),
+            getYLon().toString())
+
+        with(timeFcst){
+            if(isSuccessful){
+                timeFcstData.postValue(body() as FcstData)
+                Log.e("",raw().request.url.toString())
+            }else{
+                weatherApplication.toastMessage(message())
                 Log.e("",message())
             }
         }
@@ -320,7 +322,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_WEEK,
             DATA_TYPE_UPPER,
-            DataConvert.getDataConvert().landCodeGu(
+            dataConvert.landCodeGu(
                 adr.results[adr.results.lastIndex].region.area1.name),
             urlWeekFcstTime())
 
@@ -329,26 +331,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 weekRainSkyData.postValue(body() as WeekRainSkyData)
                 Log.e("",raw().request.url.toString())
             }else{
-                WeatherApplication.getWeatherApplication().toastMessage(message())
-                Log.e("",message())
-            }
-        }
-
-        val airQuality = repository.requestAirQuality(
-            DATA_POTAL_SERVICE_KEY,
-            DATA_TYPE_LOWER,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_AIR,
-            "2022-05-04",
-            "PM10"
-        )
-
-        with(airQuality){
-            if(isSuccessful){
-                airQualityData.postValue(body() as AirQualityIndex)
-                Log.e("",raw().request.url.toString())
-            }else{
-                WeatherApplication.getWeatherApplication().toastMessage(message())
+                weatherApplication.toastMessage(message())
                 Log.e("",message())
             }
         }
@@ -359,8 +342,8 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_AIR,
             "영등포구",
-            "DAILY",
-            "1.0"
+            DATE_TERM,
+            RLTM_DATA_VERSION
         )
 
         with(rltmStation){
@@ -368,11 +351,29 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 rltmStationData.postValue(body() as RltmStationIndex)
                 Log.e("",raw().request.url.toString())
             }else{
-                WeatherApplication.getWeatherApplication().toastMessage(message())
+                weatherApplication.toastMessage(message())
                 Log.e("",message())
             }
         }
 
+        val airQuality = repository.requestAirQuality(
+            DATA_POTAL_SERVICE_KEY,
+            DATA_TYPE_LOWER,
+            PAGE_NO_DEFAULT,
+            NUM_OF_ROWS_AIR,
+            getTimeManager().urlAirQualityDate(),
+            AIR_CODE
+        )
+
+        with(airQuality){
+            if(isSuccessful){
+                airQualityData.postValue(body() as AirQualityIndex)
+                Log.e("",raw().request.url.toString())
+            }else{
+                weatherApplication.toastMessage(message())
+                Log.e("",message())
+            }
+        }
     }
     private fun restInit(latGeo : Double, lonGeo:Double){
         viewModelScope.launch {

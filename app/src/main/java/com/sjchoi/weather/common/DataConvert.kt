@@ -10,6 +10,7 @@ import com.sjchoi.weather.enum.FcstImgEnum
 
 object DataConvert {
     private var instance: DataConvert? = null
+    private val weatherApplication = WeatherApplication.getWeatherApplication()
 
     fun getDataConvert(): DataConvert {
         if (instance == null) {
@@ -21,7 +22,7 @@ object DataConvert {
 
     fun dataPotalResultCode(code: String) {
 
-        val errorMsg: String = with(WeatherApplication.getWeatherApplication()) {
+        val errorMsg: String = with(weatherApplication) {
             when (code) {
                 APPLICATION_ERROR -> {
                     getString(R.string.APPLICATION_ERROR)
@@ -75,124 +76,79 @@ object DataConvert {
         }
 
         Log.e("convert", errorMsg)
-        WeatherApplication.getWeatherApplication().toastMessage(errorMsg)
+        weatherApplication.toastMessage(errorMsg)
     }
     //이미지+날씨정보
 
-    fun rainPerConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.perUnit, code) }
+    fun rainPerConvert(code: String): String { return weatherApplication.getString(R.string.perUnit, code) }
 
-    fun tempConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.tempUnit, code) }
+    fun tempConvert(code: String): String { return weatherApplication.getString(R.string.tempUnit, code) }
 
-    fun nowWetConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.nowWetUnit, code) }
+    fun nowWetConvert(code: String): String { return weatherApplication.getString(R.string.nowWetUnit, code) }
 
-    fun wetConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.perUnit, code) }
+    fun wetConvert(code: String): String { return weatherApplication.getString(R.string.perUnit, code) }
 
-    fun nowRainConvert(code: String): String { return WeatherApplication.getWeatherApplication().getString(R.string.nowRainUnit, code) }
+    fun nowRainConvert(code: String): String { return weatherApplication.getString(R.string.nowRainUnit, code) }
 
-    fun rainConvert(code: String): String { return WeatherApplication.getWeatherApplication()
-            .getString(R.string.rainUnit, code) }
+    fun rainConvert(code: String): String { return weatherApplication.getString(R.string.rainUnit, code) }
 
     fun windDir(code: String): String {
-        return with(WeatherApplication.getWeatherApplication()) {
+        return with(weatherApplication) {
             when (((code.toInt() + 22.5 * 0.5) / 22.5).toInt()) {
-                getString(R.string.NUM1)
-                    .toInt() -> getString(R.string.NNE)
-                getString(R.string.NUM2)
-                    .toInt() -> getString(R.string.NE)
-                getString(R.string.NUM3)
-                    .toInt() -> getString(R.string.ENE)
-                getString(R.string.NUM4)
-                    .toInt() -> getString(R.string.E)
-                getString(R.string.NUM5)
-                    .toInt() -> getString(R.string.ESE)
-                getString(R.string.NUM6)
-                    .toInt() -> getString(R.string.SE)
-                getString(R.string.NUM7)
-                    .toInt() -> getString(R.string.SSE)
-                getString(R.string.NUM8)
-                    .toInt() -> getString(R.string.S)
-                getString(R.string.NUM9)
-                    .toInt() -> getString(R.string.SSW)
-                getString(R.string.NUM10)
-                    .toInt() -> getString(R.string.SW)
-                getString(R.string.NUM11)
-                    .toInt() -> getString(R.string.WSW)
-                getString(R.string.NUM12)
-                    .toInt() -> getString(R.string.W)
-                getString(R.string.NUM13)
-                    .toInt() -> getString(R.string.WNW)
-                getString(R.string.NUM14)
-                    .toInt() -> getString(R.string.NW)
-                getString(R.string.NUM15)
-                    .toInt() -> getString(R.string.NNW)
+                getString(R.string.NUM1).toInt() -> getString(R.string.NNE)
+                getString(R.string.NUM2).toInt() -> getString(R.string.NE)
+                getString(R.string.NUM3).toInt() -> getString(R.string.ENE)
+                getString(R.string.NUM4).toInt() -> getString(R.string.E)
+                getString(R.string.NUM5).toInt() -> getString(R.string.ESE)
+                getString(R.string.NUM6).toInt() -> getString(R.string.SE)
+                getString(R.string.NUM7).toInt() -> getString(R.string.SSE)
+                getString(R.string.NUM8).toInt() -> getString(R.string.S)
+                getString(R.string.NUM9).toInt() -> getString(R.string.SSW)
+                getString(R.string.NUM10).toInt() -> getString(R.string.SW)
+                getString(R.string.NUM11).toInt() -> getString(R.string.WSW)
+                getString(R.string.NUM12).toInt() -> getString(R.string.W)
+                getString(R.string.NUM13).toInt() -> getString(R.string.WNW)
+                getString(R.string.NUM14).toInt() -> getString(R.string.NW)
+                getString(R.string.NUM15).toInt() -> getString(R.string.NNW)
                 else -> getString(R.string.N)
             }
         }
     }
 
-    fun windPower(dir: String, code: String): String { return WeatherApplication.getWeatherApplication()
-            .getString(R.string.nowWindUnit, dir, code) }
+    fun windPower(dir: String, code: String): String { return weatherApplication.getString(R.string.nowWindUnit, dir, code) }
 
-    fun windPower(code: String): String { return WeatherApplication.getWeatherApplication()
-            .getString(R.string.windUnit, code) }
+    fun windPower(code: String): String { return weatherApplication.getString(R.string.windUnit, code) }
 
     fun fcstRainImgConvert(code: String): FcstImgEnum {
-
-        return with(WeatherApplication.getWeatherApplication()) {
+        return with(weatherApplication) {
             when (code) {
-                getString(R.string.NUM1) -> {
-                    FcstImgEnum.Rain
-                }
-                getString(R.string.NUM2) -> {
-                    FcstImgEnum.Rain
-                }//비+눈
-                getString(R.string.NUM3) -> {
-                    FcstImgEnum.Snow
-                }
-                getString(R.string.NUM4) -> {
-                    FcstImgEnum.Rain
-                }
-                getString(R.string.NUM5) -> {
-                    FcstImgEnum.Rain
-                }
-                getString(R.string.NUM6) -> {
-                    FcstImgEnum.Rain
-                }//비+눈
-                getString(R.string.NUM7) -> {
-                    FcstImgEnum.Snow
-                }
-                else -> {
-                    FcstImgEnum.Sun
-                }
+                getString(R.string.NUM1) -> { FcstImgEnum.Rain }
+                getString(R.string.NUM2) -> { FcstImgEnum.Rain }//비+눈
+                getString(R.string.NUM3) -> { FcstImgEnum.Snow }
+                getString(R.string.NUM4) -> { FcstImgEnum.Rain }
+                getString(R.string.NUM5) -> { FcstImgEnum.Rain }
+                getString(R.string.NUM6) -> { FcstImgEnum.Rain }//비+눈
+                getString(R.string.NUM7) -> { FcstImgEnum.Snow }
+                else -> { FcstImgEnum.Sun }
             }
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun fcstImgConvert(enumFcstImgEnum: FcstImgEnum): Drawable? {
-        return with(WeatherApplication.getWeatherApplication()) {
+        return with(weatherApplication) {
             when (enumFcstImgEnum) {
-                FcstImgEnum.ClodeSun -> {
-                    getDrawable(R.drawable.cloudsun)
-                }
-                FcstImgEnum.Cloude -> {
-                    getDrawable(R.drawable.cloud)
-                }
-                FcstImgEnum.Rain -> {
-                    getDrawable(R.drawable.rain)
-                }
-                FcstImgEnum.Snow -> {
-                    getDrawable(R.drawable.snow)
-                }
-                else -> {
-                    getDrawable(R.drawable.sunny)
-                }
+                FcstImgEnum.ClodeSun -> { getDrawable(R.drawable.cloudsun) }
+                FcstImgEnum.Cloude -> { getDrawable(R.drawable.cloud) }
+                FcstImgEnum.Rain -> { getDrawable(R.drawable.rain) }
+                FcstImgEnum.Snow -> { getDrawable(R.drawable.snow) }
+                else -> { getDrawable(R.drawable.sunny) }
             }
         }
     }
 
     fun skyConvert(code: String): String {
-        return with(WeatherApplication.getWeatherApplication()){
+        return with(weatherApplication){
             when (code) {
                 SKY_SUN -> { getString(R.string.sun) }
                 SKY_CLOUDSUN -> { getString(R.string.manycloud) }
@@ -206,18 +162,10 @@ object DataConvert {
     fun skyImgEnum(code: String, fcstImgEnum: FcstImgEnum): FcstImgEnum {
         val fcstImg = if (fcstImgEnum == FcstImgEnum.Sun) {
             when (code) {
-                SKY_SUN -> {
-                    FcstImgEnum.Sun
-                }
-                SKY_CLOUDSUN -> {
-                    FcstImgEnum.ClodeSun
-                }
-                SKY_CLOUD -> {
-                    FcstImgEnum.Cloude
-                }
-                else -> {
-                    FcstImgEnum.Sun
-                }
+                SKY_SUN -> { FcstImgEnum.Sun }
+                SKY_CLOUDSUN -> { FcstImgEnum.ClodeSun }
+                SKY_CLOUD -> { FcstImgEnum.Cloude }
+                else -> { FcstImgEnum.Sun }
             }
         }
         else fcstImgEnum
@@ -225,12 +173,12 @@ object DataConvert {
     }
 
     fun timeDataConvert(code: String) : String{
-        return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.time, code.substring(0,2))
+        return weatherApplication.getString(R.string.time, code.substring(0,2))
     }
 
     fun dateConvert(code : String) : String{
         val splitString = code.chunked(2)
-        return WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.date,splitString[2],splitString[3])
+        return weatherApplication.getString(R.string.date,splitString[2],splitString[3])
     }
 
     fun mapAddressConvert(reverseGeocoder: ReverseGeocoder):String{
@@ -245,32 +193,24 @@ object DataConvert {
                 }
             }
             else{
-//                val geocoder = Geocoder(WeatherApplication.getWeatherApplication().applicationContext)
+//                val geocoder = Geocoder(weatherApplication.applicationContext)
 //                geocoder
-                WeatherApplication.getWeatherApplication().applicationContext.getString(R.string.UNKNOWN_ADDRESS)
+                weatherApplication.applicationContext.getString(R.string.UNKNOWN_ADDRESS)
             }
         }
     }
 
     fun landCodeGu(land:String):String{
-        return with(WeatherApplication.getWeatherApplication()) {
+        return with(weatherApplication) {
             when(land){
-                this.getString(R.string.land1)->{getString(R.string.landCode1)}
-                getString(R.string.land2)->{getString(R.string.landCode1)}
-                getString(R.string.land3)->{getString(R.string.landCode1)}
+                getString(R.string.land1), getString(R.string.land2), getString(R.string.land3)->{getString(R.string.landCode1)}
                 getString(R.string.land4)->{getString(R.string.landCode2)}
-                getString(R.string.land5)->{getString(R.string.landCode3)}
-                getString(R.string.land6)->{getString(R.string.landCode3)}
-                getString(R.string.land7)->{getString(R.string.landCode3)}
+                getString(R.string.land5), getString(R.string.land6), getString(R.string.land7)->{getString(R.string.landCode3)}
                 getString(R.string.land8)->{getString(R.string.landCode4)}
-                getString(R.string.land9)->{getString(R.string.landCode5)}
-                getString(R.string.land10)->{getString(R.string.landCode5)}
+                getString(R.string.land9),getString(R.string.land10)->{getString(R.string.landCode5)}
                 getString(R.string.land11)->{getString(R.string.landCode6)}
-                getString(R.string.land12)->{getString(R.string.landCode7)}
-                getString(R.string.land13)->{getString(R.string.landCode7)}
-                getString(R.string.land14)->{getString(R.string.landCode8)}
-                getString(R.string.land15)->{getString(R.string.landCode8)}
-                getString(R.string.land16)->{getString(R.string.landCode8)}
+                getString(R.string.land12), getString(R.string.land13)->{getString(R.string.landCode7)}
+                getString(R.string.land14),getString(R.string.land15),getString(R.string.land16)->{getString(R.string.landCode8)}
                 else->{getString(R.string.landCode9)}
             }
         }
@@ -288,6 +228,39 @@ object DataConvert {
     }
 
     fun weekDateConvert(weekDate: WeekDate) : String{
-        return WeatherApplication.getWeatherApplication().getString(R.string.weekDate, weekDate.month,weekDate.day,weekDate.dayOfWeek)
+        return weatherApplication.getString(R.string.weekDate, weekDate.month,weekDate.day,weekDate.dayOfWeek)
+    }
+
+    fun rltmGradeConvert(grade:String) : String{
+        with(weatherApplication){
+            val gradeString = when(grade){
+                getString(R.string.NUM1)->{getString(R.string.grade1)}
+                getString(R.string.NUM2)->{getString(R.string.grade2)}
+                getString(R.string.NUM3)->{getString(R.string.grade3)}
+                else->{getString(R.string.grade4)}
+            }
+
+            return getString(R.string.grade, gradeString)
+        }
+    }
+
+    fun rltmValueConvert(rltm:Int, value : String): String {
+        with(weatherApplication){
+            val rltmChange = when(rltm){
+                getString(R.string.NUM0).toInt()->{value}
+                getString(R.string.NUM1).toInt(), getString(R.string.NUM2).toInt()->{getString(R.string.rltmUnit1, value)}
+                else->{getString(R.string.rltmUnit2, value)}
+            }
+
+            return getString(R.string.concentration,rltmChange)
+        }
+    }
+
+    fun rltmTitle(value : String): String{
+        return weatherApplication.getString(R.string.rltmStation, value)
+    }
+
+    fun rltmStationDate(date : String): String{
+        return weatherApplication.getString(R.string.stationTime, date)
     }
 }

@@ -12,6 +12,8 @@ object TimeManager {
     private var instance: TimeManager? = null
     private lateinit var date: Date
 
+    private val weatherApplication = WeatherApplication.getWeatherApplication()
+
     fun getTimeManager (): TimeManager {
         if (instance == null) {
             instance = this
@@ -65,24 +67,17 @@ object TimeManager {
         val now = System.currentTimeMillis()
         date = Date(now)
         val timeFormat = SimpleDateFormat("HH")
-
         return with(timeFormat.format(date)){
-            if(this>"23" || this<"02")
-                "2300"
-            else if (this>"20")
-                "2000"
-            else if (this>"17")
-                "1700"
-            else if (this>"14")
-                "1400"
-            else if (this>"11")
-                "1100"
-            else if (this>"08")
-                "0800"
-            else if (this>"05")
-                "0500"
-            else
-                "0200"
+            when{
+                this>"20" ->"2000"
+                this>"17"-> "1700"
+                this>"14"->"1400"
+                this>"11"->"1100"
+                this>"08"->"0800"
+                this>"05"->"0500"
+                this>"02"->"0200"
+                else->"2300"
+            }
         }
     }
 
@@ -109,7 +104,7 @@ object TimeManager {
         val dayFormat = SimpleDateFormat("dd")
 
         calendar.time=date
-        val strWeek:String= with(WeatherApplication.getWeatherApplication()){
+        val strWeek:String= with(weatherApplication){
             when(calendar.get(Calendar.DAY_OF_WEEK)){
                 getString(R.string.NUM1).toInt()->{getString(R.string.sunday)}
                 getString(R.string.NUM2).toInt()->{getString(R.string.monday)}
@@ -122,6 +117,14 @@ object TimeManager {
         }
 
         return WeekDate(monthFormat.format(date),dayFormat.format(date),strWeek)
+    }
 
+    fun urlAirQualityDate():String{
+        val now = System.currentTimeMillis()
+        date = Date(now)
+
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+        return dateFormat.format(date)
     }
 }

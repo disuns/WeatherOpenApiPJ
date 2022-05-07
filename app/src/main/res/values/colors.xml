@@ -12,4 +12,6 @@
     <color name="colorAccent">#00bcd4</color>
     <color name="backGround">#BBDEFB</color>
     <color name="cardviewBackGround">#7192AD</color>
+    <color name="spinnerBackGround">#f2d2d7</color>
+    <color name="spinnerItemBackGround">#c5c2d3</color>
 </resources>
