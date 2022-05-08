@@ -38,7 +38,7 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
     private fun nowDataSet(fcstData : FcstData){
         if (viewModel.checkNowFcstData()) {
             val fcstItem = fcstData.response.body.items.item
-            var windDir = "0"
+            var windDir = NUM0
             var fcstImg = FcstImgEnum.None
             with(binding) {
                 for (i in fcstItem.indices) {
@@ -82,7 +82,7 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
         timeFcstAdapter = TimeFcstAdapter(timeDataList(fcstData))
         with(binding.timeFcstVP2){
             adapter = timeFcstAdapter
-            offscreenPageLimit = 4
+            offscreenPageLimit = NUM4.toInt()
             setPageTransformer { page, position ->
                 pageTransForm(page, position)
             }
@@ -179,13 +179,13 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
 
     private fun pageTransForm(page:View, position : Float){
         val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.OffsetBetweenPages).toFloat()
-        val myOffset = position * -(2 * offsetBetweenPages)
+        val myOffset = position * -(NUM2.toInt() * offsetBetweenPages)
         with(page) {
             when {
-                position < -1 -> {
+                position < -NUM1.toInt() -> {
                     translationX = -myOffset
                 }
-                position <= 1 -> {
+                position <= NUM1.toInt() -> {
                     // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
                     val scaleFactor = 0.8f.coerceAtLeast(1 - abs(position))
                     translationX = myOffset

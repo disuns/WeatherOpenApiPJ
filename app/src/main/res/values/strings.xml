@@ -52,27 +52,6 @@
     <string name="UNSIGNED_CALL_ERROR">서명되지 않은 호출</string>
     <string name="UNKNOWN_ERROR">기타에러</string>
     <string name="UNKNOWN_ADDRESS">주소를 찾을 수 없습니다</string>
-    <string name="NUM0">0</string>
-    <string name="NUM1">1</string>
-    <string name="NUM2">2</string>
-    <string name="NUM3">3</string>
-    <string name="NUM4">4</string>
-    <string name="NUM5">5</string>
-    <string name="NUM6">6</string>
-    <string name="NUM7">7</string>
-    <string name="NUM8">8</string>
-    <string name="NUM9">9</string>
-    <string name="NUM10">10</string>
-    <string name="NUM11">11</string>
-    <string name="NUM12">12</string>
-    <string name="NUM13">13</string>
-    <string name="NUM14">14</string>
-    <string name="NUM15">15</string>
-    <string name="NUM16">16</string>
-    <string name="NUM17">17</string>
-    <string name="NUM18">18</string>
-    <string name="NUM19">19</string>
-    <string name="NUM20">20</string>
     <string name="imageLoadFail">이미지를 찾을 수 없습니다.</string>
     <string name="weekDate">%s.%s(%s)</string>
     <string name="land1">서울특별시</string>
@@ -119,8 +98,16 @@
     <string name="rltmUnit1">%s ㎍/㎥</string>
     <string name="rltmUnit2">%s ppm</string>
     <string name="airQualityTitle">대기질 예보</string>
-    <string name="dateAndCode">%s(%s)</string>
-    
+    <string name="dateAndCode">%s( code : %s )</string>
+    <string name="actionKnack">행동요령 : %s</string>
+    <string name="nullString">-</string>
+    <string name="provider">provider</string>
+    <string name="gpsNeed">위치제공이 필요합니다.</string>
+    <string name="networkNeed">네트워크를 연결해주세요</string>
+    <string-array name="Tab">
+        <item>실시간 예보</item>
+        <item>대기 예보</item>
+    </string-array>
     <string-array name="rltmData">
         <item>통합 대기</item>
         <item>초미세먼지</item>

@@ -10,6 +10,8 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
+import com.sjchoi.weather.R
+import com.sjchoi.weather.common.LOADING_TIME
 import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.databinding.ActivitySplashBinding
 
@@ -35,9 +37,9 @@ class LoadingActivity : AppCompatActivity() {
             handler.postDelayed({
                 gpsPermission()
                 gpsCheckPermissionLocation()
-            }, 1000L)
+            }, LOADING_TIME)
         }else{
-            weatherApplication.toastMessage("네트워크를 연결해주세요")
+            weatherApplication.toastMessage(resources.getString(R.string.networkNeed))
             finish()
         }
     }
@@ -55,7 +57,7 @@ class LoadingActivity : AppCompatActivity() {
             isNetworkLocation -> {
                 provider = LocationManager.NETWORK_PROVIDER
             }
-            else -> {""}
+            else -> {resources.getString(R.string.nullString)}
         }
     }
 
@@ -68,7 +70,7 @@ class LoadingActivity : AppCompatActivity() {
     }
 
     private fun permissionCheck(){
-        TedPermission.create().setPermissionListener(permissionListener).setRationaleMessage("위치제공이 필요합니다.").setPermissions(
+        TedPermission.create().setPermissionListener(permissionListener).setRationaleMessage(resources.getString(R.string.gpsNeed)).setPermissions(
             Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION).check()
     }
 
@@ -77,14 +79,14 @@ class LoadingActivity : AppCompatActivity() {
             activityMainStart()
         }
         override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-            weatherApplication.toastMessage("위치제공이 필요합니다.")
+            weatherApplication.toastMessage(resources.getString(R.string.gpsNeed))
             finish()
         }
     }
 
     private fun activityMainStart(){
         with(Intent(applicationContext, MainActivity::class.java)) {
-            putExtra("provider", provider)
+            putExtra(resources.getString(R.string.provider), provider)
             startActivity(this)
         }
         finish()

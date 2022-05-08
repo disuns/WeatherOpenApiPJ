@@ -18,7 +18,7 @@ import com.sjchoi.weather.viewmodel.WeatherViewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private var tabItem = listOf("실시간 예보", "대기 예보")
+    private var tabItem = mutableListOf<String>()
 
     private lateinit var viewModel :WeatherViewModel
 
@@ -29,7 +29,11 @@ class MainActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        tabItem = resources.getStringArray(R.array.Tab).toMutableList()
+
         val viewModelFactory = WeatherViewModelFactory(PJRepository())
+
         viewModel = ViewModelProvider(this, viewModelFactory)[WeatherViewModel::class.java]
         if (savedInstanceState == null)
             viewModel.getLocation(this@MainActivity)

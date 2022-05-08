@@ -12,7 +12,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
-import com.sjchoi.weather.common.manager.TimeManager
 import com.sjchoi.weather.common.manager.TimeManager.getTimeManager
 import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.FcstData
@@ -112,36 +111,15 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     }
 
     fun getLocation(activity : Activity) {
+        //live코드
 //        ornerActivity = activity
 //        provider = ornerActivity.intent.getStringExtra("provider")!!
 //        initMapLocation()
 
+        //가상머신용 코드
         lon.value =126.88237267230349
         lat.value =37.51982548626224
         convertGRIDGPS(0)
-
-//        if (ActivityCompat.checkSelfPermission(
-//                weatherApplication.applicationContext,
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//            || ActivityCompat.checkSelfPermission(
-//                weatherApplication.applicationContext,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            ) != PackageManager.PERMISSION_GRANTED
-//        ) {
-//            var permissions = arrayOf(
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION
-//            )
-//            ActivityCompat.requestPermissions(activity, permissions, PERMISSIONS_REQUEST)
-//        } else {
-//            mFusedlocationClient = LocationServices.getFusedLocationProviderClient(activity)
-//            mFusedlocationClient.lastLocation.addOnSuccessListener {
-//                lat = it.latitude
-//                lon = it.longitude
-//                convertGRID_GPS(0)
-//            }
-//        }
     }
 
     @SuppressLint("MissingPermission")
@@ -183,7 +161,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             lat.value =mCurrentLocation.latitude
             lon.value =mCurrentLocation.longitude
             restReGe(lat.value!!,lon.value!!)
-            convertGRIDGPS(0)
+            convertGRIDGPS(NUM0.toInt())
         }
     }
 
@@ -322,8 +300,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             PAGE_NO_DEFAULT,
             NUM_OF_ROWS_WEEK,
             DATA_TYPE_UPPER,
-            dataConvert.landCodeGu(
-                adr.results[adr.results.lastIndex].region.area1.name),
+            dataConvert.landCodeGu(adr.results[adr.results.lastIndex].region.area1.name),
             urlWeekFcstTime())
 
         with(rainSky){

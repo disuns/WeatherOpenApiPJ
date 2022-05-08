@@ -3,13 +3,20 @@ package com.sjchoi.weather.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.R
-import com.sjchoi.weather.common.DataConvert
+import com.sjchoi.weather.adapter.AirRecyclerViewAdapter
+import com.sjchoi.weather.adapter.ViepagerImageAdapter
+import com.sjchoi.weather.common.*
 import com.sjchoi.weather.databinding.FragmentIndexBinding
+import com.sjchoi.weather.dataclass.datapotal.AirQualityItem
 import com.sjchoi.weather.dataclass.datapotal.indexdata.AirQualityIndex
 import com.sjchoi.weather.dataclass.datapotal.indexdata.RltmStationIndex
 
 class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::inflate) {
+
+    private var airLayoutManager = mutableListOf<RecyclerView.LayoutManager>()
 
     companion object {
         fun newInstance() = IndexFragment()
@@ -26,19 +33,23 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
         if(viewModel.checkRltmStationData()){
             val rltmItem = rltmStationIndex.response.body.items[0]
             with(binding){
-                viewModel.getAddress().observe(viewLifecycleOwner){
-                    rltmTitle.text = dataConvert.rltmTitle("영등포구")
-                    //rltmTitle.text = resources.getString(R.string.rltmStation, it.results[it.results.lastIndex].region.area2.name)
-                }
-                rltmDateTV.text = resources.getString(R.string.stationTime, rltmItem.dataTime)
+
+                //문제있음 측정소 api가 안받아짐
+                rltmTitle.text = dataConvert.rltmTitle("영등포구")
+//                viewModel.getAddress().observe(viewLifecycleOwner){
+//                    rltmTitle.text = dataConvert.rltmTitle( it.results[it.results.lastIndex].region.area2.name)
+//                }
+
+                setCardView(NUM0.toInt(), rltmItem.khaiValue,rltmItem.khaiGrade,null)
+                rltmDateTV.text = dataConvert.rltmStationDate(rltmItem.dataTime)
                 rltmSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                         with(rltmItem) {
                             when (position) {
-                                resources.getString(R.string.NUM0).toInt() -> {
+                                NUM0.toInt() -> {
                                     setCardView(position,khaiValue, khaiGrade, null)
                                 }
-                                resources.getString(R.string.NUM1).toInt() -> {
+                                NUM1.toInt() -> {
                                     setCardView(
                                         position,
                                         pm25Value,
@@ -46,7 +57,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                                         pm25Flag
                                     )
                                 }
-                                resources.getString(R.string.NUM2).toInt() -> {
+                                NUM2.toInt() -> {
                                     setCardView(
                                         position,
                                         pm10Value,
@@ -54,7 +65,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                                         pm10Flag
                                     )
                                 }
-                                resources.getString(R.string.NUM3).toInt() -> {
+                                NUM3.toInt() -> {
                                     setCardView(
                                         position,
                                         o3Value,
@@ -62,7 +73,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                                         o3Flag
                                     )
                                 }
-                                resources.getString(R.string.NUM4).toInt() -> {
+                                NUM4.toInt() -> {
                                     setCardView(
                                         position,
                                         coValue,
@@ -70,7 +81,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                                         coFlag
                                     )
                                 }
-                                resources.getString(R.string.NUM5).toInt() -> {
+                                NUM5.toInt() -> {
                                     setCardView(
                                         position,
                                         no2Value,
@@ -103,10 +114,10 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                 rltmCardTV1.text=rltmValueConvert(position,value)
                 rltmCardTV2.text = rltmGradeConvert(grade)
                 val flagString = when(flag.isNullOrBlank()){
-                    true->{"-"}
+                    true->{resources.getString(R.string.nullString)}
                     else->{flag}
                 }
-                rltmCardTV3.text = resources.getString(R.string.flag,flagString)
+                rltmCardTV3.text = rltmFlag(flagString)
             }
         }
     }
@@ -115,8 +126,57 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
         if(viewModel.checkAirQualityData()){
             val airQuality = airQualityIndex.response.body.items[0]
             with(binding){
-                airDateAndCode.text = airQuality.dataTime
+                airDateAndCode.text = dataConvert.airDateAndCode(airQuality.dataTime, airQuality.informCode)
+                informOverall.text = airQuality.informOverall
+                informCause.text = airQuality.informCause
+                val actionKnacktNullCheck =when(airQuality.actionKnack.isNullOrBlank()){
+                    true->resources.getString(R.string.nullString)
+                    else->airQuality.actionKnack
+                }
+
+                actionKnack.text = dataConvert.actionKnact(actionKnacktNullCheck)
+                airListView(airQuality)
+                airQualityImageSet(airQuality)
             }
+        }
+    }
+
+    private fun airListView(airQuality: AirQualityItem){
+        val informGrades = dataConvert.airInformGrade(airQuality.informGrade)
+        val chunkeInformGrades = informGrades.chunked(NUM7.toInt()).toMutableList()
+        val adapterList = mutableListOf<AirRecyclerViewAdapter>()
+
+        for(i in chunkeInformGrades.indices){
+            val recyclerview = AirRecyclerViewAdapter(chunkeInformGrades[i])
+            adapterList.add(recyclerview)
+            airLayoutManager.add(LinearLayoutManager(weatherApplication.applicationContext, RecyclerView.VERTICAL,false))
+        }
+
+
+        with(binding){
+            airRecyclerView1.adapter = adapterList[0]
+            airRecyclerView1.layoutManager=airLayoutManager[0]
+            airRecyclerView2.adapter = adapterList[1]
+            airRecyclerView2.layoutManager=airLayoutManager[1]
+            airRecyclerView3.adapter = adapterList[2]
+            airRecyclerView3.layoutManager=airLayoutManager[2]
+        }
+    }
+
+    private fun airQualityImageSet(airQuality: AirQualityItem) {
+        val imageUrlPm10 = mutableListOf<String>()
+        val imageUrlPm25 = mutableListOf<String>()
+        imageUrlPm10.add(airQuality.imageUrl1)
+        imageUrlPm10.add(airQuality.imageUrl2)
+        imageUrlPm10.add(airQuality.imageUrl3)
+        imageUrlPm25.add(airQuality.imageUrl4)
+        imageUrlPm25.add(airQuality.imageUrl5)
+        imageUrlPm25.add(airQuality.imageUrl6)
+        val imagePm10Adapter = ViepagerImageAdapter(this,imageUrlPm10)
+        val imagePm25Adapter = ViepagerImageAdapter(this,imageUrlPm25)
+        with(binding){
+            pm10VP2.adapter=imagePm10Adapter
+            pm25VP2.adapter=imagePm25Adapter
         }
     }
 }

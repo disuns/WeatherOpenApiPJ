@@ -12,8 +12,10 @@
     <dimen name="TimeItemWindText">14dp</dimen>
     <dimen name="MainText">16dp</dimen>
     <dimen name="IndexTitle">28dp</dimen>
+    <dimen name="ViewPagerImageTitle">24dp</dimen>
     <dimen name="IndexValueSize">16dp</dimen>
     <dimen name="IndexAirDateCode">14dp</dimen>
+    <dimen name="IndexAirQuality">18dp</dimen>
     <!--ui-->
     <dimen name="NowFcstIV">110dp</dimen>
     <dimen name="PaddingStart">14dp</dimen>

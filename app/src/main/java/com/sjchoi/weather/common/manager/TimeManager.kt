@@ -2,7 +2,7 @@ package com.sjchoi.weather.common.manager
 
 import android.annotation.SuppressLint
 import com.sjchoi.weather.R
-import com.sjchoi.weather.common.WeatherApplication
+import com.sjchoi.weather.common.*
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekDate
 import java.text.SimpleDateFormat
 import java.util.*
@@ -106,12 +106,12 @@ object TimeManager {
         calendar.time=date
         val strWeek:String= with(weatherApplication){
             when(calendar.get(Calendar.DAY_OF_WEEK)){
-                getString(R.string.NUM1).toInt()->{getString(R.string.sunday)}
-                getString(R.string.NUM2).toInt()->{getString(R.string.monday)}
-                getString(R.string.NUM3).toInt()->{getString(R.string.tuesday)}
-                getString(R.string.NUM4).toInt()->{getString(R.string.wednesday)}
-                getString(R.string.NUM5).toInt()->{getString(R.string.thursday)}
-                getString(R.string.NUM6).toInt()->{getString(R.string.friday)}
+                NUM1.toInt()->{getString(R.string.sunday)}
+                NUM2.toInt()->{getString(R.string.monday)}
+                NUM3.toInt()->{getString(R.string.tuesday)}
+                NUM4.toInt()->{getString(R.string.wednesday)}
+                NUM5.toInt()->{getString(R.string.thursday)}
+                NUM6.toInt()->{getString(R.string.friday)}
                 else->{getString(R.string.saturday)}
             }
         }

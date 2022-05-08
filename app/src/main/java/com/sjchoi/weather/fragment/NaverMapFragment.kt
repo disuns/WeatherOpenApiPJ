@@ -15,6 +15,8 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.sjchoi.weather.R
 import com.sjchoi.weather.common.DataConvert
+import com.sjchoi.weather.common.NUM0
+import com.sjchoi.weather.common.NUM1
 import com.sjchoi.weather.common.WeatherApplication
 import com.sjchoi.weather.databinding.FragmentNavermapBinding
 import com.sjchoi.weather.viewmodel.WeatherViewModel
@@ -50,12 +52,12 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
                             val geocoder = Geocoder(weatherApplication.applicationContext)
 
                             try {
-                                addressList = geocoder.getFromLocationName(location, 1)
+                                addressList = geocoder.getFromLocationName(location, NUM1.toInt())
                             }catch (e:IOException){
                                 weatherApplication.toastMessage(e.toString())
                             }
 
-                            val address = addressList!![0]
+                            val address = addressList!![NUM0.toInt()]
                             markerSetCamPos(marker,address.latitude, address.longitude)
 
                             naverMap.moveCamera(CameraUpdate.scrollTo(LatLng(address.latitude, address.longitude)))
@@ -89,7 +91,7 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
             }
         }
         with(naverMap) {
-            //줌, 위경도 제한
+            //줌, 위경도 제한, 수치 조정 필요
             extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
             minZoom = 5.0
             maxZoom = 18.0
@@ -128,7 +130,7 @@ class NaverMapFragment: BaseFragment<FragmentNavermapBinding>(FragmentNavermapBi
         with(viewModel){
             getLat().value = naverMap.cameraPosition.target.latitude
             getLon().value = naverMap.cameraPosition.target.longitude
-            convertGRIDGPS(0)
+            convertGRIDGPS(NUM0.toInt())
         }
     }
 }

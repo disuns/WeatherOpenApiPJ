@@ -50,8 +50,8 @@ object RetrofitOkHttpManager {
         override fun intercept(chain: Interceptor.Chain): Response {
             val request: Request = chain.request()
             var response: Response = chain.proceed(request)
-            var tryCount = 0
-            val maxLimit = 2
+            var tryCount = NUM0.toInt()
+            val maxLimit = NUM2.toInt()
             while (!response.isSuccessful && tryCount < maxLimit) {
                 tryCount++
                 response = chain.proceed(request)
