@@ -14,10 +14,12 @@ import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager.getTimeManager
 import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
+import com.sjchoi.weather.dataclass.datapotal.StationResponse
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.dataclass.datapotal.indexdata.AirQualityIndex
 import com.sjchoi.weather.dataclass.datapotal.indexdata.RltmStationIndex
+import com.sjchoi.weather.dataclass.datapotal.indexdata.StationInfo
 import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import kotlinx.coroutines.launch
 import kotlin.math.*
@@ -35,6 +37,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private var lat : MutableLiveData<Double> = MutableLiveData()
     private var lon : MutableLiveData<Double> = MutableLiveData()
     private var address : MutableLiveData<ReverseGeocoder> = MutableLiveData()
+    private var stationInfoData : MutableLiveData<StationInfo> = MutableLiveData()
 
     private lateinit var mFusedlocationClient: FusedLocationProviderClient
     private lateinit var mCurrentLocation: Location
@@ -55,6 +58,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     fun getLat() = lat
     fun getLon() = lon
     fun getAddress() = address
+    fun getStationInfoData() = stationInfoData
 
     fun checkWeekRainSkyData() : Boolean {
         return weekRainSkyData.value?.let {
@@ -102,6 +106,17 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
 
     fun checkRltmStationData() : Boolean {
         return rltmStationData.value?.let {
+            if (it.response.header.resultCode != NO_ERROR) {
+                dataConvert.dataPotalResultCode(it.response.header.resultCode)
+                false
+            } else {
+                true
+            }
+        } ?: false
+    }
+
+    fun checkStationInfo() : Boolean {
+        return stationInfoData.value?.let {
             if (it.response.header.resultCode != NO_ERROR) {
                 dataConvert.dataPotalResultCode(it.response.header.resultCode)
                 false
@@ -233,12 +248,15 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     }
 
     private suspend fun reverseGeoRest(latGeo : Double, lonGeo:Double) {
+        progressDialog.showDialog()
+
         val latlon = "${lonGeo},${latGeo}"
 
         val reverseGeocoderCo = repository.requestReverseGeo(
             MAP_REQUEST_DEFAULT,
             latlon,
-            MAP_COORDINATE,
+            MAP_COORDINATE_DEFAULT,
+            MAP_COORDINATE_TM,
             DATA_TYPE_LOWER,
             MAP_ORDERS,
             MAP_CLIENT_KEY_ID,
@@ -253,10 +271,12 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 weatherApplication.toastMessage(message())
                 Log.e("", message())
             }
+            progressDialog.closeDialog()
         }
     }
 
     private suspend fun fcstRest(){
+        progressDialog.showDialog()
         val nowFcst = repository.requestNowFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
@@ -276,6 +296,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 Log.e("",message())
             }
         }
+
         val timeFcst = repository.requestFcst(
             DATA_POTAL_SERVICE_KEY,
             PAGE_NO_DEFAULT,
@@ -315,24 +336,46 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             }
         }
 
-        val rltmStation = repository.requestRltmStation(
+        val station = repository.requestStationFind(
             DATA_POTAL_SERVICE_KEY,
             DATA_TYPE_LOWER,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_AIR,
-            "영등포구",
-            DATE_TERM,
-            RLTM_DATA_VERSION
-        )
+            adr.results[adr.results.lastIndex].region.area3.coords.center.x.toString(),
+            adr.results[adr.results.lastIndex].region.area3.coords.center.y.toString(),
+            STATION_VERSION)
 
-        with(rltmStation){
+        with(station){
             if(isSuccessful){
-                rltmStationData.postValue(body() as RltmStationIndex)
+                stationInfoData.value = body() as StationInfo
                 Log.e("",raw().request.url.toString())
             }else{
                 weatherApplication.toastMessage(message())
                 Log.e("",message())
             }
+        }
+        when(checkStationInfo())
+        {
+            true->{
+                val rltmStation = repository.requestRltmStation(
+                DATA_POTAL_SERVICE_KEY,
+                DATA_TYPE_LOWER,
+                PAGE_NO_DEFAULT,
+                NUM_OF_ROWS_AIR,
+                stationInfoData.value!!.response.body.items[NUM0.toInt()].stationName ,
+                DATE_TERM,
+                RLTM_DATA_VERSION
+                )
+
+                with(rltmStation){
+                    if(isSuccessful){
+                        rltmStationData.postValue(body() as RltmStationIndex)
+                        Log.e("",raw().request.url.toString())
+                    }else{
+                        weatherApplication.toastMessage(message())
+                        Log.e("",message())
+                    }
+                }
+            }
+            else->{}
         }
 
         val airQuality = repository.requestAirQuality(
@@ -353,27 +396,18 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
                 Log.e("",message())
             }
         }
+        progressDialog.closeDialog()
     }
     private fun restInit(latGeo : Double, lonGeo:Double){
-        progressDialog.show()
-
         viewModelScope.launch {
             reverseGeoRest(latGeo, lonGeo)
             fcstRest()
         }
-
-        if(progressDialog.isShowing)
-            progressDialog.dismiss()
     }
 
     fun restReGe(latGeo : Double, lonGeo:Double){
-        progressDialog.show()
-
         viewModelScope.launch {
             reverseGeoRest(latGeo, lonGeo)
         }
-
-        if(progressDialog.isShowing)
-            progressDialog.dismiss()
     }
 }

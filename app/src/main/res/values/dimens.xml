@@ -38,7 +38,7 @@
     <dimen name="CardViewMargin">90dp</dimen>
     <dimen name="SpinnerPadding">12dp</dimen>
     <dimen name="SpinnerItemPadding">8dp</dimen>
-    <dimen name="SearchButtonMargin">10dp</dimen>
+    <dimen name="SearchButtonPadding">10dp</dimen>
     <dimen name="AirQualityImageMargin">50dp</dimen>
     <dimen name="AirQualityDefaultMargin">5dp</dimen>
 </resources>

@@ -11,6 +11,7 @@ interface MapRestService {
     suspend fun requestReverseGeoCo(@Query("request") request: String,
                           @Query("coords", encoded = true) coords:String,
                           @Query("sourcecrs", encoded = true) sourcecrs:String,
+                          @Query("targetcrs", encoded = true) targetcrs:String,
                           @Query("output") output:String,
                           @Query("orders", encoded = true) orders:String,
                           @Query("X-NCP-APIGW-API-KEY-ID") apikeyid:String,

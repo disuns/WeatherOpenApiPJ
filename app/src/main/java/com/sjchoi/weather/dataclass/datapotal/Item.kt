@@ -85,3 +85,9 @@ data class RltmStationItem(
     val so2Grade: String,
     val so2Value: String
 )
+
+data class StationItem(
+    val tm : Double,
+    val addr : String,
+    val stationName : String
+)

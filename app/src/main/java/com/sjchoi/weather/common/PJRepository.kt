@@ -51,11 +51,19 @@ class PJRepository {
                                    @Query("dataTerm") dataTerm:String,
                                     @Query("ver")ver:String) = weatherService.requestRltmStation(serviceKey, returnType, pageNo, numOfRows, stationName, dataTerm, ver)
 
+    suspend fun requestStationFind(@Query("serviceKey") serviceKey: String,
+                                   @Query("returnType") returnType:String,
+                                   @Query("tmX") tmX:String,
+                                   @Query("tmY") tmY:String,
+                                   @Query("ver")ver:String) = weatherService.requestStationFind(serviceKey, returnType, tmX, tmY, ver)
+
     suspend fun requestReverseGeo(@Query("request") request: String,
                                   @Query("coords", encoded = true) coords:String,
                                   @Query("sourcecrs", encoded = true) sourcecrs:String,
+                                  @Query("targetcrs", encoded = true) targetcrs:String,
                                   @Query("output") output:String,
                                   @Query("orders") orders:String,
                                   @Query("X-NCP-APIGW-API-KEY-ID") apikeyid:String,
-                                  @Query("X-NCP-APIGW-API-KEY") apikey:String) = mapService.requestReverseGeoCo(request,coords, sourcecrs, output, orders, apikeyid, apikey)
+                                  @Query("X-NCP-APIGW-API-KEY") apikey:String) = mapService.requestReverseGeoCo(request,coords, sourcecrs,targetcrs, output, orders, apikeyid, apikey)
+
 }

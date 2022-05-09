@@ -29,3 +29,10 @@ data class RltmStationBody(
     val pageNo: Int,
     val totalCount: Int
 )
+
+data class StationBody(
+    val items: MutableList<StationItem>,
+    val numOfRows: Int,
+    val pageNo: Int,
+    val totalCount: Int
+)

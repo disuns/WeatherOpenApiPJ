@@ -36,10 +36,12 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
             with(binding){
 
                 //문제있음 측정소 api가 안받아짐
-                rltmTitle.text = dataConvert.rltmTitle("영등포구")
-//                viewModel.getAddress().observe(viewLifecycleOwner){
-//                    rltmTitle.text = dataConvert.rltmTitle( it.results[it.results.lastIndex].region.area2.name)
-//                }
+                viewModel.getStationInfoData().observe(viewLifecycleOwner){
+                    when(viewModel.checkStationInfo()){
+                        true->{ rltmTitle.text = dataConvert.rltmTitle( it.response.body.items[NUM0.toInt()].stationName)}
+                        else->{}
+                    }
+                }
 
                 setCardView(NUM0.toInt(), rltmItem.khaiValue,rltmItem.khaiGrade,null)
                 rltmDateTV.text = dataConvert.rltmStationDate(rltmItem.dataTime)

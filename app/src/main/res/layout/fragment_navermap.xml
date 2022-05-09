@@ -12,10 +12,10 @@
         android:id="@+id/mapSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/SearchButtonMargin"
-        android:layout_marginTop="@dimen/SearchButtonMargin"
-        android:layout_marginEnd="@dimen/SearchButtonMargin"
-        android:layout_marginBottom="@dimen/SearchButtonMargin"
+        android:layout_marginStart="@dimen/SearchButtonPadding"
+        android:layout_marginTop="@dimen/SearchButtonPadding"
+        android:layout_marginEnd="@dimen/SearchButtonPadding"
+        android:layout_marginBottom="@dimen/SearchButtonPadding"
         android:background="@color/searchViewBackGround"
         android:iconifiedByDefault="false" />
 

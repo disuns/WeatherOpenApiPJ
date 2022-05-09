@@ -19,3 +19,8 @@ data class RltmStationResponse(
     val body: RltmStationBody,
     val header: Header
 )
+
+data class StationResponse(
+    val body: StationBody,
+    val header: Header
+)
