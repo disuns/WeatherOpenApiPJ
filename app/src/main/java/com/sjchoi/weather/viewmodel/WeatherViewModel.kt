@@ -40,6 +40,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private lateinit var mCurrentLocation: Location
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var ornerActivity : Activity
+    private lateinit var progressDialog : ProgressDialog
     private var xLat : Double = 0.0
     private var yLon : Double = 0.0
     private var provider : String = ""
@@ -110,9 +111,10 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         } ?: false
     }
 
-    fun getLocation(activity : Activity) {
+    fun getLocation(activity : Activity, progress: ProgressDialog) {
+        ornerActivity = activity
+        progressDialog = progress
         //live코드
-//        ornerActivity = activity
 //        provider = ornerActivity.intent.getStringExtra("provider")!!
 //        initMapLocation()
 
@@ -353,21 +355,25 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         }
     }
     private fun restInit(latGeo : Double, lonGeo:Double){
+        progressDialog.show()
+
         viewModelScope.launch {
             reverseGeoRest(latGeo, lonGeo)
             fcstRest()
         }
+
+        if(progressDialog.isShowing)
+            progressDialog.dismiss()
     }
 
     fun restReGe(latGeo : Double, lonGeo:Double){
+        progressDialog.show()
+
         viewModelScope.launch {
             reverseGeoRest(latGeo, lonGeo)
         }
-    }
 
-    private fun restFcst(){
-        viewModelScope.launch {
-            fcstRest()
-        }
+        if(progressDialog.isShowing)
+            progressDialog.dismiss()
     }
 }

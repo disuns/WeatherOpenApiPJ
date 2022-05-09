@@ -10,6 +10,7 @@ import com.sjchoi.weather.WeatherViewModelFactory
 import com.sjchoi.weather.adapter.WeatherTabAdapter
 import com.sjchoi.weather.common.DataConvert.mapAddressConvert
 import com.sjchoi.weather.common.PJRepository
+import com.sjchoi.weather.common.ProgressDialog
 import com.sjchoi.weather.databinding.ActivityMainBinding
 import com.sjchoi.weather.fragment.IndexFragment
 import com.sjchoi.weather.fragment.NaverMapFragment
@@ -35,8 +36,10 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = WeatherViewModelFactory(PJRepository())
 
         viewModel = ViewModelProvider(this, viewModelFactory)[WeatherViewModel::class.java]
-        if (savedInstanceState == null)
-            viewModel.getLocation(this@MainActivity)
+        if (savedInstanceState == null){
+            val progressDialog = ProgressDialog(this@MainActivity)
+            viewModel.getLocation(this@MainActivity, progressDialog)
+        }
 
         with(binding) {
             viewModel.getAddress().observe(this@MainActivity){buttonMap.text = mapAddressConvert(it)}

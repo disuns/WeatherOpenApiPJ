@@ -13,6 +13,7 @@ import com.sjchoi.weather.databinding.FragmentIndexBinding
 import com.sjchoi.weather.dataclass.datapotal.AirQualityItem
 import com.sjchoi.weather.dataclass.datapotal.indexdata.AirQualityIndex
 import com.sjchoi.weather.dataclass.datapotal.indexdata.RltmStationIndex
+import kotlin.math.abs
 
 class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::inflate) {
 
@@ -165,18 +166,39 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
 
     private fun airQualityImageSet(airQuality: AirQualityItem) {
         val imageUrlPm10 = mutableListOf<String>()
-        val imageUrlPm25 = mutableListOf<String>()
         imageUrlPm10.add(airQuality.imageUrl1)
         imageUrlPm10.add(airQuality.imageUrl2)
         imageUrlPm10.add(airQuality.imageUrl3)
-        imageUrlPm25.add(airQuality.imageUrl4)
-        imageUrlPm25.add(airQuality.imageUrl5)
-        imageUrlPm25.add(airQuality.imageUrl6)
         val imagePm10Adapter = ViepagerImageAdapter(this,imageUrlPm10)
-        val imagePm25Adapter = ViepagerImageAdapter(this,imageUrlPm25)
-        with(binding){
-            pm10VP2.adapter=imagePm10Adapter
-            pm25VP2.adapter=imagePm25Adapter
+        with(binding.pm10VP2){
+            offscreenPageLimit=3
+            setPageTransformer { page, position ->
+                pageTransformer(page,position)
+            }
+            adapter=imagePm10Adapter
+        }
+    }
+
+    private fun pageTransformer(page: View, position: Float) {
+        val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.IndexOffsetBetweenPages).toFloat()
+        val myOffset = position * -(NUM2.toInt() * offsetBetweenPages)
+        with(page) {
+            when {
+                position < -NUM1.toInt() -> {
+                    translationX = -myOffset
+                }
+                position <= NUM1.toInt() -> {
+                    // Paging 시 Y축 Animation 배경색을 약간 연하게 처리
+                    val scaleFactor = 0.8f.coerceAtLeast(1 - abs(position))
+                    translationX = myOffset
+                    scaleY = scaleFactor
+                    alpha = scaleFactor
+                }
+                else -> {
+                    alpha = 0f
+                    translationX = myOffset
+                }
+            }
         }
     }
 }

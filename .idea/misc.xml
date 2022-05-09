@@ -8,14 +8,17 @@
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/drawable/custom_spinner_item.xml" value="0.199" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/drawable/ic_baseline_arrow_drop_down_24.xml" value="0.2005" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.199" />
+        <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/drawable/ic_launcher_background.xml" value="0.332" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/activity_splash.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/air_listview_item.xml" value="0.19270833333333334" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/air_quality_image_item.xml" value="0.19270833333333334" />
+        <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/air_recyclerview_item.xml" value="0.2798913043478261" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/fragment_fcst.xml" value="0.153125" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/fragment_index.xml" value="0.33" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/fragment_navermap.xml" value="0.19270833333333334" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/fragment_tab.xml" value="0.18" />
+        <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/progress_dialog.xml" value="0.37135416666666665" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/spinner_item.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/weather_time_item.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/xyxo1/Desktop/gitpj/WeatherOpenApiPJ/app/src/main/res/layout/weather_time_recycler_item.xml" value="0.39913700107874867" />

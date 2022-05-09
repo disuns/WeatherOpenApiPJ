@@ -178,7 +178,7 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
     }
 
     private fun pageTransForm(page:View, position : Float){
-        val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.OffsetBetweenPages).toFloat()
+        val offsetBetweenPages = resources.getDimensionPixelOffset(R.dimen.FcstOffsetBetweenPages).toFloat()
         val myOffset = position * -(NUM2.toInt() * offsetBetweenPages)
         with(page) {
             when {

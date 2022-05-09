@@ -97,7 +97,7 @@
     <string name="flag">플래그 : %s</string>
     <string name="rltmUnit1">%s ㎍/㎥</string>
     <string name="rltmUnit2">%s ppm</string>
-    <string name="airQualityTitle">대기질 예보</string>
+    <string name="airQualityTitle">전국 대기 예보</string>
     <string name="dateAndCode">%s( code : %s )</string>
     <string name="actionKnack">행동요령 : %s</string>
     <string name="nullString">-</string>
@@ -117,4 +117,7 @@
         <item>이산화질소</item>
         <item>아황산가스</item>
     </string-array>
+
+    <!--로딩 액티비티 / 추후변경-->
+    <string name="loading">Loading</string>
 </resources>

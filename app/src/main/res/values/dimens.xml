@@ -16,6 +16,7 @@
     <dimen name="IndexValueSize">16dp</dimen>
     <dimen name="IndexAirDateCode">14dp</dimen>
     <dimen name="IndexAirQuality">18dp</dimen>
+    <dimen name="Loading">30sp</dimen>
     <!--ui-->
     <dimen name="NowFcstIV">110dp</dimen>
     <dimen name="PaddingStart">14dp</dimen>
@@ -32,8 +33,12 @@
     <dimen name="WeekItemcontentPaddingElevation">1dp</dimen>
     <dimen name="WeekRVMarginIV">3dp</dimen>
     <dimen name="WeekRVMarginTV">10dp</dimen>
-    <dimen name="OffsetBetweenPages">80dp</dimen>
+    <dimen name="FcstOffsetBetweenPages">80dp</dimen>
+    <dimen name="IndexOffsetBetweenPages">40dp</dimen>
     <dimen name="CardViewMargin">90dp</dimen>
     <dimen name="SpinnerPadding">12dp</dimen>
     <dimen name="SpinnerItemPadding">8dp</dimen>
+    <dimen name="SearchButtonMargin">10dp</dimen>
+    <dimen name="AirQualityImageMargin">50dp</dimen>
+    <dimen name="AirQualityDefaultMargin">5dp</dimen>
 </resources>
