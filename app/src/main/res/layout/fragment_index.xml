@@ -192,6 +192,11 @@
                     android:clipToPadding="false"
                     android:clipChildren="false"/>
 
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="[자료출처]환경부/한국환경공단\n(데이터는 실시간 관측된 자료이며 측정소 현지 사정이나 데이터의 수신상태에 따라 미수신 될 수 있음)"/>
             </LinearLayout>
         </LinearLayout>
 </ScrollView>
