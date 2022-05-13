@@ -13,8 +13,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.common.manager.TimeManager.getTimeManager
-import com.sjchoi.weather.common.manager.TimeManager.urlWeekFcstTime
-import com.sjchoi.weather.dataclass.datapotal.StationResponse
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.FcstData
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.WeekRainSkyData
 import com.sjchoi.weather.dataclass.datapotal.indexdata.AirQualityIndex
@@ -252,150 +250,32 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
 
         val latlon = "${lonGeo},${latGeo}"
 
-        val reverseGeocoderCo = repository.requestReverseGeo(
-            MAP_REQUEST_DEFAULT,
-            latlon,
-            MAP_COORDINATE_DEFAULT,
-            MAP_COORDINATE_TM,
-            DATA_TYPE_LOWER,
-            MAP_ORDERS,
-            MAP_CLIENT_KEY_ID,
-            MAP_CLIENT_KEY
-        )
+        address.value = repository.requestReverseGeo(latlon)
 
-        with(reverseGeocoderCo) {
-            if (isSuccessful) {
-                address.value = body() as ReverseGeocoder
-                Log.e("",raw().request.url.toString())
-            } else {
-                weatherApplication.toastMessage(message())
-                Log.e("", message())
-            }
-            progressDialog.closeDialog()
-        }
+        progressDialog.closeDialog()
     }
 
     private suspend fun fcstRest(){
         progressDialog.showDialog()
-        val nowFcst = repository.requestNowFcst(
-            DATA_POTAL_SERVICE_KEY,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_DEFAULT,
-            DATA_TYPE_UPPER,
-            getTimeManager().urlNowDate(),
-            getTimeManager().urlNowTime(),
-            getXLat().toString(),
-            getYLon().toString())
+        nowFcstData.value = repository.requestNowFcst(getTimeManager().urlNowDate(), getTimeManager().urlNowTime(), getXLat().toString(), getYLon().toString())
 
-        with(nowFcst){
-            if(isSuccessful){
-                nowFcstData.postValue(body() as FcstData)
-                Log.e("",raw().request.url.toString())
-            }else{
-                weatherApplication.toastMessage(message())
-                Log.e("",message())
-            }
-        }
-
-        val timeFcst = repository.requestFcst(
-            DATA_POTAL_SERVICE_KEY,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_DEFAULT,
-            DATA_TYPE_UPPER,
-            getTimeManager().urlTimeFcstDate(),
-            getTimeManager().urlTimeFcstTime(),
-            getXLat().toString(),
-            getYLon().toString())
-
-        with(timeFcst){
-            if(isSuccessful){
-                timeFcstData.postValue(body() as FcstData)
-                Log.e("",raw().request.url.toString())
-            }else{
-                weatherApplication.toastMessage(message())
-                Log.e("",message())
-            }
-        }
+        timeFcstData.value = repository.requestFcst(getTimeManager().urlTimeFcstDate(), getTimeManager().urlTimeFcstTime(), getXLat().toString(), getYLon().toString())
 
         val adr = address.value!!
-        val rainSky = repository.requestWeekRainSky(
-            DATA_POTAL_SERVICE_KEY,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_WEEK,
-            DATA_TYPE_UPPER,
-            dataConvert.landCodeGu(adr.results[adr.results.lastIndex].region.area1.name),
-            urlWeekFcstTime())
+        weekRainSkyData.value = repository.requestWeekRainSky(dataConvert.landCodeGu(adr.results[adr.results.lastIndex].region.area1.name), getTimeManager().urlWeekFcstTime())
 
-        with(rainSky){
-            if(isSuccessful){
-                weekRainSkyData.postValue(body() as WeekRainSkyData)
-                Log.e("",raw().request.url.toString())
-            }else{
-                weatherApplication.toastMessage(message())
-                Log.e("",message())
-            }
-        }
+        stationInfoData.value = repository.requestStationFind(adr.results[adr.results.lastIndex].region.area3.coords.center.x.toString(), adr.results[adr.results.lastIndex].region.area3.coords.center.y.toString(),)
 
-        val station = repository.requestStationFind(
-            DATA_POTAL_SERVICE_KEY,
-            DATA_TYPE_LOWER,
-            adr.results[adr.results.lastIndex].region.area3.coords.center.x.toString(),
-            adr.results[adr.results.lastIndex].region.area3.coords.center.y.toString(),
-            STATION_VERSION)
-
-        with(station){
-            if(isSuccessful){
-                stationInfoData.value = body() as StationInfo
-                Log.e("",raw().request.url.toString())
-            }else{
-                weatherApplication.toastMessage(message())
-                Log.e("",message())
-            }
-        }
         when(checkStationInfo())
         {
             true->{
-                val rltmStation = repository.requestRltmStation(
-                DATA_POTAL_SERVICE_KEY,
-                DATA_TYPE_LOWER,
-                PAGE_NO_DEFAULT,
-                NUM_OF_ROWS_AIR,
-                stationInfoData.value!!.response.body.items[NUM0.toInt()].stationName ,
-                DATE_TERM,
-                RLTM_DATA_VERSION
-                )
-
-                with(rltmStation){
-                    if(isSuccessful){
-                        rltmStationData.postValue(body() as RltmStationIndex)
-                        Log.e("",raw().request.url.toString())
-                    }else{
-                        weatherApplication.toastMessage(message())
-                        Log.e("",message())
-                    }
-                }
+                rltmStationData.value = repository.requestRltmStation(stationInfoData.value!!.response.body.items[NUM0.toInt()].stationName)
             }
             else->{}
         }
 
-        val airQuality = repository.requestAirQuality(
-            DATA_POTAL_SERVICE_KEY,
-            DATA_TYPE_LOWER,
-            PAGE_NO_DEFAULT,
-            NUM_OF_ROWS_AIR,
-            getTimeManager().urlAirQualityDate(),
-            AIR_CODE
-        )
+        airQualityData.value = repository.requestAirQuality(getTimeManager().urlAirQualityDate(),)
 
-        with(airQuality){
-            if(isSuccessful){
-                airQualityData.postValue(body() as AirQualityIndex)
-                Log.e("",raw().request.url.toString())
-            }else{
-                weatherApplication.toastMessage(message())
-                Log.e("",message())
-            }
-        }
         progressDialog.closeDialog()
     }
     private fun restInit(latGeo : Double, lonGeo:Double){

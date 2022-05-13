@@ -1,25 +1,16 @@
 package com.sjchoi.weather.adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.common.DataConvert
 import com.sjchoi.weather.databinding.WeatherTimeItemBinding
 import com.sjchoi.weather.dataclass.datapotal.fcstdata.TimeFcstData
 
-class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : BaseRecyclerAdapter<WeatherTimeItemBinding>(WeatherTimeItemBinding::inflate){
 
     private val dataConvert = DataConvert.getDataConvert()
 
-    inner class TimeFcstViewHolder(val binding: WeatherTimeItemBinding) :RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = WeatherTimeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return TimeFcstViewHolder(binding)
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        with((holder as TimeFcstViewHolder).binding){
+        with((holder as BaseRecyclerAdapter<WeatherTimeItemBinding>.BaseViewHolder).binding){
             with(dataConvert){
                 with(adapterItem[position]){
                     itemTimeTV.text = timeDataConvert(fcstTime)

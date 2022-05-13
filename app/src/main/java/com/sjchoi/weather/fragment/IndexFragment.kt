@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sjchoi.weather.R
 import com.sjchoi.weather.adapter.AirRecyclerViewAdapter
-import com.sjchoi.weather.adapter.ViepagerImageAdapter
+import com.sjchoi.weather.adapter.ViewpagerImageAdapter
 import com.sjchoi.weather.common.*
 import com.sjchoi.weather.databinding.FragmentIndexBinding
 import com.sjchoi.weather.dataclass.datapotal.AirQualityItem
@@ -35,7 +35,6 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
             val rltmItem = rltmStationIndex.response.body.items[0]
             with(binding){
 
-                //문제있음 측정소 api가 안받아짐
                 viewModel.getStationInfoData().observe(viewLifecycleOwner){
                     when(viewModel.checkStationInfo()){
                         true->{ rltmTitle.text = dataConvert.rltmTitle( it.response.body.items[NUM0.toInt()].stationName)}
@@ -157,12 +156,17 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
 
 
         with(binding){
-            airRecyclerView1.adapter = adapterList[0]
-            airRecyclerView1.layoutManager=airLayoutManager[0]
-            airRecyclerView2.adapter = adapterList[1]
-            airRecyclerView2.layoutManager=airLayoutManager[1]
-            airRecyclerView3.adapter = adapterList[2]
-            airRecyclerView3.layoutManager=airLayoutManager[2]
+            for(i in adapterList.indices){
+                val airRecycler = when(i){
+                    NUM0.toInt()->{airRecyclerView1}
+                    NUM1.toInt()->{airRecyclerView2}
+                    else->{airRecyclerView3}
+                }
+                with(airRecycler){
+                    adapter =adapterList[i]
+                    layoutManager=airLayoutManager[i]
+                }
+            }
         }
     }
 
@@ -171,7 +175,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
         imageUrlPm10.add(airQuality.imageUrl1)
         imageUrlPm10.add(airQuality.imageUrl2)
         imageUrlPm10.add(airQuality.imageUrl3)
-        val imagePm10Adapter = ViepagerImageAdapter(this,imageUrlPm10)
+        val imagePm10Adapter = ViewpagerImageAdapter(this,imageUrlPm10)
         with(binding.pm10VP2){
             offscreenPageLimit=3
             setPageTransformer { page, position ->
