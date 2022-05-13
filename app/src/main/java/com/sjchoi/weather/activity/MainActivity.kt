@@ -33,12 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         tabItem = resources.getStringArray(R.array.Tab).toMutableList()
 
-        val viewModelFactory = WeatherViewModelFactory(PJRepository())
+        val viewModelFactory = WeatherViewModelFactory(PJRepository(), this,ProgressDialog(this@MainActivity))
 
         viewModel = ViewModelProvider(this, viewModelFactory)[WeatherViewModel::class.java]
         if (savedInstanceState == null){
-            val progressDialog = ProgressDialog(this@MainActivity)
-            viewModel.getLocation(this@MainActivity, progressDialog)
+            viewModel.getLocation()
         }
 
         with(binding) {

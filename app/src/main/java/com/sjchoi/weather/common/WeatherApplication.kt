@@ -60,7 +60,6 @@ class WeatherApplication  : Application() {
         }
     }
 
-    fun toastMessage(text:String){
-        Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
-    }
+    fun toastMessage(text:String) = Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
+
 }

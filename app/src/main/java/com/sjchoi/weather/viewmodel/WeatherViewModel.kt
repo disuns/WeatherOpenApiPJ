@@ -6,9 +6,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Looper
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.*
 import com.sjchoi.weather.common.*
@@ -22,10 +20,9 @@ import com.sjchoi.weather.dataclass.reverseGeocoder.ReverseGeocoder
 import kotlinx.coroutines.launch
 import kotlin.math.*
 
-class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
+class WeatherViewModel(private val repository: PJRepository, private val ornerActivity: Activity, private val progressDialog: ProgressDialog) : ViewModel() {
 
     private val dataConvert = DataConvert.getDataConvert()
-    private val weatherApplication = WeatherApplication.getWeatherApplication()
 
     private var nowFcstData : MutableLiveData<FcstData> = MutableLiveData()
     private var timeFcstData : MutableLiveData<FcstData> = MutableLiveData()
@@ -40,8 +37,6 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
     private lateinit var mFusedlocationClient: FusedLocationProviderClient
     private lateinit var mCurrentLocation: Location
     private lateinit var mLocationRequest: LocationRequest
-    private lateinit var ornerActivity : Activity
-    private lateinit var progressDialog : ProgressDialog
     private var xLat : Double = 0.0
     private var yLon : Double = 0.0
     private var provider : String = ""
@@ -124,9 +119,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         } ?: false
     }
 
-    fun getLocation(activity : Activity, progress: ProgressDialog) {
-        ornerActivity = activity
-        progressDialog = progress
+    fun getLocation() {
         //live코드
 //        provider = ornerActivity.intent.getStringExtra("provider")!!
 //        initMapLocation()
@@ -264,7 +257,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
         val adr = address.value!!
         weekRainSkyData.value = repository.requestWeekRainSky(dataConvert.landCodeGu(adr.results[adr.results.lastIndex].region.area1.name), getTimeManager().urlWeekFcstTime())
 
-        stationInfoData.value = repository.requestStationFind(adr.results[adr.results.lastIndex].region.area3.coords.center.x.toString(), adr.results[adr.results.lastIndex].region.area3.coords.center.y.toString(),)
+        stationInfoData.value = repository.requestStationFind(adr.results[adr.results.lastIndex].region.area3.coords.center.x.toString(), adr.results[adr.results.lastIndex].region.area3.coords.center.y.toString())
 
         when(checkStationInfo())
         {
@@ -274,7 +267,7 @@ class WeatherViewModel(private val repository: PJRepository) : ViewModel() {
             else->{}
         }
 
-        airQualityData.value = repository.requestAirQuality(getTimeManager().urlAirQualityDate(),)
+        airQualityData.value = repository.requestAirQuality(getTimeManager().urlAirQualityDate())
 
         progressDialog.closeDialog()
     }

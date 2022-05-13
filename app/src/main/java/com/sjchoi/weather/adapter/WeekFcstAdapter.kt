@@ -23,7 +23,6 @@ class WeekFcstAdapter (private val adapterItem : MutableList<WeekFcstData>) : Ba
         }
     }
 
-    override fun getItemCount(): Int {
-        return adapterItem.size
-    }
+    override fun getItemCount() = adapterItem.size
+
 }

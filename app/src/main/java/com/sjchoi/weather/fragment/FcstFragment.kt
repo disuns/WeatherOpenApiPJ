@@ -43,8 +43,7 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
             with(binding) {
                 for (i in fcstItem.indices) {
                     if ((fcstItem[i].fcstTime.toInt() - fcstItem[i].baseTime.toInt()) < 100) {
-                        with(dataConvert)
-                        {
+                        with(dataConvert) {
                             when (fcstItem[i].category) {
                                 TMP_NOW -> {
                                     nowTempTV.text =
@@ -95,14 +94,13 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
             val fcstItem = fcstData.response.body.items.item
             var timeData = TimeFcstData()
             for (i in fcstItem.indices) {
-                if (timeData.fcstDate != fcstItem[i].fcstDate || timeData.fcstTime != fcstItem[i].fcstTime) {
-                    timeData = TimeFcstData()
-                    timeData.fcstTime = fcstItem[i].fcstTime
-                    timeData.fcstDate = fcstItem[i].fcstDate
-                }
+                with(fcstItem[i]) {
+                    if (timeData.fcstDate != fcstDate || timeData.fcstTime != fcstTime) {
+                        timeData = TimeFcstData()
+                        timeData.fcstTime = fcstTime
+                        timeData.fcstDate = fcstDate
+                    }
 
-                with(fcstItem[i])
-                {
                     when (category) {
                         TMP_TIME -> {
                             timeData.temp = fcstValue
@@ -132,11 +130,8 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
                         else -> {}
                     }
                 }
-
             }
-
         }
-
         return fcstList
     }
 
@@ -147,11 +142,11 @@ class FcstFragment : BaseFragment<FragmentFcstBinding>(FragmentFcstBinding::infl
             val timeManager = TimeManager.getTimeManager()
             for(i in weekData.indices){
                 with(weekData[i]){
-                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(3),rnSt3Am.toString(), rnSt3Pm.toString(), wf3Am, wf3Pm))
-                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(4),rnSt4Am.toString(), rnSt4Pm.toString(), wf4Am, wf4Pm))
-                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(5),rnSt5Am.toString(), rnSt5Pm.toString(), wf5Am, wf5Pm))
-                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(6),rnSt6Am.toString(), rnSt6Pm.toString(), wf6Am, wf6Pm))
-                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(7),rnSt7Am.toString(), rnSt7Pm.toString(), wf7Am, wf7Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(NUM3.toInt()),rnSt3Am.toString(), rnSt3Pm.toString(), wf3Am, wf3Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(NUM4.toInt()),rnSt4Am.toString(), rnSt4Pm.toString(), wf4Am, wf4Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(NUM5.toInt()),rnSt5Am.toString(), rnSt5Pm.toString(), wf5Am, wf5Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(NUM6.toInt()),rnSt6Am.toString(), rnSt6Pm.toString(), wf6Am, wf6Pm))
+                    weekList.add(setWeekFcstData(timeManager.getFcstWeekUIDate(NUM7.toInt()),rnSt7Am.toString(), rnSt7Pm.toString(), wf7Am, wf7Pm))
                 }
             }
         }

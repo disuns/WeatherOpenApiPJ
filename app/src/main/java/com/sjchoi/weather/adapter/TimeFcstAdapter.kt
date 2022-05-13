@@ -29,7 +29,6 @@ class TimeFcstAdapter(private val adapterItem : List<TimeFcstData>) : BaseRecycl
         }
     }
 
-    override fun getItemCount(): Int {
-        return adapterItem.size
-    }
+    override fun getItemCount() = adapterItem.size
+
 }

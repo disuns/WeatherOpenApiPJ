@@ -80,17 +80,17 @@ object DataConvert {
     }
     //이미지+날씨정보
 
-    fun rainPerConvert(code: String): String { return weatherApplication.getString(R.string.perUnit, code) }
+    fun rainPerConvert(code: String)=  weatherApplication.getString(R.string.perUnit, code)
 
-    fun tempConvert(code: String): String { return weatherApplication.getString(R.string.tempUnit, code) }
+    fun tempConvert(code: String)=  weatherApplication.getString(R.string.tempUnit, code)
 
-    fun nowWetConvert(code: String): String { return weatherApplication.getString(R.string.nowWetUnit, code) }
+    fun nowWetConvert(code: String)= weatherApplication.getString(R.string.nowWetUnit, code)
 
-    fun wetConvert(code: String): String { return weatherApplication.getString(R.string.perUnit, code) }
+    fun wetConvert(code: String)= weatherApplication.getString(R.string.perUnit, code)
 
-    fun nowRainConvert(code: String): String { return weatherApplication.getString(R.string.nowRainUnit, code) }
+    fun nowRainConvert(code: String)= weatherApplication.getString(R.string.nowRainUnit, code)
 
-    fun rainConvert(code: String): String { return weatherApplication.getString(R.string.rainUnit, code) }
+    fun rainConvert(code: String)= weatherApplication.getString(R.string.rainUnit, code)
 
     fun windDir(code: String): String {
         return with(weatherApplication) {
@@ -115,9 +115,9 @@ object DataConvert {
         }
     }
 
-    fun windPower(dir: String, code: String): String { return weatherApplication.getString(R.string.nowWindUnit, dir, code) }
+    fun windPower(dir: String, code: String)= weatherApplication.getString(R.string.nowWindUnit, dir, code)
 
-    fun windPower(code: String): String { return weatherApplication.getString(R.string.windUnit, code) }
+    fun windPower(code: String) = weatherApplication.getString(R.string.windUnit, code)
 
     fun fcstRainImgConvert(code: String): FcstImgEnum {
         return when (code) {
@@ -184,9 +184,7 @@ object DataConvert {
         return fcstImg
     }
 
-    fun timeDataConvert(code: String) : String{
-        return weatherApplication.getString(R.string.time, code.substring(NUM0.toInt(),NUM2.toInt()))
-    }
+    fun timeDataConvert(code: String) = weatherApplication.getString(R.string.time, code.substring(NUM0.toInt(),NUM2.toInt()))
 
     fun dateConvert(code : String) : String{
         val splitString = code.chunked(NUM2.toInt())
@@ -224,22 +222,10 @@ object DataConvert {
                 else->{getString(R.string.landCode9)}
             }
         }
-
-        //중기예보 육상예보 REST
-        //11B00000 서울, 인천,경기도
-        //11D10000 강원도영서
-        //11C20000 대전, 세종, 충청남도
-        //11C10000 충청북도
-        //11F20000 광주, 전라남도
-        //11F10000 전라북도
-        //11H10000 대구, 경상북도
-        //11H20000 부산, 울산, 경상남도
-        //11G0000 제주도
     }
 
-    fun weekDateConvert(weekDate: WeekDate) : String{
-        return weatherApplication.getString(R.string.weekDate, weekDate.month,weekDate.day,weekDate.dayOfWeek)
-    }
+    fun weekDateConvert(weekDate: WeekDate) = weatherApplication.getString(R.string.weekDate, weekDate.month,weekDate.day,weekDate.dayOfWeek)
+
 
     fun rltmGradeConvert(grade:String) : String{
         with(weatherApplication){
@@ -266,27 +252,15 @@ object DataConvert {
         }
     }
 
-    fun rltmTitle(value : String): String{
-        return weatherApplication.getString(R.string.rltmStation, value)
-    }
+    fun rltmTitle(value : String) = weatherApplication.getString(R.string.rltmStation, value)
 
-    fun rltmStationDate(date : String): String{
-        return weatherApplication.getString(R.string.stationTime, date)
-    }
+    fun rltmStationDate(date : String) = weatherApplication.getString(R.string.stationTime, date)
 
-    fun rltmFlag(flag : String): String{
-        return weatherApplication.getString(R.string.flag, flag)
-    }
+    fun rltmFlag(flag : String) = weatherApplication.getString(R.string.flag, flag)
 
-    fun airDateAndCode(date : String, code: String): String{
-        return weatherApplication.getString(R.string.dateAndCode, date, code)
-    }
+    fun airDateAndCode(date : String, code: String) = weatherApplication.getString(R.string.dateAndCode, date, code)
 
-    fun airInformGrade(informGrade: String): List<String> {
-        return informGrade.split(",")
-    }
+    fun airInformGrade(informGrade: String) = informGrade.split(",")
 
-    fun actionKnact(actionKnack : String):String{
-        return weatherApplication.getString(R.string.actionKnack, actionKnack)
-    }
+    fun actionKnact(actionKnack : String) = weatherApplication.getString(R.string.actionKnack, actionKnack)
 }

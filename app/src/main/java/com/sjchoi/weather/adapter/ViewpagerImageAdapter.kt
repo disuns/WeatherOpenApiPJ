@@ -13,7 +13,6 @@ class ViewpagerImageAdapter(private val parentFragment: Fragment, private val ad
         }
     }
 
-    override fun getItemCount(): Int {
-        return adapterItem.size
-    }
+    override fun getItemCount() = adapterItem.size
+
 }

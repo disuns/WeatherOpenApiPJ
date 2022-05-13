@@ -26,13 +26,15 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getRltmStationIndex().observe(viewLifecycleOwner){rltmStationDataSet(it)}
-        viewModel.getAirQualityIndex().observe(viewLifecycleOwner){airQualityDataSet(it)}
+        with(viewModel){
+            getRltmStationIndex().observe(viewLifecycleOwner){rltmStationDataSet(it)}
+            getAirQualityIndex().observe(viewLifecycleOwner){airQualityDataSet(it)}
+        }
     }
 
     private fun rltmStationDataSet(rltmStationIndex: RltmStationIndex) {
         if(viewModel.checkRltmStationData()){
-            val rltmItem = rltmStationIndex.response.body.items[0]
+            val rltmItem = rltmStationIndex.response.body.items[NUM0.toInt()]
             with(binding){
 
                 viewModel.getStationInfoData().observe(viewLifecycleOwner){
@@ -131,7 +133,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                 airDateAndCode.text = dataConvert.airDateAndCode(airQuality.dataTime, airQuality.informCode)
                 informOverall.text = airQuality.informOverall
                 informCause.text = airQuality.informCause
-                val actionKnacktNullCheck =when(airQuality.actionKnack.isNullOrBlank()){
+                val actionKnacktNullCheck =when(airQuality.actionKnack.isBlank()){
                     true->resources.getString(R.string.nullString)
                     else->airQuality.actionKnack
                 }
@@ -172,12 +174,15 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
 
     private fun airQualityImageSet(airQuality: AirQualityItem) {
         val imageUrlPm10 = mutableListOf<String>()
-        imageUrlPm10.add(airQuality.imageUrl1)
-        imageUrlPm10.add(airQuality.imageUrl2)
-        imageUrlPm10.add(airQuality.imageUrl3)
+
+        with(imageUrlPm10){
+            add(airQuality.imageUrl1)
+            add(airQuality.imageUrl2)
+            add(airQuality.imageUrl3)
+        }
         val imagePm10Adapter = ViewpagerImageAdapter(this,imageUrlPm10)
         with(binding.pm10VP2){
-            offscreenPageLimit=3
+            offscreenPageLimit= NUM3.toInt()
             setPageTransformer { page, position ->
                 pageTransformer(page,position)
             }
