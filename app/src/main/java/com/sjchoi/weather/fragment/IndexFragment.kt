@@ -133,7 +133,7 @@ class IndexFragment : BaseFragment<FragmentIndexBinding>(FragmentIndexBinding::i
                 airDateAndCode.text = dataConvert.airDateAndCode(airQuality.dataTime, airQuality.informCode)
                 informOverall.text = airQuality.informOverall
                 informCause.text = airQuality.informCause
-                val actionKnacktNullCheck =when(airQuality.actionKnack.isBlank()){
+                val actionKnacktNullCheck =when(airQuality.actionKnack.isNullOrBlank()){
                     true->resources.getString(R.string.nullString)
                     else->airQuality.actionKnack
                 }
