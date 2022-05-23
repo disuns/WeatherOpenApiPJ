@@ -18,25 +18,25 @@ Spinner와 SpinnerItem을 기반한 Custom Widget 구현
 ## **화면 구성**
 ### **로딩 화면**
 
-![KakaoTalk_Photo_2022-05-23-16-08-00 004](https://user-images.githubusercontent.com/97460483/169763141-fd186016-c310-489e-9915-c0de05ff39bf.jpeg)
+![KakaoTalk_Photo_2022-05-23-16-08-00 004](https://user-images.githubusercontent.com/97460483/169763141-fd186016-c310-489e-9915-c0de05ff39bf.jpeg){: width="50%" height="50%"}
 
 ### **시작화면**(실시간 예보 화면)
 
-![KakaoTalk_Photo_2022-05-23-16-08-00 003](https://user-images.githubusercontent.com/97460483/169763134-07f5e69c-ccf5-4657-a4e0-5dc708453fb9.jpeg)
+![KakaoTalk_Photo_2022-05-23-16-08-00 003](https://user-images.githubusercontent.com/97460483/169763134-07f5e69c-ccf5-4657-a4e0-5dc708453fb9.jpeg){: width="50%" height="50%"}
 
 #### 배치
 CardView, ViewPager2, RecyclerView 를 기본으로 활용하여 UI/UX 구현
 
 ### **대기예보 화면**
 
-![KakaoTalk_Photo_2022-05-23-16-07-59 001](https://user-images.githubusercontent.com/97460483/169763095-4fe9f79b-d802-4a4c-b28b-4f1309d525fc.jpeg)
+![KakaoTalk_Photo_2022-05-23-16-07-59 001](https://user-images.githubusercontent.com/97460483/169763095-4fe9f79b-d802-4a4c-b28b-4f1309d525fc.jpeg){: width="50%" height="50%"}
 
 #### 배치
 ScrollView를 이용하여 CardView, ViewPager2, RecyclerView, Spinner 를 활용
 
 ### **주소 검색 화면**
 
-![KakaoTalk_Photo_2022-05-23-16-07-59 002](https://user-images.githubusercontent.com/97460483/169763121-12bc8eec-bb82-4b78-acc9-348e5cf1a183.jpeg)
+![KakaoTalk_Photo_2022-05-23-16-07-59 002](https://user-images.githubusercontent.com/97460483/169763121-12bc8eec-bb82-4b78-acc9-348e5cf1a183.jpeg){: width="50%" height="50%"}
 
 #### 배치
 Fragment와 SearchView 를 활용하여 네이버맵 적용
