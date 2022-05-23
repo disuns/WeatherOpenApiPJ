@@ -20,7 +20,7 @@ Spinner와 SpinnerItem을 기반한 Custom Widget 구현
 
 ![KakaoTalk_Photo_2022-05-23-16-08-00 004](https://user-images.githubusercontent.com/97460483/169763141-fd186016-c310-489e-9915-c0de05ff39bf.jpeg)
 
-<img src = "https://user-images.githubusercontent.com/97460483/169763141-fd186016-c310-489e-9915-c0de05ff39bf.jpeg" width = "50% height = "50%">
+<img src = "https://user-images.githubusercontent.com/97460483/169763141-fd186016-c310-489e-9915-c0de05ff39bf.jpeg" width = "50%" height = "50%">
 
 ### **시작화면**(실시간 예보 화면)
 
